@@ -1,0 +1,1095 @@
+<script type="text/javascript">
+  var queue = [],
+      data= [],
+      shuffled = [],
+      shuffledHookVariants = [],
+      variants = [];
+
+  //Add all variants to array
+  {% for product in collections.all-wooden-streamlines.products %}
+    data.push([{{product | json }},{{ product.variants | json }} ]);
+  {% endfor %}
+
+  ga('send', 'event', "Streamline Wood Gift Set", 'Click', 'Start');
+
+  // Iterate through variants
+  $.each(data, function(index, data_set) {
+    var product = data_set[0],
+        variants = data_set[1];
+
+    // We need to build out the "custom" options for the randomized selections to be chosen
+    $.each(variants, function(index, data_set) {
+      var variant = variants[index],
+          skuColor = variant.sku.split('-')[2],
+          skuSize = variant.sku.split('-')[3],
+          titleColor = '',
+          titleSize = variant.title.split("-")[1],
+          formToggle = '',
+          tbody = '',
+          variantToggle = [];
+
+      if(skuColor == 'PADK') {
+        titleColor = 'Padauk';
+      } else if(skuColor == 'EBON') {
+        titleColor = 'Ebony';
+      } else if(skuColor == 'CAMW') {
+        titleColor = 'Camwood';
+      } else if(skuColor == 'PPMT') {
+        titleColor = 'Peppermint';
+      } else {
+        titleColor = capitalizeFirstLetter(skuColor.toLowerCase());
+      }
+
+      formToggle = $("." + skuColor + "-form-toggle");
+      tbody = $("."+skuColor+"-tbody");
+
+      if (variant.inventory_quantity > 0) {
+        //add formToggle
+        if (formToggle.length == 0){
+          formToggle = [];
+          formToggle.push("<div class='"+skuColor+"-form-toggle' data-color='"+skuColor+"' data-chosen='false'>");
+          formToggle.push("<span class='toggle-title'>" + titleColor + "</div>");
+          $(formToggle.join("")).prependTo($(".hook-checkout"));
+        };
+        //add tbody
+        if (tbody.length == 0){
+          tbody = [];
+          tbody.push("<div class='"+skuColor+"-tbody'>")
+          $(tbody.join("")).prependTo($(".hook-variants-wrapper"));
+        };
+
+        //add variant toggle
+        variantToggle.push("<div class='variant-toggle' data-variantid='"+variant.id+"' data-price='" + variant.price + "' data-color='" + titleColor + "' data-size='" + variant.title + "' data-sku-color = '" + skuColor + "' data-sku-size = '" + skuSize + "' data-chosen='false'>"+variant.title);
+        variantToggle.push("<input class='product-size-variant' data-variantid='"+variant.id+"'");
+        variantToggle.push("type='number' value='0' min='0' step='1' />");
+        variantToggle.push("</div>");
+        $(variantToggle.join("")).appendTo($("."+skuColor+"-tbody"));
+        variantToggle = [];
+
+      };
+    });
+  });
+
+  $(function(){
+    let threeVariantsPriceTotal = 0,
+        threeVariantsPriceDiscounted = 0,
+        threeVariantsPriceDiscountedRound = 0,
+        fiveVariantsPriceTotal = 0,
+        fiveVariantsPriceDiscounted = 0,
+        fiveVariantsPriceDiscountedRound = 0,
+        eightVariantsPriceTotal = 0,
+        eightVariantsPriceDiscounted = 0,
+        eightVariantsPriceDiscountedRound = 0,
+        afterVariantsPriceTotal = 0;
+
+    $('.checkout_button').on("click", function () {
+      $(".checkout_button .sp-mini").show();
+      parentId = $(this).parent().attr('id');
+      if($(this).text() == 'ONE CLICK CHECKOUT') {
+        if(parentId == 'ThreeHookSetDetails') {
+          ga('send', 'event', "Streamline Wood Gift Set", 'Click', 'Three Set One Click Checkout');
+        }
+
+        if(parentId == 'FiveHookSetDetails') {
+          ga('send', 'event', "Streamline Wood Gift Set", 'Click', 'Five Set One Click Checkout');
+        }
+
+        if(parentId == 'EightHookSetDetails') {
+          ga('send', 'event', "Streamline Wood Gift Set", 'Click', 'Eight Set One Click Checkout');
+        }
+      }
+    });
+
+    //Function for customizing cart
+    $("body").on("click", "#customize-cart", function(){
+      $(this).hide();
+      $("#one-click").val("Add To Cart");
+      $("h1 span").hide();
+    });
+  
+    //Function for closing cart
+    $("body").on("click", ".close-cart", function(){
+      $(".details-container").slideUp();
+      $("#customize-cart").show();
+      $('#includes-hook-note').show();
+      $("h1 span").show();
+    });
+
+    // THREE HOOK OPTIONS //
+    $('#ThreeHookSet').on('click', function() {
+      ga('send', 'event', "Streamline Wood Gift Set", 'Click', 'Three Hook Set');
+
+      $('.setOptions .backButton').show();
+
+      $('.buttonOptions').hide();
+      $('.setOptions').show();
+
+      $('.setOptions .backButton').on('click', function() {
+        $('.buttonOptions').show();
+        $('.setOptions').hide();
+      });
+
+      $('#ThreeHookSetDetails').show();
+      $('#FiveHookSetDetails').hide();
+      $('#EightHookSetDetails').hide();
+
+      $('.checkout_button').show();
+      $('.checkout_button').insertAfter('#ThreeHookSetDetails .miniHeader');
+
+      $('.variant-toggle').each(function () {
+        $(this).attr("data-chosen", "false");
+        $(this).find("input").val(0);
+        $(this).find("input").attr('value', '0');
+      });
+
+      shuffled = data.sort(function(){return .5 - Math.random()});
+
+      // Iterate through variants
+      $.each(shuffled, function(index, data_set) {
+        var handle = data_set[0],
+            variants = data_set[1];
+
+        shuffledHookVariants = variants.sort(function(){return .5 - Math.random()});
+        $.each(shuffledHookVariants, function(cnt) {
+          var shuffledSkuColor = shuffledHookVariants[cnt].sku.split('-')[2],
+              shuffledSkuSize = shuffledHookVariants[cnt].sku.split('-')[3],
+              shuffledTitleColor = '';
+          if (shuffledHookVariants[cnt].inventory_quantity > 0) {
+            if(shuffledHookVariants[cnt].title.includes('F') || 
+               shuffledHookVariants[cnt].title.includes('G') || 
+               shuffledHookVariants[cnt].title.includes('G+') || 
+               shuffledHookVariants[cnt].title.includes('H') ||
+               shuffledHookVariants[cnt].title.includes('I') ||
+               shuffledHookVariants[cnt].title.includes('J') || 
+               shuffledHookVariants[cnt].title.includes('K') || 
+               shuffledHookVariants[cnt].title.includes('L')) {
+
+              if(shuffledSkuColor == 'PADK') {
+                shuffledTitleColor = 'Padauk';
+              } else if(shuffledSkuColor == 'EBON') {
+                shuffledTitleColor = 'Ebony';
+              } else if(shuffledSkuColor == 'CAMW') {
+                shuffledTitleColor = 'Camwood';
+              } else {
+                shuffledTitleColor = capitalizeFirstLetter(shuffledSkuColor.toLowerCase());
+              }
+
+              let hookSetLengthExtended = $('#ThreeHookSetDetails .oneClickIncludes span').length + 1,
+                  spanText = $('#ThreeHookSetDetails .oneClickIncludes span').text(),
+                  shuffledTitleSize = '';
+
+              $('#ThreeHookSetDetails .oneClickIncludes span').each(function () {
+                 shuffledTitleSize += $(this).attr('data-size') + ', ';
+              });
+
+              if($('#ThreeHookSetDetails .oneClickIncludes span').length < 3) {
+
+                if(!shuffledTitleSize.includes(shuffledSkuSize) && !spanText.includes(shuffledTitleColor)) {
+                  let variantsContainer = document.getElementById('variantsContainer'),
+                      threeVariantsPrice = Shopify.formatMoney(shuffledHookVariants[cnt].price);
+                      threeVariantsPriceDec = threeVariantsPrice.replace('$','');
+
+                  threeVariantsPriceTotal = parseFloat(threeVariantsPriceTotal) + parseFloat(threeVariantsPriceDec);
+
+                  let randomHook = document.createElement('span');
+                  randomHook.setAttribute('class', 'randomHook');
+                  randomHook.setAttribute('data-size', shuffledSkuSize);
+                  randomHook.setAttribute('data-color', shuffledSkuColor);
+                  randomHook.setAttribute('data-variantid', shuffledHookVariants[cnt].id);
+                  randomHook.setAttribute('data-num', hookSetLengthExtended);
+                  randomHook.setAttribute('data-price', shuffledHookVariants[cnt].price);
+                  randomHook.innerHTML = shuffledHookVariants[cnt].title + ', ';
+
+                  $('#ThreeHookSetDetails .oneClickIncludes').append(randomHook);
+                  
+                  if(hookSetLengthExtended == 3) {
+                    $('#ThreeHookSetDetails .oneClickIncludes').append("<br/>");
+                  }
+
+                  $("." + shuffledSkuColor + "-tbody .variant-toggle[data-variantid=" + shuffledHookVariants[cnt].id + "]").attr("data-chosen", "chosen");
+                  $("." + shuffledSkuColor + "-tbody .variant-toggle[data-variantid=" + shuffledHookVariants[cnt].id + "] input").val(1);
+                  $("." + shuffledSkuColor + "-tbody .variant-toggle[data-variantid=" + shuffledHookVariants[cnt].id + "] input").attr('value', '1');
+                }
+              }
+            }
+          }
+        });
+      });
+
+      threeVariantsPriceDiscounted = threeVariantsPriceTotal - (threeVariantsPriceTotal * 0.05);
+      threeVariantsPriceDiscountedRound = Math.ceil(threeVariantsPriceDiscounted * 100) / 100;
+
+      $('#ThreeHookSetDetails .currentPrice, #ThreeHookSetCustom .currentPrice').text('$' + threeVariantsPriceDiscountedRound.toFixed(2));
+      
+      let randomHookText = $('#ThreeHookSetDetails .oneClickIncludes span:last-of-type').text();
+      let randomHookTextFixed = randomHookText.replace(/,\s*$/, "");
+      $('#ThreeHookSetDetails .oneClickIncludes span:last-of-type').text(randomHookTextFixed);
+
+    });
+
+    $('#ThreeHookSetDetails .customClickButton').on('click', function () {
+
+      ga('send', 'event', "Streamline Wood Gift Set", 'Click', 'Three Hook Set Customize Kit');
+
+      $('.setOptions').hide();
+      $('#ThreeHookSetDetails').hide();
+      $('.customSetDetails .backButton').show();
+      $('.customSetDetails').show();
+      
+      $('#ThreeHookSetCustom').show();
+      $('#FiveHookSetCustom').hide();
+      $('#EightHookSetCustom').hide();
+
+      $('.details-container').show();
+      $('.details-container').addClass('ThreeHookDetails');
+
+      $('.customSetDetails .backButton').on('click', function() {
+        $('.setOptions').show();
+        
+        $('#ThreeHookSetDetails').show();
+        $('#FiveHookSetDetails').hide();
+        $('#EightHookSetDetails').hide();
+
+        $('.checkout_button').text("ONE CLICK CHECKOUT");
+        $('.checkout_button').insertBefore($('#ThreeHookSetDetails .customClickButton'));
+        
+        $('.ThreeSetCustom .oneClickIncludes').insertAfter($('.checkout_button'));
+
+        $('.customSetDetails').hide();
+      })
+      
+      if($('.customSetCheckout').length == 0) {
+        let customSetCheckout = document.createElement('div');
+        customSetCheckout.setAttribute('class', 'customSetCheckout');
+        $(customSetCheckout).insertAfter($('.customSetDetails'));
+      }
+
+      $('.customSetCheckout').addClass('ThreeSetCustom');
+      $('.customSetCheckout').removeClass('FiveSetCustom');
+      $('.customSetCheckout').removeClass('EightSetCustom');
+
+      $('.checkout_button').text('ADD TO CART');
+
+      $('.customSetCheckout').append($('#ThreeHookSetDetails .oneClickIncludes'));
+      $('.customSetCheckout').append($('.checkout_button'));
+
+      $('.hookButtons').hide();
+
+      $('.hookButtonOption1, .hookButtonOption2, .hookButtonOption3').show();
+
+      $('.hookButtons').attr('data-chosen', 'false');
+      $('.hookButtonOption1').attr('data-chosen', 'chosen');
+
+      $('div[class*=tbody]').hide();
+      $('div[class*=form-toggle]').attr('data-chosen', 'false');
+
+      $('[class*=tbody] .variant-toggle input').each(function() { 
+        $(this).val(0);
+        $(this).attr('value', '0');
+      });
+
+      $('.ThreeSetCustom .randomHook').each(function () {
+        let loadedNum = $(this).attr('data-num')
+            loadedColor = $(this).attr('data-color'),
+            loadedVariantId = $(this).attr('data-variantid');
+        
+        $("." + loadedColor + "-tbody .variant-toggle[data-variantid=" + loadedVariantId + "] input").val(1);
+        $("." + loadedColor + "-tbody .variant-toggle[data-variantid=" + loadedVariantId + "] input").attr('value', '1');;
+
+        if(loadedNum == 1) {
+          $("." + loadedColor + "-form-toggle").attr("data-chosen", "chosen");
+          $("." + loadedColor + "-tbody").show();
+          $("." + loadedColor + "-tbody .variant-toggle[data-variantid=" + loadedVariantId + "]").attr("data-chosen", "chosen");
+          $("." + loadedColor + "-tbody .variant-toggle[data-variantid=" + loadedVariantId + "]").attr("data-current", "chosen");
+        }
+
+      });
+
+      $('.hookButtons').on('click', function() {
+        let randomNum = $(this).attr('data-hook-num'),
+            randomColor = $('.ThreeSetCustom .randomHook[data-num=' + randomNum + ']').attr('data-color'),
+            randomVariantId = $('.ThreeSetCustom .randomHook[data-num=' + randomNum + ']').attr('data-variantid');
+
+        $('.hookButtons').attr('data-chosen', 'false');
+        $(this).attr('data-chosen', 'chosen');
+
+        $('div[class*=form-toggle]').attr('data-chosen', 'false');
+        $('.' + randomColor + '-form-toggle').attr('data-chosen', 'chosen');
+        $("." + randomColor + "-tbody .variant-toggle").attr("data-current", "false");
+
+        $('div[class*=tbody]').hide();
+        $('.' + randomColor + '-tbody').show();
+
+        $("." + randomColor + "-tbody .variant-toggle[data-variantid=" + randomVariantId + "]").attr("data-chosen", "chosen");
+        $("." + randomColor + "-tbody .variant-toggle[data-variantid=" + randomVariantId + "]").attr("data-current", "chosen");
+        $("." + randomColor + "-tbody .variant-toggle[data-variantid=" + randomVariantId + "] input").val(1);
+        $("." + randomColor + "-tbody .variant-toggle[data-variantid=" + randomVariantId + "] input").attr('value', '1');
+    
+      });
+
+      $('div[class*=form-toggle]').on('click', function() {
+        $('div[class*=form-toggle]').attr('data-chosen', 'false');
+        $(this).attr('data-chosen', 'chosen');
+
+        $('div[class*=tbody]').hide();
+        $('.' + $(this).attr('data-color') + '-tbody').show();
+      });
+
+      $('.variant-toggle').on('click', function() {
+        let chosenNum = $('.hookButtons[data-chosen=chosen]').attr('data-hook-num'),
+            chosenColor = $('.randomHook[data-num=' + chosenNum + ']').attr('data-color'),
+            chosenVariantId = $('.randomHook[data-num=' + chosenNum + '][data-color=' + chosenColor + ']').attr('data-variantid'),
+            allChoicePrice = 0, 
+            allChoicePriceDec = 0,
+            allChoicePriceTotal = 0,
+            allChoicePriceDiscounted = 0,
+            totalChoicePrice = 0;
+
+        if(chosenVariantId != $(this).attr('data-variantid')) {
+          $("." + chosenColor + "-tbody .variant-toggle[data-variantid=" + chosenVariantId + "]").attr("data-chosen", "false");
+          $("." + chosenColor + "-tbody .variant-toggle[data-variantid=" + chosenVariantId + "]").attr("data-current", "false");
+          $("." + chosenColor + "-tbody .variant-toggle[data-variantid=" + chosenVariantId + "] input").val(0);
+          $("." + chosenColor + "-tbody .variant-toggle[data-variantid=" + chosenVariantId + "] input").attr('value', '0');
+        
+          $('.randomHook[data-num=' + chosenNum + ']').show();
+        } else {
+          $('.randomHook[data-num=' + chosenNum + ']').hide();
+        }
+
+        if($(this).find('input').val() == 1) {
+          $(this).val(0);
+          $(this).attr('value', '0');
+          $(this).attr('data-chosen', 'false');
+          $(this).attr('data-current', 'false');
+        } else {
+          $(this).find('input').val(1);
+          $(this).find('input').attr('value', '1');
+          $(this).attr('data-chosen', 'chosen');
+          $(this).attr('data-current', 'chosen');
+        }
+        
+        $('.randomHook[data-num=' + chosenNum + ']').attr('data-color', $(this).attr('data-sku-color'));
+        $('.randomHook[data-num=' + chosenNum + ']').attr('data-size', $(this).attr('data-sku-size'));
+        $('.randomHook[data-num=' + chosenNum + ']').attr('data-variantid', $(this).attr('data-variantid'));
+        $('.randomHook[data-num=' + chosenNum + ']').attr('data-price', $(this).attr('data-price'));
+        $('.randomHook[data-num=' + chosenNum + ']').text($(this).attr('data-size') + ', ');
+      
+        $('.randomHook').each(function() {
+          allChoicePrice = Shopify.formatMoney($(this).attr('data-price'));
+          allChoicePriceDec = allChoicePrice.replace('$','');
+          allChoicePriceDiscounted = allChoicePriceDec - (allChoicePriceDec * 0.05);
+       
+          allChoicePriceTotal = parseFloat(allChoicePriceTotal.toFixed(2)) + parseFloat(allChoicePriceDiscounted.toFixed(2));
+        })
+
+        totalChoicePrice = Math.ceil(allChoicePriceTotal * 100) / 100;
+
+        $('#ThreeHookSetCustom .currentPrice').text('$' + totalChoicePrice.toFixed(2));
+
+      });
+    });
+    // END THREE HOOK OPTIONS //
+
+    // FIVE HOOK OPTIONS //
+    $('#FiveHookSet').on('click', function() {
+
+      ga('send', 'event', "Streamline Wood Gift Set", 'Click', 'Five Hook Set');
+
+      $('.setOptions .backButton').show();
+
+      $('.buttonOptions').hide();
+      $('.setOptions').show();
+
+      $('.setOptions .backButton').on('click', function() {
+        $('.buttonOptions').show();
+        $('.setOptions').hide();
+      });
+
+      $('#ThreeHookSetDetails').hide();
+      $('#FiveHookSetDetails').show();
+      $('#EightHookSetDetails').hide();
+
+      $('.checkout_button').show();
+      $('.checkout_button').insertAfter('#FiveHookSetDetails .miniHeader');
+
+      $('.variant-toggle').each(function () {
+        $(this).attr("data-chosen", "false");
+        $(this).find("input").val(0);
+        $(this).find("input").attr('value', '0');
+      });
+
+      shuffled = data.sort(function(){return .5 - Math.random()});
+
+      // Iterate through variants
+      $.each(shuffled, function(index, data_set) {
+        var handle = data_set[0],
+            variants = data_set[1];
+
+        shuffledHookVariants = variants.sort(function(){return .5 - Math.random()});
+        $.each(shuffledHookVariants, function(cnt) {
+          var shuffledSkuColor = shuffledHookVariants[cnt].sku.split('-')[2],
+              shuffledSkuSize = shuffledHookVariants[cnt].sku.split('-')[3],
+              shuffledTitleColor = '',
+              iterations = shuffledHookVariants.length;
+          if (shuffledHookVariants[cnt].inventory_quantity > 0) {
+            if(shuffledHookVariants[cnt].title.includes('F') || 
+               shuffledHookVariants[cnt].title.includes('G') || 
+               shuffledHookVariants[cnt].title.includes('G+') || 
+               shuffledHookVariants[cnt].title.includes('H') ||
+               shuffledHookVariants[cnt].title.includes('I') ||
+               shuffledHookVariants[cnt].title.includes('J') || 
+               shuffledHookVariants[cnt].title.includes('K') || 
+               shuffledHookVariants[cnt].title.includes('L')) {
+
+              if(shuffledSkuColor == 'PADK') {
+                shuffledTitleColor = 'Padauk';
+              } else if(shuffledSkuColor == 'EBON') {
+                shuffledTitleColor = 'Ebony';
+              } else if(shuffledSkuColor == 'CAMW') {
+                shuffledTitleColor = 'Camwood';
+              } else {
+                shuffledTitleColor = capitalizeFirstLetter(shuffledSkuColor.toLowerCase());
+              }
+
+              let hookSetLengthExtended = $('#FiveHookSetDetails .oneClickIncludes span').length + 1,
+                  spanText = $('#FiveHookSetDetails .oneClickIncludes span').text(),
+                  shuffledTitleSize = '';
+
+              $('#FiveHookSetDetails .oneClickIncludes span').each(function () {
+                 shuffledTitleSize += $(this).attr('data-size') + ', ';
+              });
+
+              if($('#FiveHookSetDetails .oneClickIncludes span').length < 5) {
+
+                if(!shuffledTitleSize.includes(shuffledSkuSize)) {
+                  let fiveVariantsContainer = document.getElementById('variantsContainer'),
+                      fiveVariantsPrice = Shopify.formatMoney(shuffledHookVariants[cnt].price);
+                      fiveVariantsPriceDec = fiveVariantsPrice.replace('$','');
+
+                  fiveVariantsPriceTotal = parseFloat(fiveVariantsPriceTotal) + parseFloat(fiveVariantsPriceDec);
+
+                  let randomHook = document.createElement('span');
+                  randomHook.setAttribute('class', 'randomHook');
+                  randomHook.setAttribute('data-size', shuffledSkuSize);
+                  randomHook.setAttribute('data-color', shuffledSkuColor);
+                  randomHook.setAttribute('data-variantid', shuffledHookVariants[cnt].id);
+                  randomHook.setAttribute('data-price', shuffledHookVariants[cnt].price);
+                  randomHook.setAttribute('data-num', hookSetLengthExtended);
+                  randomHook.innerHTML = shuffledHookVariants[cnt].title + ', ';
+
+                  $('#FiveHookSetDetails .oneClickIncludes').append(randomHook);
+                  
+                  if(hookSetLengthExtended == 5) {
+                    $('#FiveHookSetDetails .oneClickIncludes').append("<br/>");
+                  }
+
+                  $("." + shuffledSkuColor + "-tbody .variant-toggle[data-variantid=" + shuffledHookVariants[cnt].id + "]").attr("data-chosen", "chosen");
+                  $("." + shuffledSkuColor + "-tbody .variant-toggle[data-variantid=" + shuffledHookVariants[cnt].id + "] input").val(1);
+                  $("." + shuffledSkuColor + "-tbody .variant-toggle[data-variantid=" + shuffledHookVariants[cnt].id + "] input").attr('value', '1');
+                }
+              }
+            }
+          }
+        });
+      });
+
+      fiveVariantsPriceDiscounted = fiveVariantsPriceTotal - (fiveVariantsPriceTotal * 0.10);
+      fiveVariantsPriceDiscountedRound = Math.ceil(fiveVariantsPriceDiscounted * 100) / 100;
+
+      $('#FiveHookSetDetails .currentPrice, #FiveHookSetCustom .currentPrice').text('$' + fiveVariantsPriceDiscountedRound.toFixed(2));
+      
+      let randomHookText = $('#FiveHookSetDetails .oneClickIncludes span:last-of-type').text();
+      let randomHookTextFixed = randomHookText.replace(/,\s*$/, "");
+      $('#FiveHookSetDetails .oneClickIncludes span:last-of-type').text(randomHookTextFixed);
+
+    });
+
+    $('#FiveHookSetDetails .customClickButton').on('click', function () {
+      ga('send', 'event', "Streamline Wood Gift Set", 'Click', 'Five Hook Set Customize Kit');
+
+      $('.setOptions').hide();
+      $('#FiveHookSetDetails').hide();
+      $('.customSetDetails .backButton').show();
+      $('.customSetDetails').show();
+      
+      $('#ThreeHookSetCustom').hide();
+      $('#FiveHookSetCustom').show();
+      $('#EightHookSetCustom').hide();
+
+      $('.details-container').show();
+      $('.details-container').addClass('FiveHookDetails');
+
+      $('.customSetDetails .backButton').on('click', function() {
+        $('.setOptions').show();
+        
+        $('#ThreeHookSetDetails').hide();
+        $('#FiveHookSetDetails').show();
+        $('#EightHookSetDetails').hide();
+
+        $('.checkout_button').text("ONE CLICK CHECKOUT");
+        $('.checkout_button').insertBefore($('#FiveHookSetDetails .customClickButton'));
+        
+        $('.FiveSetCustom .oneClickIncludes').insertAfter($('.checkout_button'));
+
+        $('.customSetDetails').hide();
+      })
+      
+      if($('.customSetCheckout').length == 0) {
+        let customSetCheckout = document.createElement('div');
+        customSetCheckout.setAttribute('class', 'customSetCheckout');
+        $(customSetCheckout).insertAfter($('.customSetDetails'));
+      }
+
+      $('.customSetCheckout').removeClass('ThreeSetCustom');
+      $('.customSetCheckout').addClass('FiveSetCustom');
+      $('.customSetCheckout').removeClass('EightSetCustom');
+
+      $('.checkout_button').text('ADD TO CART');
+
+      $('.customSetCheckout').append($('#FiveHookSetDetails .oneClickIncludes'));
+      $('.customSetCheckout').append($('.checkout_button'));
+
+      $('.hookButtons').hide();
+
+      $('.hookButtonOption1, .hookButtonOption2, .hookButtonOption3, .hookButtonOption4, .hookButtonOption5').show();
+
+      $('.hookButtons').attr('data-chosen', 'false');
+      $('.hookButtonOption1').attr('data-chosen', 'chosen');
+
+      $('div[class*=tbody]').hide();
+      $('div[class*=form-toggle]').attr('data-chosen', 'false');
+
+      $('[class*=tbody] .variant-toggle input').each(function() { 
+        $(this).val(0);
+        $(this).attr('value', '0');
+      });
+
+      $('.FiveSetCustom .randomHook').each(function () {
+        let loadedNum = $(this).attr('data-num')
+            loadedColor = $(this).attr('data-color'),
+            loadedVariantId = $(this).attr('data-variantid');
+        
+        $("." + loadedColor + "-tbody .variant-toggle[data-variantid=" + loadedVariantId + "] input").val(1);
+        $("." + loadedColor + "-tbody .variant-toggle[data-variantid=" + loadedVariantId + "] input").attr('value', '1');;
+
+        if(loadedNum == 1) {
+          $("." + loadedColor + "-form-toggle").attr("data-chosen", "chosen");
+          $("." + loadedColor + "-tbody").show();
+          $("." + loadedColor + "-tbody .variant-toggle[data-variantid=" + loadedVariantId + "]").attr("data-chosen", "chosen");
+          $("." + loadedColor + "-tbody .variant-toggle[data-variantid=" + loadedVariantId + "]").attr("data-current", "chosen");
+        }
+
+      });
+
+      $('.hookButtons').on('click', function() {
+        let randomNum = $(this).attr('data-hook-num'),
+            randomColor = $('.FiveSetCustom .randomHook[data-num=' + randomNum + ']').attr('data-color'),
+            randomVariantId = $('.FiveSetCustom .randomHook[data-num=' + randomNum + ']').attr('data-variantid');
+
+        $('.hookButtons').attr('data-chosen', 'false');
+        $(this).attr('data-chosen', 'chosen');
+
+        $('div[class*=form-toggle]').attr('data-chosen', 'false');
+        $('.' + randomColor + '-form-toggle').attr('data-chosen', 'chosen');
+
+        $('div[class*=tbody]').hide();
+        $('.' + randomColor + '-tbody').show();
+        $('.' + randomColor + '-form-toggle').attr('data-chosen', 'chosen');
+
+        $("." + randomColor + "-tbody .variant-toggle[data-variantid=" + randomVariantId + "]").attr("data-chosen", "chosen");
+        $("." + randomColor + "-tbody .variant-toggle[data-variantid=" + randomVariantId + "]").attr("data-current", "chosen");
+        $("." + randomColor + "-tbody .variant-toggle[data-variantid=" + randomVariantId + "] input").val(1);
+        $("." + randomColor + "-tbody .variant-toggle[data-variantid=" + randomVariantId + "] input").attr('value', '1');
+    
+      });
+
+      $('div[class*=form-toggle]').on('click', function() {
+        $('div[class*=form-toggle]').attr('data-chosen', 'false');
+        $(this).attr('data-chosen', 'chosen');
+
+        $('div[class*=tbody]').hide();
+        $('.' + $(this).attr('data-color') + '-tbody').show();
+      });
+
+      $('.variant-toggle').on('click', function() {
+        let chosenNum = $('.hookButtons[data-chosen=chosen]').attr('data-hook-num'),
+            chosenColor = $('.randomHook[data-num=' + chosenNum + ']').attr('data-color'),
+            chosenVariantId = $('.randomHook[data-num=' + chosenNum + '][data-color=' + chosenColor + ']').attr('data-variantid'),
+            allChoicePrice = 0, 
+            allChoicePriceDec = 0,
+            allChoicePriceTotal = 0,
+            allChoicePriceDiscounted = 0,
+            totalChoicePrice = 0;
+
+        if(chosenVariantId != $(this).attr('data-variantid')) {
+          $("." + chosenColor + "-tbody .variant-toggle[data-variantid=" + chosenVariantId + "]").attr("data-chosen", "false");
+          $("." + chosenColor + "-tbody .variant-toggle[data-variantid=" + chosenVariantId + "] input").val(0);
+          $("." + chosenColor + "-tbody .variant-toggle[data-variantid=" + chosenVariantId + "] input").attr('value', '0');
+        
+          $('.randomHook[data-num=' + chosenNum + ']').show();
+        } else {
+          $('.randomHook[data-num=' + chosenNum + ']').hide();
+        }
+
+        if($(this).find('input').val() == 1) {
+          $(this).val(0);
+          $(this).attr('value', '0');
+          $(this).attr('data-chosen', 'false');
+          $(this).attr('data-current', 'false');
+        } else {
+          $(this).find('input').val(1);
+          $(this).find('input').attr('value', '1');
+          $(this).attr('data-chosen', 'chosen');
+          $(this).attr('data-current', 'chosen');
+        }
+        
+        $('.randomHook[data-num=' + chosenNum + ']').attr('data-color', $(this).attr('data-sku-color'));
+        $('.randomHook[data-num=' + chosenNum + ']').attr('data-size', $(this).attr('data-sku-size'));
+        $('.randomHook[data-num=' + chosenNum + ']').attr('data-variantid', $(this).attr('data-variantid'));
+        $('.randomHook[data-num=' + chosenNum + ']').attr('data-price', $(this).attr('data-price'));
+        $('.randomHook[data-num=' + chosenNum + ']').text($(this).attr('data-size') + ', ');
+      
+        $('.randomHook').each(function() {
+          allChoicePrice = Shopify.formatMoney($(this).attr('data-price'));
+          allChoicePriceDec = allChoicePrice.replace('$','');
+          allChoicePriceDiscounted = allChoicePriceDec - (allChoicePriceDec * 0.10);
+       
+          allChoicePriceTotal = parseFloat(allChoicePriceTotal.toFixed(2)) + parseFloat(allChoicePriceDiscounted.toFixed(2));
+        })
+
+        totalChoicePrice = Math.ceil(allChoicePriceTotal * 100) / 100;
+
+        $('#FiveHookSetCustom .currentPrice').text('$' + totalChoicePrice.toFixed(2));
+
+      });
+    });
+    // END FIVE HOOK OPTIONS //
+
+    // EIGHT HOOK OPTIONS //
+    $('#EightHookSet').on('click', function() {
+
+      ga('send', 'event', "Streamline Wood Gift Set", 'Click', 'Eight Hook Set');
+
+      $('.setOptions .backButton').show();
+
+      $('.buttonOptions').hide();
+      $('.setOptions').show();
+
+      $('.setOptions .backButton').on('click', function() {
+        $('.buttonOptions').show();
+        $('.setOptions').hide();
+      });
+
+      $('#ThreeHookSetDetails').hide();
+      $('#FiveHookSetDetails').hide();
+      $('#EightHookSetDetails').show();
+
+      $('.checkout_button').show();
+      $('.checkout_button').insertAfter('#EightHookSetDetails .miniHeader');
+
+      $('.variant-toggle').each(function () {
+        $(this).attr("data-chosen", "false");
+        $(this).find("input").val(0);
+        $(this).find("input").attr('value', '0');
+      });
+
+      shuffled = data.sort(function(){return .5 - Math.random()});
+
+      // Iterate through variants
+      $.each(shuffled, function(index, data_set) {
+        var handle = data_set[0],
+            variants = data_set[1];
+
+        shuffledHookVariants = variants.sort(function(){return .5 - Math.random()});
+        $.each(shuffledHookVariants, function(cnt) {
+          var shuffledSkuColor = shuffledHookVariants[cnt].sku.split('-')[2],
+              shuffledSkuSize = shuffledHookVariants[cnt].sku.split('-')[3],
+              shuffledTitleColor = '',
+              iterations = shuffledHookVariants.length;
+          if (shuffledHookVariants[cnt].inventory_quantity > 0) {
+            if(shuffledHookVariants[cnt].title.includes('F') || 
+               shuffledHookVariants[cnt].title.includes('G') || 
+               shuffledHookVariants[cnt].title.includes('G+') || 
+               shuffledHookVariants[cnt].title.includes('H') ||
+               shuffledHookVariants[cnt].title.includes('I') ||
+               shuffledHookVariants[cnt].title.includes('J') || 
+               shuffledHookVariants[cnt].title.includes('K') || 
+               shuffledHookVariants[cnt].title.includes('L')) {
+
+              if(shuffledSkuColor == 'PADK') {
+                shuffledTitleColor = 'Padauk';
+              } else if(shuffledSkuColor == 'EBON') {
+                shuffledTitleColor = 'Ebony';
+              } else if(shuffledSkuColor == 'CAMW') {
+                shuffledTitleColor = 'Camwood';
+              } else {
+                shuffledTitleColor = capitalizeFirstLetter(shuffledSkuColor.toLowerCase());
+              }
+
+              let hookSetLengthExtended = $('#EightHookSetDetails .oneClickIncludes span').length + 1,
+                  spanText = $('#EightHookSetDetails .oneClickIncludes span').text(),
+                  shuffledTitleSize = '';
+
+              $('#EightHookSetDetails .oneClickIncludes span').each(function () {
+                 shuffledTitleSize += $(this).attr('data-size') + ', ';
+              });
+
+              if($('#EightHookSetDetails .oneClickIncludes span').length < 8) {
+
+                // only want to restrict on size shuffle for 8 hooks 
+                // due to having issues with not hitting 8 hooks with 
+                // both size and color restrictions
+                if(!shuffledTitleSize.includes(shuffledSkuSize)) {
+                  let eightVariantsContainer = document.getElementById('variantsContainer'),
+                      eightVariantsPrice = Shopify.formatMoney(shuffledHookVariants[cnt].price);
+                      eightVariantsPriceDec = eightVariantsPrice.replace('$','');
+
+                  eightVariantsPriceTotal = parseFloat(eightVariantsPriceTotal) + parseFloat(eightVariantsPriceDec);
+
+                  let randomHook = document.createElement('span');
+                  randomHook.setAttribute('class', 'randomHook');
+                  randomHook.setAttribute('data-size', shuffledSkuSize);
+                  randomHook.setAttribute('data-color', shuffledSkuColor);
+                  randomHook.setAttribute('data-variantid', shuffledHookVariants[cnt].id);
+                  randomHook.setAttribute('data-price', shuffledHookVariants[cnt].price);
+                  randomHook.setAttribute('data-num', hookSetLengthExtended);
+                  randomHook.innerHTML = shuffledHookVariants[cnt].title + ', ';
+
+                  $('#EightHookSetDetails .oneClickIncludes').append(randomHook);
+                  
+                  if(hookSetLengthExtended == 8) {
+                    $('#EightHookSetDetails .oneClickIncludes').append("<br/>");
+                  }
+
+                  $("." + shuffledSkuColor + "-tbody .variant-toggle[data-variantid=" + shuffledHookVariants[cnt].id + "]").attr("data-chosen", "chosen");
+                  $("." + shuffledSkuColor + "-tbody .variant-toggle[data-variantid=" + shuffledHookVariants[cnt].id + "] input").val(1);
+                  $("." + shuffledSkuColor + "-tbody .variant-toggle[data-variantid=" + shuffledHookVariants[cnt].id + "] input").attr('value', '1');
+                }
+              }
+            }
+          }
+        });
+      });
+
+      if($('#EightHookSetDetails .oneClickIncludes span').length != 8 && $('#EightHookSetDetails .oneClickIncludes span').length < 8) {
+        // loop through again because sometimes it returns with 7 options
+        // choose another size not included in the set
+        $.each(data, function(index, data_set) {
+          var handle = data_set[0],
+              variants = data_set[1];
+
+          $.each(variants, function(cnt) {
+            var afterSkuColor = variants[cnt].sku.split('-')[2],
+                afterSkuSize = variants[cnt].sku.split('-')[3],
+                afterVariantsSize = '';
+
+            if (variants[cnt].inventory_quantity > 0) {
+
+              $('#EightHookSetDetails .oneClickIncludes span').each(function () {
+                 afterVariantsSize += $(this).attr('data-size') + ', ';
+              });
+
+              // Need to run length check again due to adding more than necessary variants
+              if(!afterVariantsSize.includes(afterSkuSize) && $('#EightHookSetDetails .oneClickIncludes span').length != 8 && $('#EightHookSetDetails .oneClickIncludes span').length < 8) {
+                let afterVariantsContainer = document.getElementById('variantsContainer'),
+                    afterVariantsPrice = Shopify.formatMoney(variants[cnt].price);
+                    afterVariantsPriceDec = afterVariantsPrice.replace('$','');
+
+                eightVariantsPriceTotal = parseFloat(eightVariantsPriceTotal) + parseFloat(afterVariantsPriceDec);
+
+                let randomHook = document.createElement('span');
+                randomHook.setAttribute('class', 'randomHook');
+                randomHook.setAttribute('data-size', afterSkuSize);
+                randomHook.setAttribute('data-color', afterSkuColor);
+                randomHook.setAttribute('data-variantid', variants[cnt].id);
+                randomHook.setAttribute('data-price', variants[cnt].price);
+                randomHook.setAttribute('data-num', ($('#EightHookSetDetails .oneClickIncludes span').length + 1));
+                randomHook.innerHTML = variants[cnt].title + ', ';
+
+                $('#EightHookSetDetails .oneClickIncludes').append(randomHook);
+                
+                if(($('#EightHookSetDetails .oneClickIncludes span').length + 1) == 8) {
+                  $('#EightHookSetDetails .oneClickIncludes').append("<br/>");
+                }
+
+                $("." + afterSkuColor + "-tbody .variant-toggle[data-variantid=" + variants[cnt].id + "]").attr("data-chosen", "chosen");
+                $("." + afterSkuColor + "-tbody .variant-toggle[data-variantid=" + variants[cnt].id + "] input").val(1);
+                $("." + afterSkuColor + "-tbody .variant-toggle[data-variantid=" + variants[cnt].id + "] input").attr('value', '1');
+              }
+            }
+          });
+        });
+      }
+
+      eightVariantsPriceDiscounted = eightVariantsPriceTotal - (eightVariantsPriceTotal * 0.15);
+      eightVariantsPriceDiscountedRound = Math.ceil(eightVariantsPriceDiscounted * 100) / 100;
+
+      $('#EightHookSetDetails .currentPrice, #EightHookSetCustom .currentPrice').text('$' + eightVariantsPriceDiscountedRound.toFixed(2));
+      
+      let randomHookText = $('#EightHookSetDetails .oneClickIncludes span:last-of-type').text();
+      let randomHookTextFixed = randomHookText.replace(/,\s*$/, "");
+      $('#EightHookSetDetails .oneClickIncludes span:last-of-type').text(randomHookTextFixed);
+    });
+
+    $('#EightHookSetDetails .customClickButton').on('click', function () {
+      ga('send', 'event', "Streamline Wood Gift Set", 'Click', 'Eight Hook Set Customize Kit');
+
+      $('.setOptions').hide();
+      $('#EightHookSetDetails').hide();
+      $('.customSetDetails .backButton').show();
+      $('.customSetDetails').show();
+      
+      $('#ThreeHookSetCustom').hide();
+      $('#FiveHookSetCustom').hide();
+      $('#EightHookSetCustom').show();
+
+      $('.details-container').show();
+      $('.details-container').addClass('EightHookDetails');
+
+      $('.customSetDetails .backButton').on('click', function() {
+        $('.setOptions').show();
+        
+        $('#ThreeHookSetDetails').hide();
+        $('#FiveHookSetDetails').hide();
+        $('#EightHookSetDetails').show();
+
+        $('.checkout_button').text("ONE CLICK CHECKOUT");
+        $('.checkout_button').insertBefore($('#EightHookSetDetails .customClickButton'));
+        
+        $('.EightSetCustom .oneClickIncludes').insertAfter($('.checkout_button'));
+
+        $('.customSetDetails').hide();
+      })
+      
+      if($('.customSetCheckout').length == 0) {
+        let customSetCheckout = document.createElement('div');
+        customSetCheckout.setAttribute('class', 'customSetCheckout');
+        $(customSetCheckout).insertAfter($('.customSetDetails'));
+      }
+
+      $('.customSetCheckout').removeClass('ThreeSetCustom');
+      $('.customSetCheckout').removeClass('FiveSetCustom');
+      $('.customSetCheckout').addClass('EightSetCustom');
+
+      $('.checkout_button').text('ADD TO CART');
+
+      $('.customSetCheckout').append($('#EightHookSetDetails .oneClickIncludes'));
+      $('.customSetCheckout').append($('.checkout_button'));
+
+      $('.hookButtons').hide();
+
+      $('.hookButtonOption1, .hookButtonOption2, .hookButtonOption3, .hookButtonOption4, .hookButtonOption5, .hookButtonOption6, .hookButtonOption7, .hookButtonOption8').show();
+
+      $('.hookButtons').attr('data-chosen', 'false');
+      $('.hookButtonOption1').attr('data-chosen', 'chosen');
+
+      $('div[class*=tbody]').hide();
+      $('div[class*=form-toggle]').attr('data-chosen', 'false');
+
+      $('[class*=tbody] .variant-toggle input').each(function() { 
+        $(this).val(0);
+        $(this).attr('value', '0');
+      });
+
+      $('.EightSetCustom .randomHook').each(function () {
+        let loadedNum = $(this).attr('data-num')
+            loadedColor = $(this).attr('data-color'),
+            loadedVariantId = $(this).attr('data-variantid');
+        
+        $("." + loadedColor + "-tbody .variant-toggle[data-variantid=" + loadedVariantId + "] input").val(1);
+        $("." + loadedColor + "-tbody .variant-toggle[data-variantid=" + loadedVariantId + "] input").attr('value', '1');;
+
+        if(loadedNum == 1) {
+          $("." + loadedColor + "-form-toggle").attr("data-chosen", "chosen");
+          $("." + loadedColor + "-tbody").show();
+          $("." + loadedColor + "-tbody .variant-toggle[data-variantid=" + loadedVariantId + "]").attr("data-chosen", "chosen");
+          $("." + loadedColor + "-tbody .variant-toggle[data-variantid=" + loadedVariantId + "]").attr("data-current", "chosen");
+        }
+
+      });
+
+      $('.hookButtons').on('click', function() {
+        let randomNum = $(this).attr('data-hook-num'),
+            randomColor = $('.EightSetCustom .randomHook[data-num=' + randomNum + ']').attr('data-color'),
+            randomVariantId = $('.EightSetCustom .randomHook[data-num=' + randomNum + ']').attr('data-variantid');
+
+        $('.hookButtons').attr('data-chosen', 'false');
+        $(this).attr('data-chosen', 'chosen');
+
+        $('div[class*=form-toggle]').attr('data-chosen', 'false');
+        $('.' + randomColor + '-form-toggle').attr('data-chosen', 'chosen');
+
+        $('div[class*=tbody]').hide();
+        $('.' + randomColor + '-tbody').show();
+        $("." + randomColor + "-tbody .variant-toggle").attr("data-current", "false");
+
+        $("." + randomColor + "-tbody .variant-toggle[data-variantid=" + randomVariantId + "]").attr("data-chosen", "chosen");
+        $("." + randomColor + "-tbody .variant-toggle[data-variantid=" + randomVariantId + "]").attr("data-current", "chosen");
+        $("." + randomColor + "-tbody .variant-toggle[data-variantid=" + randomVariantId + "] input").val(1);
+        $("." + randomColor + "-tbody .variant-toggle[data-variantid=" + randomVariantId + "] input").attr('value', '1');
+    
+      });
+
+      $('div[class*=form-toggle]').on('click', function() {
+        $('div[class*=form-toggle]').attr('data-chosen', 'false');
+        $(this).attr('data-chosen', 'chosen');
+
+        $('div[class*=tbody]').hide();
+        $('.' + $(this).attr('data-color') + '-tbody').show();
+      });
+
+      $('.variant-toggle').on('click', function() {
+        let chosenNum = $('.hookButtons[data-chosen=chosen]').attr('data-hook-num'),
+            chosenColor = $('.randomHook[data-num=' + chosenNum + ']').attr('data-color'),
+            chosenVariantId = $('.randomHook[data-num=' + chosenNum + '][data-color=' + chosenColor + ']').attr('data-variantid'),
+            allChoicePrice = 0, 
+            allChoicePriceDec = 0,
+            allChoicePriceTotal = 0,
+            allChoicePriceDiscounted = 0,
+            totalChoicePrice = 0;
+
+        if(chosenVariantId != $(this).attr('data-variantid')) {
+          $("." + chosenColor + "-tbody .variant-toggle[data-variantid=" + chosenVariantId + "]").attr("data-chosen", "false");
+          $("." + chosenColor + "-tbody .variant-toggle[data-variantid=" + chosenVariantId + "]").attr("data-current", "false");
+          $("." + chosenColor + "-tbody .variant-toggle[data-variantid=" + chosenVariantId + "] input").val(0);
+          $("." + chosenColor + "-tbody .variant-toggle[data-variantid=" + chosenVariantId + "] input").attr('value', '0');
+        
+          $('.randomHook[data-num=' + chosenNum + ']').show();
+        } else {
+          $('.randomHook[data-num=' + chosenNum + ']').hide();
+        }
+
+        if($(this).find('input').val() == 1) {
+          $(this).val(0);
+          $(this).attr('value', '0');
+          $(this).attr('data-chosen', 'false');
+          $(this).attr('data-current', 'false');
+        } else {
+          $(this).find('input').val(1);
+          $(this).find('input').attr('value', '1');
+          $(this).attr('data-chosen', 'chosen');
+          $(this).attr('data-current', 'chosen');
+        }
+        
+        $('.randomHook[data-num=' + chosenNum + ']').attr('data-color', $(this).attr('data-sku-color'));
+        $('.randomHook[data-num=' + chosenNum + ']').attr('data-size', $(this).attr('data-sku-size'));
+        $('.randomHook[data-num=' + chosenNum + ']').attr('data-variantid', $(this).attr('data-variantid'));
+        $('.randomHook[data-num=' + chosenNum + ']').attr('data-price', $(this).attr('data-price'));
+        $('.randomHook[data-num=' + chosenNum + ']').text($(this).attr('data-size') + ', ');
+      
+        $('.randomHook').each(function() {
+          allChoicePrice = Shopify.formatMoney($(this).attr('data-price'));
+          allChoicePriceDec = allChoicePrice.replace('$','');
+          allChoicePriceDiscounted = allChoicePriceDec - (allChoicePriceDec * 0.15);
+       
+          allChoicePriceTotal = parseFloat(allChoicePriceTotal.toFixed(2)) + parseFloat(allChoicePriceDiscounted.toFixed(2));
+        })
+
+        totalChoicePrice = Math.ceil(allChoicePriceTotal * 100) / 100;
+
+        $('#EightHookSetCustom .currentPrice').text('$' + totalChoicePrice.toFixed(2));
+
+      });
+    });
+    // END EIGHT HOOK OPTIONS //
+  });
+
+  var cartIds = [],
+      productIds = [],
+      queue = [];
+  
+  var cartItems = {{cart | json}}["items"];
+  
+  $.each(cartItems, function(index,item){
+    cartIds.push(item["id"]);
+    productIds.push(item["product_id"]);
+  });
+    
+  $("form#checkout-table").on("submit", function(e) {
+    var valCount = 0,
+        parentId = $('.checkout_button').parent().attr('id'),
+        parentClass = $('.checkout_button').parent().attr('class');
+
+    e.preventDefault();
+    $(".purchase .sp-mini").show();
+
+    $(".product-size-variant").each(function(index, element) {
+      var $el = $(element),
+          val = parseInt($el.val(), 10);
+
+      valCount += val;
+    });
+
+    if((parentId == 'ThreeHookSetDetails' || parentClass.includes('ThreeSetCustom')) && valCount < 3 && $(".checkout_button").text() === "ADD TO CART") {
+      alert('You must have 3 hooks chosen');
+    } else if((parentId == 'FiveHookSetDetails' || parentClass.includes('FiveSetCustom')) && valCount < 5 && $(".checkout_button").text() === "ADD TO CART") {
+      alert('You must have 5 hooks chosen');
+    } else if((parentId == 'EightHookSetDetails' || parentClass.includes('EightSetCustom')) && valCount < 8 && $(".checkout_button").text() === "ADD TO CART") {
+      alert('You must have 8 hooks chosen');
+    } else {
+      $(".product-size-variant").each(function(index, element) {
+        var $el = $(element),
+            val = parseInt($el.val(), 10);
+
+        if(val <= 0) { return; }
+
+        queue.push({
+          variant: $el.attr("data-variantid"),
+          quantity: val
+        });
+      });
+
+      if(parentId == 'ThreeHookSetDetails' || parentClass.includes('ThreeSetCustom')) {
+        queue.push({
+          variant: "39531858722883",
+          quantity: 1
+        });
+      } else if(parentId == 'FiveHookSetDetails' || parentClass.includes('FiveSetCustom')) {
+        queue.push({
+          variant: "39531858755651",
+          quantity: 1
+        });
+      } else if(parentId == 'EightHookSetDetails' || parentClass.includes('EightSetCustom')) {
+        queue.push({
+          variant: "39531858788419",
+          quantity: 1
+        });
+      }
+
+      submitForm();
+    }
+  });
+    
+  function submitForm() {
+    //add items
+    if(queue.length) {
+      var item = queue.shift();
+      if (cartIds.includes(item.variant)){
+        Shopify.changeItem(item.variant, item.quantity, submitForm);
+      } else {
+        Shopify.addItem(item.variant, item.quantity, submitForm);
+      }
+    } else {
+      //send direct to checkout
+      //add discount to cart
+      parentId = $('.checkout_button').parent().attr('id');
+      parentClass = $('.checkout_button').parent().attr('class');
+
+      if(parentId == 'ThreeHookSetDetails' || parentClass.includes('ThreeSetCustom')) {
+        window.location = "/checkout?discount=3STRSET";
+      }
+
+      if(parentId == 'FiveHookSetDetails' || parentClass.includes('FiveSetCustom')) {
+        window.location = "/checkout?discount=5STRSET";
+      }
+
+      if(parentId == 'EightHookSetDetails' || parentClass.includes('EightSetCustom')) {
+        window.location = "/checkout?discount=8STRSET";
+      }
+    };
+  }
+
+  function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+</script>

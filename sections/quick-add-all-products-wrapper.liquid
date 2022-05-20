@@ -1,0 +1,34 @@
+{{ 'shopAll.js' | asset_url | script_tag }}
+{{ 'shopAll.css' | asset_url | stylesheet_tag }}
+
+<div class='promoWrapper' data-scrollstop='quickAdd'>
+  <div class="section clearfix birthdayPage">
+    <form action="/cart" method="post" id="cart_form">
+      <div class="section clearfix quickAddProds">
+        {%include 'quick-add-all-products'%}
+      </div>
+      <div class="section clearfix quickAddCart">
+        {%include 'quick-add-cart-scripts'%}
+      </div>
+    </form>
+  </div>
+</div>
+
+
+{% schema %}
+{
+  "name": "quickAddAllProducts",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title"
+    }
+  ],
+  "presets": [
+    {
+      "name": "quickAddAllProducts"
+    }
+  ]
+}
+{% endschema %}

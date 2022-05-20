@@ -1,0 +1,21 @@
+<section class="page-width">
+  <div id="wc_review_section" class="wc_review_main_content" data-url="{{ shop.url }}" data-handle="{{ product.handle }}" data-product_id="{{ product.id }}" data-limit="0"></div>
+</section>
+
+{% schema %}
+{
+  "name": "productReviewContent",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title"
+    }
+  ],
+  "presets": [
+    {
+      "name": "productReviewContent"
+    }
+  ]
+}
+{% endschema %}

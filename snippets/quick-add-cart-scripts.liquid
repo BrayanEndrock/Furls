@@ -1,0 +1,102 @@
+<script type="text/javascript">
+$(function(){  
+
+//hide quick add section
+  $("body").on("click touchend", ".quick-add-wrapper h4 .fake-link", function(){
+    $(this).closest(".quick-add-wrapper").hide();
+  });
+  
+    
+ //quick add button click, add to cart   
+ $("body").on("click",".selector_variant .btn", function(){
+    var variantId = parseInt($(this).attr("data-vid")),
+        btn = $(this),
+        text = btn.html();
+    if (!btn.hasClass("soldout") && !btn.hasClass("in-cart")) {
+        //add  item to cart
+        btn.html(text+"<div class='sp-mini sp-circle'></div>");
+        addItem(variantId);
+      }
+  });
+
+});
+  
+//disable standard alert and display custom alert
+Shopify.onItemAdded=function(t){ 
+  //prevent default dialog
+  return false; 
+};
+  
+
+//disable the alert and display custom alert
+Shopify.onCartUpdate=function(t){
+  //prevent default dialog
+  return false; 
+};
+  
+//prevent iPhone "GO" button from submitting form
+  $("body").keydown(function(){
+    if(event.keyCode == 13) {
+        document.activeElement.blur();
+        return false;
+    }
+});
+  
+  function addItem(variantId) {
+    var variantId = variantId,
+        btn = $("div.btn[data-vid='"+variantId+"']"),
+        text = btn.html();
+    //
+    let formData = JSON.stringify({
+          'items': [{
+          'id': variantId,
+          'quantity': 1}],
+          sections: document.querySelector('cart-notification').getSectionsToRender().map((section) => section.id),
+          sections_url: window.location.pathname
+        });
+    //
+    fetch(`${routes.cart_add_url}`, { ...fetchConfig('javascript'), body: formData })
+      .then((response) => response.json())  
+      .then((parsedState) => {
+        document.querySelector('cart-notification').renderContents(parsedState);
+        $(btn).html(text.split('<div class="sp-mini')[0]);
+        $(btn).addClass("in-cart")
+        getDiscounts();
+
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  }
+
+
+  function getDiscounts() { 
+   var codes = [{"code":"NCM15","min":0,"max":150,"amount":15},{"code":"NCM20","min":150,"max":250,"amount":20},{"code":"NCM25","min":250,"max":1000000,"amount":25}],
+       cartTotal = parseInt($(".original_total_price").attr("data-originaltotalprice"))/100,
+       discountAmount = codes.filter((i,e,) => {return cartTotal >= i["min"] && cartTotal < i["max"]})[0]["amount"],
+       discountCode = codes.filter((i,e,) => {return cartTotal >= i["min"] && cartTotal < i["max"]})[0]["code"],
+       distance = codes.filter((i,e,) => {return cartTotal >= i["min"] && cartTotal < i["max"]})[0]["max"] - cartTotal;
+
+        //
+        var formUrl = $("form#cart").attr("action"),
+            cartUrl = $("a#cart-notification-button").attr("href");
+        $("form#cart").attr("action",formUrl+'?discount='+discountCode);
+        $("a#cart-notification-button").attr("href",cartUrl+'?discount='+discountCode)
+
+        //
+        $(".original_total_price").addClass('strikethrough');
+	    $(".total_discount_wrapper").css({"display":"inline-block"});
+	    $(".total_price_wrapper").css({"display":"inline-block"});
+        $(".total_discount").html(discountAmount+'% off');
+        $(".total_price").html("$"+parseFloat(cartTotal*(1-(discountAmount/100))).toFixed(2));
+
+        //
+      if (discountAmount != 25) {
+        $(".distance_message").html("Add $" + distance.toFixed(2) + " to your cart for the next tier.")
+      } else {
+        $(".distance_message").html("You've achieved the top tier!")
+      };
+
+  };
+  
+</script>

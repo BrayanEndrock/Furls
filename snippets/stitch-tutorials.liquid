@@ -1,0 +1,128 @@
+<div class="sixteen columns">
+  <div id="tutorial-section-link">
+    <span class="fake-link" data-section="crochetVideoTutorials">Crochet Tutorials</span> 
+    <span class="fake-link" data-section="knittingVideoTutorials">Knitting Tutorials</span> 
+    <span class="fake-link" data-section="tunisianVideoTutorials">Tunisian Tutorials</span>
+  </div>
+
+  <div class="videoTutorials">
+    <div class="crochetVideoTutorials" id="crochetVideoTutorials">
+      <p style="font-size:20px;"> Crochet Tutorials </p>
+      <div>
+        <span>
+          <p>How to make a Slip Knot</p>
+          <iframe width="560" height="315" src="https://www.youtube.com/embed/cDsMzlJYE8U" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </span>
+      </div>
+      <div>
+        <span>
+          <p>How to crochet a chain</p>
+          <iframe width="560" height="315" src="https://www.youtube.com/embed/mgifZ5zxYBE" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </span>
+      </div>
+      <div>
+        <span>
+          <p>Single Crochet</p>
+          <iframe width="560" height="315" src="https://www.youtube.com/embed/Ne-8A73x48o" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </span>
+      </div>
+      <div>
+        <span>
+          <p>Half Double Crochet</p>
+          <iframe width="560" height="315" src="https://www.youtube.com/embed/zEvT4LAYqC8" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </span>
+      </div>
+      <div>
+        <span>
+          <p>Double Crochet</p>
+          <iframe width="560" height="315" src="https://www.youtube.com/embed/8Rh1JffusqI" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </span>
+      </div>
+      <div>
+        <span>
+          <p>Alternative Double Crochet Stitch</p>
+          <iframe width="560" height="315" src="https://www.youtube.com/embed/F2d3Gvjmwa0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </span>
+      </div>
+      <div>
+        <span>
+          <p>Double Crochet Cluster Stitch</p>
+          <iframe width="560" height="315" src="https://www.youtube.com/embed/7XERAJKrZYE" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </span>
+      </div>
+      <div>
+        <span>
+          <p>Treble/Triple Crochet</p>
+          <iframe width="560" height="315" src="https://www.youtube.com/embed/9dNFcWK_9k4" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </span>
+      </div>
+      <div>
+        <span>
+          <p>Chevron Stitch</p>
+          <iframe width="560" height="315" src="https://www.youtube.com/embed/JpusneN_McI" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </span>
+      </div>
+      <div>
+        <span>
+          <p>Granny Stitch</p>
+          <iframe width="560" height="315" src="https://www.youtube.com/embed/K7fCLauT27w" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </span>
+      </div>
+      <div>
+        <span>
+          <p>Trellis Stitch</p>
+          <iframe width="560" height="315" src="https://www.youtube.com/embed/aWJPbKDalR8" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </span>
+      </div>
+      <div>
+        <span>
+          <p>Alpine Stitch</p>
+          <iframe width="560" height="315" src="https://www.youtube.com/embed/sg_CyZenIPk" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </span>
+      </div>
+    </div>
+
+    <div class="knittingVideoTutorials" id="knittingVideoTutorials">
+      <p style="font-size:20px;"> Knitting Tutorials </p>
+      <div>
+        <span>
+          <p>Coming soon!</p>
+        </span>
+      </div>
+    </div>
+
+    <div class="tunisianVideoTutorials" id="tunisianVideoTutorials">
+      <p style="font-size:20px;"> Tunisian Tutorials </p>
+      <div>
+        <span>
+          <p>Coming soon!</p>
+        </span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<style>
+  #tutorial-section-link {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 5%;
+  }
+  .sixteen.columns {
+    width: 940px;
+    margin: auto;
+    text-align: center;
+  }
+</style>
+
+<script type="text/javascript">
+  $(function(){
+    $("body").on("click touchend","#tutorial-section-link span",function(){
+        var section = $(this).data("section");
+          $('html, body').animate({
+              scrollTop: ($("#" + section).offset().top) - 100
+            }, 500);
+    });
+  });
+</script>

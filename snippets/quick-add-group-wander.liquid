@@ -1,0 +1,49 @@
+
+<script type="text/javascript">
+
+  var cartCount = $('.cart-count').text();
+
+  setTimeout(function() { 
+    var queue = [];
+    var data = [];
+    var prevOption1;
+    var el = [];
+
+    {% for product in collections.wander-acrylic-yarn.products %}
+      data.push({{ product | json }});
+    {% endfor %}
+
+    for(let i in data) {
+      product = data[i];
+
+      $("<div class='" + product.handle + "-tbody'><div class='selector_wrapper'><div class='selector_variant'></div></div></div>").appendTo($("[data-groupDisplay='YARN']"));
+
+      if ($("." + product.handle + "-tbody").find("img").length == 0 ){
+        $("<p><strong>" + product.title + "</strong> - <span class='product-form-price no-dash' data-product-handle='" + product.handle + "' data-productindex=' " + data.indexOf(product) + "' data-variantid='" + product.id + "'>" + Shopify.formatMoney(product.price) + "</span> </p>").prependTo($("." + product.handle + "-tbody").find(".selector_wrapper"));
+
+         $("<img src='" + product.featured_image + "'/>").prependTo($("." + product.handle + "-tbody").find(".selector_wrapper"));
+      };
+
+      let keys = Object.keys(data[i].variants);
+      let variant = '';
+
+      for (var k = 0, len = keys.length; k < len; k++) {
+        skuSelector = data[i].variants[keys[k]].sku.split("-")[3];
+        variant = data[i].variants[keys[k]];
+        
+        //add variant details
+        if (variant.inventory_quantity > 0){
+          el.push("<div class='btn' data-productid='" + product.id + "' data-color='" + skuSelector + "' data-productHandle='" + product.handle + "' data-vid='" + variant.id + "'><span class='btn-notice'>In Stock</span>" + variant.option1 + "</div>");
+        } else {
+          el.push("<div class='btn soldout' data-productid='" + product.id + "' data-color='" + skuSelector + "' data-productHandle='" + product.handle + "' data-vid='" + variant.id + "'><span class='btn-notice'>Sold Out</span>" + variant.option1 + "</div>");
+        };
+
+        $(el.join("")).appendTo($("." + product.handle + "-tbody").find(".selector_variant"));
+        el = [];
+        //hide spinner
+        $("div[data-groupDisplay='WNDR']").find(".sp-mini").hide();
+        }
+    };
+    $('.cart-count').text(cartCount);
+  }, 500); 
+</script>

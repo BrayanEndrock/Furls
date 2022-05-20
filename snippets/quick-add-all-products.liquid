@@ -1,0 +1,69 @@
+<div class='quick-add-product'>
+  <hr/>
+  <p id="quick-add-links" style="position:relative;"> 
+    <span data-group="STRM" data-chosen="chosen" data-pids="9873254161,543241895963"> Streamline </span>
+    <span data-group="SWRL" data-chosen="false" data-pids="1641580265539,1933255147587,2145035649091"> Swirl </span>
+    <span data-group="ODYN" data-chosen="false"> Odyssey </span>
+    <span data-group="CNDY" data-chosen="false" data-pids='134910115,4111398338627'> Candy </span>
+    <span data-group="ALPH" data-chosen="false"> Alpha </span>
+    <span data-group="KNIT" data-chosen="false"> Knitting </span>
+    <span data-group="YARN" data-chosen="false" data-pids='1473368981571'> Yarn </span>
+    <span data-group="LMED" data-chosen="false"> Limited Edition </span>
+    <span data-group="ACCS" data-chosen="false" data-pids='623876931611,1306121338988,8434237457,9981111697,8630859729'> Accessories </span>
+  </p>
+  <hr/>
+  
+  <div data-groupDisplay="SWRL">
+    <div class='sp-mini sp-circle'></div>
+    <div class="tbodyContainer"></div>
+      {% include 'quick-add-group-swirl' %}
+  </div>
+
+  <div data-groupDisplay="STRM">
+    <div class='sp-mini sp-circle'></div>
+    <div class="tbodyContainer"></div>
+      {% include 'quick-add-group-streamline' %}
+  </div>
+
+  <div data-groupDisplay="ODYN">
+    <div class='sp-mini sp-circle'></div>
+    <div class="tbodyContainer"></div>
+      {% include 'quick-add-group-odyssey' %}
+  </div>
+
+  <div data-groupDisplay="CNDY">
+    <div class='sp-mini sp-circle'></div>
+    <div class="tbodyContainer"></div>
+      {% include 'quick-add-group-candy' %}
+  </div>
+
+  <div data-groupDisplay="ALPH">
+    <div class='sp-mini sp-circle'></div>
+    <div class="tbodyContainer"></div>
+      {% include 'quick-add-group-alpha' %}
+  </div>
+
+  <div data-groupDisplay="KNIT">
+    <div class='sp-mini sp-circle'></div>
+    <div class="tbodyContainer"></div>
+      {% include 'quick-add-group-knitting' %}
+  </div>
+
+  <div data-groupDisplay="YARN">
+    <div class='sp-mini sp-circle'></div>
+    <div class="tbodyContainer"></div>
+      {% include 'quick-add-group-yarn' %}
+  </div>
+
+  <div data-groupDisplay="LMED">
+    <div class='sp-mini sp-circle'></div>
+    <div class="tbodyContainer"></div>
+      {% include 'quick-add-group-limited' %}
+  </div>
+  
+  <div data-groupDisplay="ACCS" class="section">
+    <div class='sp-mini sp-circle'></div>
+      {% include 'quick-add-group-accessories' %}
+  </div>
+
+</div>

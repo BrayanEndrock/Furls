@@ -1,0 +1,326 @@
+<script type="text/javascript">
+
+var productArray = [];
+var shuffled = [];
+var count = 0;
+var cartTaxes = '';
+var cartTaxesDec = 0;
+var cartSubTotal = '';
+var cartSubTotalDec = 0;
+var cartTaxPercentage = 0;
+var carShipping = 0;
+var cartTotalWShipping = 0;
+var threshold = 60;
+
+var quickAddProductWrapper = document.createElement('div');
+quickAddProductWrapper.setAttribute('class', 'quick-add-wrapper');
+$(quickAddProductWrapper).insertAfter(".order-summary__section--discount");
+
+$(function(){
+
+    let cartDataArray = [];
+    let variantDataArray = [];
+ 
+    $.getJSON('/cart.js', function(cartData) {
+
+      if($('.total-line--shipping .order-summary__emphasis').html() != undefined) {
+        if($('.total-line--shipping .order-summary__emphasis').html().toLowerCase().trim() != 'free') {
+          cartShipping = $('.total-line--shipping .order-summary__emphasis').html();
+          cartShipping = cartShipping.replace('$','');
+        } else {
+          cartShipping = 0;
+        }
+      } else {
+        cartShipping = 0;
+      }
+
+      cartTaxes = $('.total-line--taxes .order-summary__emphasis').html();
+      cartTaxesDec = cartTaxes.replace('$','');
+      cartSubTotal = Shopify.formatMoney(cartData.items_subtotal_price);
+      cartSubTotalDec = cartSubTotal.replace('$','');
+      cartTotalWShipping = (+cartSubTotalDec + +cartShipping);
+      cartTaxPercentage = (cartTaxes.replace('$','') / cartTotalWShipping);//.round(2);
+
+       for(let i in cartData.items) {
+          cartDataArray.push(cartData.items[i].product_id);
+       };
+    });
+ 
+    // hardcoded as we cannot have liquid in checkout
+    upsellProducts = [
+             ["crochet-foundry-magazine", "crochet foundry magazine",[39812679106627]],
+             ["needle-case-handmade-wooden-needle-holder","needle case"],
+             ["furls-5-hook-standing-display","5 hook display"],
+             ["leather-single-crochet-hook-holder","leather hook holder"],
+             ["furls-buttons", "dragon buttons"],
+             ["holiday-box","holiday gift box"],
+             //["limited-edition-rosewood-needle-case","rosewood needle case"],
+             //["peppermint-needle-case","peppermint needle case"],
+             ["handmade-pine-wood-yarn-bowls-from-furls-for-knitting-crochet", "pine wood yarn bowl"],
+             ["furls-crochet-clutch-hook-organizer-travel-bag-and-purse", "leather clutch hook organizer"],
+             ["furls-5-hook-circular-display", "5 hook circular display"],
+             ["acrylic-crochet-yarn", "wander acrylic yarn"]
+          ];
+    setTimeout(function() { 
+      
+      for (let i in upsellProducts) {
+          let handle = upsellProducts[i][0],
+              shortName = upsellProducts[i][1],
+              allowedVariants = upsellProducts[i][2];
+          $.getJSON("/products/" + handle + ".js", function(product){
+            // do not include upsell if in cart
+            if(!cartDataArray.includes(product.id)) {
+               let variants = product["variants"]; 
+               console.log(handle);
+               console.log(allowedVariants);
+               for(let j in variants) {
+                 
+                 //check allowed variants
+                  if (!allowedVariants || (allowedVariants && allowedVariants.includes(variants[j].id)) ) {   
+                  // only use variants if we have more than 10 units
+                    if(variants[j].available && variants[j].price > 0) {
+                      console.log(variants[j].title);
+                       addVariantValue(variants[j].id, 
+                                       shortName, 
+                                       variants[j].price, 
+                                       product.featured_image,
+                                       handle,
+                                       variants[j].title);
+                    }
+                  }
+               }
+            }
+          });
+      };
+      
+      // add item to cart and show to customer
+      setTimeout(function() { 
+         $('.quick-add-product .btn').on('click', function() {
+
+            // Google Analytics tracking
+            ga('send', 'event', 'Upsell', 'Add', $(this).attr('data-productHandle') + " - " + $(this).attr('data-variantTitle'), $(this).attr('data-productPrice')/100);
+            //hide upsell
+            $(this).closest(".quick-add-product").hide();
+           if ($(".quick-add-product:visible").length == 0) {
+              $(".quick-add-wrapper").hide();
+            };
+
+            // add shopify item
+            $.ajax({
+              type: 'POST',
+              async: false,
+              url: '/cart/add.js',
+              data: {quantity: 1,
+                     id: $(this).attr('data-vid')},
+              dataType: 'json',
+              success: function(response) { 
+         location.reload();
+                 $.getJSON('/cart.js', function(cartData) {
+                    let cartPrice = Shopify.formatMoney(cartData.items[0].price);
+                    let cartPriceDec = cartPrice.replace('$','')
+                    let cartItems = Shopify.formatMoney(cartData.items_subtotal_price)
+                    let cartItemsDec = cartItems.replace('$','')
+                    let cartTaxCalc = cartTaxPercentage * cartPriceDec;
+                    let num = (+cartTaxesDec + +cartTaxCalc);
+                    let numCalc = (Math.round(num * 100) / 100).toFixed(2);
+                    let cartTotal = (+cartItemsDec + +cartShipping + +numCalc).toFixed(2);
+                   
+                   //update message
+                   var difference = (threshold - cartTotal).toFixed(2);
+                   if (difference > 0) {
+                     $(".quick-add-header p").text("Add $" + difference + " to ship free");
+                   } else {
+                     $(".quick-add-header p").text("Last minute faves");
+                   };
+
+                    // update cart totals
+                    // item subtotal price
+                    $('.total-line--subtotal .order-summary__emphasis').text(Shopify.formatMoney(cartData.items_subtotal_price));
+                    $('.total-line--subtotal .order-summary__emphasis').attr('data-checkout-subtotal-price-target', cartData.items_subtotal_price)
+                    
+                    // taxes
+                    $('.total-line--taxes .order-summary__emphasis').text('$' + numCalc);
+                    $('.total-line--taxes .order-summary__emphasis').attr('data-checkout-total-taxes-target',numCalc.replace('.',''));
+
+                    // cart total price
+                    $('.total-line .payment-due__price').text('$' + cartTotal);
+
+                    let cartTotalString = $('.total-line .payment-due__price').text();
+                    let cartTotalStringReplaced = cartTotalString.replace('$','').replace('.','');
+
+                    $('.total-line .payment-due__price').attr('data-checkout-subtotal-price-target', cartTotalStringReplaced);
+                    $('.total-line .payment-due__price').attr('data-checkout-payment-due-target', cartTotalStringReplaced);
+                    
+                    // add line item to page
+                    let productWrapper = document.createElement('tr');
+                    productWrapper.setAttribute('class', 'product');
+                    productWrapper.setAttribute('data-product-id', cartData.items[0].product_id);
+                    productWrapper.setAttribute('data-variant-id', cartData.items[0].variant_id);
+                    productWrapper.setAttribute('data-product-type', cartData.items[0].product_type);
+                    productWrapper.setAttribute('data-customer-ready-visible', '');
+                    $('tbody[data-order-summary-section="line-items"]').prepend(productWrapper);
+
+                    let productTd = document.createElement('td');
+                    productTd.setAttribute('class', 'product__image');
+                    productWrapper.append(productTd);
+
+                    let productThumbnail = document.createElement('div');
+                    productThumbnail.setAttribute('class', 'product-thumbnail ');
+                    productTd.append(productThumbnail);
+
+                    let productThumbnailWrapper = document.createElement('div');
+                    productThumbnailWrapper.setAttribute('class', 'product-thumbnail__wrapper');
+                    productThumbnail.append(productThumbnailWrapper);
+
+                    let productThumbnailImg = document.createElement('img');
+                    productThumbnailImg.setAttribute('alt', cartData.items[0].title);
+                    productThumbnailImg.setAttribute('class', 'product-thumbnail__image');
+                    productThumbnailImg.setAttribute('src', cartData.items[0].image);
+                    productThumbnailWrapper.append(productThumbnailImg);
+
+                    let productThumbnailQty = document.createElement('span');
+                    productThumbnailQty.setAttribute('class', 'product-thumbnail__quantity');
+                    productThumbnailQty.setAttribute('aria-hidden', 'true');
+                    productThumbnailQty.innerHTML = '1';
+                    productThumbnail.append(productThumbnailQty);
+
+                    let productTh = document.createElement('th');
+                    productTh.setAttribute('class', 'product__description');
+                    productTh.setAttribute('scope', 'row');
+                    productWrapper.append(productTh);
+
+                    let productName = document.createElement('span');
+                    productName.setAttribute('class', 'product__description__name order-summary__emphasis');
+                    productName.innerHTML = cartData.items[0].product_title;
+                    productTh.append(productName);
+
+                    let productVariantName = document.createElement('span');
+                    productVariantName.setAttribute('class', 'product__description__variant order-summary__small-text');
+                    productVariantName.innerHTML = cartData.items[0].variant_title;
+                    productTh.append(productVariantName);
+
+                    let productHiddenQty = document.createElement('td');
+                    productHiddenQty.setAttribute('class', 'product__quantity visually-hidden');
+                    productHiddenQty.innerHTML = '1';
+                    productWrapper.append(productHiddenQty);
+
+                    let productPrice = document.createElement('td');
+                    productPrice.setAttribute('class', 'product__price');
+                    productWrapper.append(productPrice);
+
+                    let productPriceEmphasis = document.createElement('span');
+                    productPriceEmphasis.setAttribute('class', 'order-summary__emphasis');
+                    productPriceEmphasis.innerHTML = Shopify.formatMoney(cartData.items[0].price);
+                    productPrice.append(productPriceEmphasis);
+
+                 });
+              }
+            });
+
+            // set cookie so user can only see upsells once
+            // document.cookie = "checkoutUpsells=true";
+         });
+      }, 1000); 
+    }, 1000); 
+});
+
+function addVariantValue (id, name, price, image, handle, title) {
+   productArray.push({id, name, price, image, handle, title});
+   
+   // shuffle array so there's a new upsell selection each time
+   shuffled = productArray.sort(function(){return .5 - Math.random()});
+    
+   for(let i in shuffled) {
+       // we only want 3 upsells at a time
+       if ($('#' + shuffled[i].handle).length == 0 && count <= 2) {
+          if ($(".quick-add-header").length == 0) {
+              var difference = (threshold - cartSubTotalDec).toFixed(2),
+                  message = "Complete Your Collection";
+              if (difference > 0) {
+                message = "Add $" + difference + " to ship free";
+              };
+              let quickAddHeader = document.createElement('div');
+              quickAddHeader.setAttribute('class', 'quick-add-header');
+              quickAddHeader.innerHTML = "<p>"+message+"</p>";
+              quickAddProductWrapper.appendChild(quickAddHeader);
+          };
+          let quickAddProduct = document.createElement('div');
+          quickAddProduct.setAttribute('class', 'quick-add-product');
+          quickAddProduct.setAttribute('id', shuffled[i].handle);
+          quickAddProductWrapper.appendChild(quickAddProduct);
+
+          let quickAddProductDiv = document.createElement('div');
+          quickAddProductDiv.setAttribute('class', 'quickAddProductContainer');
+          quickAddProduct.appendChild(quickAddProductDiv);
+
+          let quickAddProductImg = document.createElement('img');
+          quickAddProductImg.setAttribute('src', shuffled[i].image);
+          quickAddProductDiv.appendChild(quickAddProductImg);
+
+          let quickAddProductDetails = document.createElement('span');
+          quickAddProductDetails.setAttribute('class', 'right');
+          quickAddProductDetails.innerHTML = '<span class="product-title">' + 
+                                             shuffled[i].name + 
+                                             '</span> <br> <span class="variant-title">' + shuffled[i].title +
+                                             '</span>';
+          quickAddProductDiv.appendChild(quickAddProductDetails);
+
+          let quickAddProductButton = document.createElement('div');
+          quickAddProductButton.setAttribute('class', 'btn');
+          quickAddProductButton.setAttribute('data-productHandle', shuffled[i].handle);
+          quickAddProductButton.setAttribute('data-variantTitle', shuffled[i].title);
+          quickAddProductButton.setAttribute('data-vid', shuffled[i].id);
+          quickAddProductButton.setAttribute('data-productPrice', shuffled[i].price);
+          quickAddProductButton.innerHTML = "Add - $" +  shuffled[i].price/100 ;
+          quickAddProductDiv.appendChild(quickAddProductButton);
+         
+         ga('send', 'event', 'Upsell', 'View', shuffled[i].handle + " - " + shuffled[i].title, 0);
+          
+          count += 1;
+       }
+   }
+}
+
+function getCookie(name) {
+    // Split cookie string and get all individual name=value pairs in an array
+    var cookieArr = document.cookie.split(";");
+    
+    // Loop through the array elements
+    for(var i = 0; i < cookieArr.length; i++) {
+        var cookiePair = cookieArr[i].split("=");
+        
+        /* Removing whitespace at the beginning of the cookie name
+        and compare it with the given string */
+        if(name == cookiePair[0].trim()) {
+            // Decode the cookie value and return
+            return decodeURIComponent(cookiePair[1]);
+        }
+    }
+    
+    // Return null if not found
+    return null;
+}
+
+function containsObject(obj, list) {
+    var i;
+    for (i = 0; i < list.length; i++) {
+        if (list[i] === obj) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+
+//prevent iPhone "GO" button from submitting form
+$("body").keydown(function(){
+  if(event.keyCode == 13) {
+      document.activeElement.blur();
+      return false;
+  }
+});
+
+</script>
+
+{{ 'quickAddCheckout.css' | asset_url | stylesheet_tag }}

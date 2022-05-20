@@ -1,0 +1,129 @@
+<div class="sixteen columns coverPage">
+   <p>
+      Wanderlust often reflects an intense urge to travel. Some people dream of touring big cities, others long for the serenity found in the mountains. Some prefer going wherever the road takes them. 
+   </p>
+   <p> 
+      Whether you prefer vacationing by the sea, or staying close to home, we have paired our Wander Yarn Palettes with different types of travellers. Which one will you connect with? Let's find out!
+   </p>
+   <p class="strong">
+      Answer each question honestly by just going with your gut and choosing the answers that are most appealing. We will then let you know which type of travel (and yarn palette) fits your style best!
+   </p>
+  <br/>
+   <span class="fakeButton">Start the quiz!</span><br/><br>
+  <img src="https://cdn.shopify.com/s/files/1/0166/0254/files/wander-top-nav.jpeg?v=1612469164">
+</div>
+
+<div class="sixteen columns">
+  <!-- Buttons -->
+  <div class="controls header">
+      <button class="previous">Previous</button>
+      <button class="next">Next</button>
+  </div>
+</div>
+
+<div class="quiz-container sixteen columns">
+
+  <div id="question" class="question"></div>
+  
+  <div class="answerContainer">
+  <label class="option">
+      <img class="image1" src=""><br>
+      <input type="radio" name="option" value="1" />
+      <span class="option1"></span>
+  </label>
+  <label class="option">
+      <img class="image2" src=""><br>
+      <input type="radio" name="option" value="2" />
+      <span class="option2"></span>
+  </label>
+  <label class="option">
+      <img class="image3" src=""><br>
+      <input type="radio" name="option" value="3" />
+      <span class="option3"></span>
+  </label>
+  <label class="option">
+      <img class="image4" src=""><br>
+      <input type="radio" name="option" value="4" />
+      <span class="option4"></span>
+  </label>
+  <label class="option">
+      <img class="image5" src=""><br>
+      <input type="radio" name="option" value="5" />
+      <span class="option5"></span>
+  </label>
+  </div>
+
+  <!-- Buttons -->
+  <div class="controls">
+      <button class="previous">Previous</button>
+      <button class="next">Next</button>
+  </div>
+</div>
+
+<div class="result sixteen columns">
+
+</div>
+
+<div class='quick-add-product' data-location=''>
+  <div data-groupDisplay="WNDR" class="section clearfix">
+    <div class='sp-mini sp-circle'></div>
+    <div class="tbodyContainer" data-groupDisplay="YARN"></div>
+      {% include 'quick-add-group-wander' %}
+  </div>
+</div>
+
+<div id="cart-alert-banner">
+  <span class="cart-alert">cart alert</span>
+  <span class="fake-link close-cart-alert"><i class="fa fa-fw fa-times"></i></span>
+</div>
+
+<button class="restart">Restart Quiz</button>
+<div class="sixteen columns">
+  <div class="section clearfix">
+{% include "klaviyo-wander-signup" %}
+  </div>
+</div>
+
+<div class="socialSection">
+  <span class="blurb">Share with friends</span>
+  <span class="shareFacebook"><iframe src="https://www.facebook.com/plugins/share_button.php?href=https%3A%2F%2Ffurlscrochet.com%2Fpages%2Fwander-palette-quiz&layout=button_count&size=small&appId=850549969113770&width=77&height=20" width="77" height="20" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe></span>
+  <span class="sharePinterest">
+    <a target="_blank" data-pin-do="buttonPin" href="https://www.pinterest.com/pin/create/button/?url=https://furlscrochet.com/pages/wander-palette-quiz/&media=https://cdn.shopify.com/s/files/1/0166/0254/files/wander-collective-rows_1.jpeg?v=1610379283&description=Wanderlust often reflects an intense urge to travel. Some people dream of touring big cities, others long for the serenity found in the mountains. Some prefer going wherever the road takes them. Whether you prefer vacationing by the sea, or staying close to home, we have paired our Wander Yarn Palettes with different types of travellers. Which one will you connect with? Let's find out!">Save</a>
+  </span>
+  <span>
+  <a target="_blank" class="twitter-share-button"
+    href="https://furlscrochet.com/pages/wander-palette-quiz?text=Take%20the%20Wander%20Palette%20Quiz!%20#furlscrochet">
+  Tweet</a>
+  </span>
+</div>
+
+<script>
+(function(d){
+    var f = d.getElementsByTagName('SCRIPT')[0], p = d.createElement('SCRIPT');
+    p.type = 'text/javascript';
+    p.async = true;
+    p.src = '//assets.pinterest.com/js/pinit.js';
+    f.parentNode.insertBefore(p, f);
+}(document));
+
+window.twttr = (function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0],
+    t = window.twttr || {};
+  if (d.getElementById(id)) return t;
+  js = d.createElement(s);
+  js.id = id;
+  js.src = "https://platform.twitter.com/widgets.js";
+  fjs.parentNode.insertBefore(js, fjs);
+
+  t._e = [];
+  t.ready = function(f) {
+    t._e.push(f);
+  };
+
+  return t;
+}(document, "script", "twitter-wjs"));</script>
+
+{% include 'quick-add-cart-yarn-bowl-scripts' %} 
+
+{% include "wander-quiz-scripts" %}
+{{ 'wanderQuiz.css' | asset_url | stylesheet_tag }}

@@ -1,0 +1,161 @@
+<script type="text/javascript">
+  var queue = [],
+      data= [],
+      shuffled = [],
+      shuffledHookVariants = [],
+      variants = [],
+      cartIds = [],
+      allPalettes = {},
+      productIds = [];
+
+  //Add all variants to array
+  {% for data_set in all_products['acrylic-crochet-yarn'].variants %}
+    variants.push({{ data_set | json }});
+  {% endfor %}
+  
+  
+  {% for data_set in all_products['special-edition-wander-tote'].variants %}
+    variants.push({{ data_set | json }});
+  {% endfor %}
+
+  ga('send', 'event', "Wander Palette Packs", 'Click', 'Start');
+
+  // Set each array pack so we can check stock on specific arrays
+  allPalettes['voyage'] = [39521409925187, 39710539939907, 39521409335363, 39521409400899, 39521409957955, 32315749105731];
+  allPalettes['allium'] = [39521409892419, 39710539972675, 39521409564739, 39710539776067, 39710539841603, 32315749105731];
+  allPalettes['calathea'] = [39710539907139, 39710539874371, 39521409499203, 39521409466435, 39521409597507, 32315749105731];
+  allPalettes['glacier'] = [39521409794115, 39521409269827, 39521409302595, 39521409761347, 39521409859651, 32315749105731];
+  allPalettes['macaw'] = [39521409663043, 39521409826883, 39521409630275, 39710539808835, 39521409433667, 32315749105731];
+
+
+
+  $.each(variants, function(index, data) {
+    var variant = variants[index],
+        allColors = Object.keys(allPalettes);
+
+        //only execute if this variant is below 0
+        if (variant.inventory_quantity <= 0) {
+          console.log(variant.sku + " - " + variant.inventory_quantity);
+          //check each color
+          $.each(allColors,function(i,e) {
+            //set vars
+            var color = allColors[i],
+                idsArray = allPalettes[color];
+            //if this color contains this variant
+            if (idsArray.includes(variant.id)) {
+                $('.'+color+'').hide();
+            } else {
+                $('.'+color+'').css('display', 'inline-block');
+                $('.soldOut').hide();
+            };
+          });
+        };
+      
+  });
+
+$(function(){
+    //Function for redirect to form on discount image click
+    $("body").on("click", " #cta1, #cta2", function(){
+      $('html, body').animate({scrollTop: ($("h1").offset().top)}, 500);
+    });
+    
+    if( $(".wanderPackOptions:visible").length == 0) {
+       $('.soldOut').show();
+    };
+
+    //hoverover
+    $('.wanderPackOptions').on('mouseover', function() {
+      $('#title-rotation').hide();
+      var color = $(this).data("color");
+      $('.wanderImages [data-color!="'+color+'"]').hide();
+      $('.wanderImages [data-color="'+color+'"]').show();
+    });
+
+
+    //click action
+    $('body').on("click",".wanderPackOptions", function() {
+      //set vars
+      var cartItems = {{cart | json}}["items"],
+          toteQuantity = 0,
+          color = $(this).data("color"),
+          colorArray = allPalettes[color];
+
+      //send analytics
+      ga('send', 'event', "Wander Palette Packs", 'Click', color);
+      //check tote quantity
+      $.each(cartItems, function(index,item){
+        cartIds.push(item["id"]);
+        
+        if(item["variant_id"] == "32315749105731") {
+          toteQuantity += parseFloat(item["quantity"]);
+        }
+      });
+
+      //show back button, move to next tile
+      $('.packOptions .backButton').show();
+      $('.buttonOptions').hide();
+      $('.packOptions').show();
+      $('.checkout_button').show();
+
+      $('.packOptions .backButton').on('click', function() {
+        $('.buttonOptions').show();
+        $('.packOptions').hide();
+      });
+
+      //edit visible images + details
+      $('#title-rotation').hide();
+      $('.wanderImages [data-color!="'+color+'"]').hide();
+      $('.wanderImages [data-color="'+color+'"]').show();
+      $(".packDetails").hide();
+      $("#"+color+"Details").show();
+
+      //remove free tote from color array
+      colorArray.splice( $.inArray("32315749105731",colorArray) ,1 );
+      
+      //adds each variant of this color to the queue
+      $.each(colorArray, function(index){
+        queue.push({
+          variant: colorArray[index],
+          quantity: 1
+        });
+      });
+      
+      //add palette pack tracker variant for analytics
+      queue.push({
+        variant: "32268579438659",
+        quantity: 1
+      });
+
+      if(toteQuantity < 3) {
+        // add free tote  
+        queue.push({
+          variant: "32315749105731",
+          quantity: 1
+        });
+      }
+    });
+
+  });
+    
+   
+    
+  $("form#checkout-table").on("submit", function(e) {
+    e.preventDefault();
+    $(".purchase .sp-mini").show();
+
+    submitForm();
+  });
+    
+  function submitForm() {
+    //add items
+    console.log(queue)
+    if(queue.length) {
+      var item = queue.shift();
+      Shopify.addItem(item.variant, item.quantity, submitForm);
+    } else {
+      //send direct to checkout
+      window.location = "/cart";
+    }
+  }
+
+</script>

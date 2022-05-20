@@ -1,0 +1,29 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "settings": {}
+    },
+    "163110635614ad0151": {
+      "type": "image-banner",
+      "settings": {
+        "image": "shopify:\/\/shop_images\/Furls_sale_banner_with_yarn.jpg",
+        "desktop_text_box_position": "center",
+        "color_scheme": "background-1",
+        "stack_images_on_mobile": true,
+        "adapt_height_first_image": false
+      }
+    },
+    "1631110214e9586a1d": {
+      "type": "quick-add-all-products-wrapper",
+      "settings": {
+        "title": ""
+      }
+    }
+  },
+  "order": [
+    "main",
+    "163110635614ad0151",
+    "1631110214e9586a1d"
+  ]
+}

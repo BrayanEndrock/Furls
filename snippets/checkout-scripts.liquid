@@ -1,0 +1,312 @@
+{% assign wanderCount = 0 %}
+
+<script type="text/javascript">
+
+$(function() {
+  // if($('#main-header').text().trim() == 'Shipping method') {
+  //   $('<br><p>Please allow 3-4 business days for order processing.</p>').insertAfter($('#main-header'));
+  // }
+  
+  //thank_you only in URL one first access
+  var firstAccess = location.href.includes("thank_you"),
+      secondAccess = location.href.includes("/orders/"),
+      domain = location.origin,
+      omni_id = "{{checkout.attributes.omni_id}}",
+      injected = false,
+      cascadiaQty = 0,
+      shippingCountry = "{{checkout.shipping_address.country}}",
+      wanderToteQuantity = 0,
+      whimsToteQuantity = 0,
+      wanderCountJS = 0,
+      isNeedle = false,
+      isYarn = false,
+      needleCount = 0,
+      yarnCount = 0;
+
+  $.each($('.product'), function(index,item){
+    if($(this).attr('data-variant-id') === '32315749105731') {
+      wanderToteQuantity += parseFloat($(this).find('.product-thumbnail__quantity').text());
+    };
+    
+    if($(this).attr('data-variant-id') === '39406219034691') {
+      whimsToteQuantity += parseFloat($(this).find('.product-thumbnail__quantity').text());
+    };
+
+    if($(this).attr('data-product-id') === '6596468801603') {
+      wanderCountJS += parseFloat($(this).find('.product-thumbnail__quantity').text());
+    };
+
+    isNeedle = $(this).find(".product__description__name.order-summary__emphasis").text().toLowerCase().includes("knitting needles");
+    isYarn = $(this).find(".product__description__name.order-summary__emphasis").text().toLowerCase().includes("whims merino crochet yarn");    
+    
+    if(isNeedle) {
+      needleCount += parseFloat($(this).find('.product-thumbnail__quantity').text());
+    }
+    
+    if(isYarn) {
+      yarnCount += parseFloat($(this).find('.product-thumbnail__quantity').text());
+    }
+
+  });
+
+  if (wanderToteQuantity >= 1 && whimsToteQuantity >= 1) {
+    // enable/disable checkout
+    if (wanderToteQuantity == 1 && wanderCountJS < 5 ||
+        wanderToteQuantity == 2 && wanderCountJS < 10 ||
+        wanderToteQuantity == 3 && wanderCountJS < 15) {
+        $("#continue_button").prop('disabled', true);
+
+        if($('.wanderError').length == 0) {
+          let wanderError = document.createElement('div');
+          $(wanderError).addClass('wanderError');
+          $(wanderError).html("<i class='fa fa-fw fa-info'></i> You have "+wanderToteQuantity+" FREE tote"+((wanderToteQuantity>1)?'s':'')+" in your cart. Please add more <a href='/products/acrylic-crochet-yarn'>Wander Acrylic Yarn</a>.")
+          $(wanderError).insertBefore($('.step__footer'));
+        } else {
+          $('.wanderError').html("<i class='fa fa-fw fa-info'></i> You have "+wanderToteQuantity+" FREE tote"+((wanderToteQuantity>1)?'s':'')+" in your cart. Please add more <a href='/products/acrylic-crochet-yarn'>Wander Acrylic Yarn</a>.")
+        }
+    } else if(wanderToteQuantity > 3) {
+        $("#continue_button").prop('disabled', true);
+
+        if($('.wanderError').length == 0) {
+          let wanderError = document.createElement('div');
+          $(wanderError).addClass('wanderError');
+          $(wanderError).html("<i class='fa fa-fw fa-info'></i> Only 3 totes per order, please remove a tote.")
+          $(wanderError).insertAfter($('#continue_button'));
+        } else {
+          $('.wanderError').html("<i class='fa fa-fw fa-info'></i> Only 3 totes per order, please remove a tote.")
+        }
+    } else if (whimsToteQuantity == 1 && (needleCount < 1 || yarnCount < 1) ||
+        whimsToteQuantity == 2 && (needleCount < 2 || yarnCount < 2) ||
+        whimsToteQuantity == 3 && (needleCount < 3 || yarnCount < 3)) {
+        $("#continue_button").prop('disabled', true);
+        
+      if($('.whimsError').length == 0) {
+        let whimsError = document.createElement('div');
+        $(whimsError).addClass('whimsError');
+        $(whimsError).html("<i class='fa fa-fw fa-info'></i> You have "+whimsToteQuantity+" FREE tote"+((whimsToteQuantity>1)?'s':'')+" in your cart. Please add more knitting needles or whims merino yarn.")
+        $(whimsError).insertBefore($('.step__footer'));
+      } else {
+        $('.whimsError').html("<i class='fa fa-fw fa-info'></i> You have "+whimsToteQuantity+" FREE tote"+((whimsToteQuantity>1)?'s':'')+" in your cart. Please add more knitting needles or whims merino yarn.")
+      }
+    } else if(whimsToteQuantity > 3) {
+        $("#continue_button").prop('disabled', true);
+
+        if($('.whimsError').length == 0) {
+          let whimsError = document.createElement('div');
+          $(whimsError).addClass('whimsError');
+          $(whimsError).html("<i class='fa fa-fw fa-info'></i> Only 3 totes per order, please remove a tote.")
+          $(whimsError).insertBefore($('.step__footer'));
+        } else {
+          $('.whimsError').html("<i class='fa fa-fw fa-info'></i> Only 3 totes per order, please remove a tote.")
+        }
+    } 
+  }
+
+  if (wanderToteQuantity >= 1 && whimsToteQuantity == 0) {
+    // enable/disable checkout
+    if (wanderToteQuantity == 1 && wanderCountJS < 5 ||
+        wanderToteQuantity == 2 && wanderCountJS < 10 ||
+        wanderToteQuantity == 3 && wanderCountJS < 15) {
+        $("#continue_button").prop('disabled', true);
+
+        if($('.wanderError').length == 0) {
+          let wanderError = document.createElement('div');
+          $(wanderError).addClass('wanderError');
+          $(wanderError).html("<i class='fa fa-fw fa-info'></i> You have "+wanderToteQuantity+" FREE tote"+((wanderToteQuantity>1)?'s':'')+" in your cart. Please add more <a href='/products/acrylic-crochet-yarn'>Wander Acrylic Yarn</a>.")
+          $(wanderError).insertBefore($('.step__footer'));
+        } else {
+          $('.wanderError').html("<i class='fa fa-fw fa-info'></i> You have "+wanderToteQuantity+" FREE tote"+((wanderToteQuantity>1)?'s':'')+" in your cart. Please add more <a href='/products/acrylic-crochet-yarn'>Wander Acrylic Yarn</a>.")
+        }
+    } else if(wanderToteQuantity > 3) {
+        $("#continue_button").prop('disabled', true);
+
+        if($('.wanderError').length == 0) {
+          let wanderError = document.createElement('div');
+          $(wanderError).addClass('wanderError');
+          $(wanderError).html("<i class='fa fa-fw fa-info'></i> Only 3 totes per order, please remove a tote.")
+          $(wanderError).insertAfter($('#continue_button'));
+        } else {
+          $('.wanderError').html("<i class='fa fa-fw fa-info'></i> Only 3 totes per order, please remove a tote.")
+        }
+    } else {
+      $("#continue_button").prop('disabled', false);
+      
+      $('.wanderError').remove();
+     };
+  }
+
+  if (whimsToteQuantity >= 1 && wanderToteQuantity == 0) {
+    // enable/disable checkout
+    if (whimsToteQuantity == 1 && (needleCount < 1 || yarnCount < 1) ||
+        whimsToteQuantity == 2 && (needleCount < 2 || yarnCount < 2) ||
+        whimsToteQuantity == 3 && (needleCount < 3 || yarnCount < 3)) {
+        $("#continue_button").prop('disabled', true);
+        
+      if($('.whimsError').length == 0) {
+        let whimsError = document.createElement('div');
+        $(whimsError).addClass('whimsError');
+        $(whimsError).html("<i class='fa fa-fw fa-info'></i> You have "+whimsToteQuantity+" FREE tote"+((whimsToteQuantity>1)?'s':'')+" in your cart. Please add more knitting needles or whims merino yarn.")
+        $(whimsError).insertBefore($('.step__footer'));
+      } else {
+        $('.whimsError').html("<i class='fa fa-fw fa-info'></i> You have "+whimsToteQuantity+" FREE tote"+((whimsToteQuantity>1)?'s':'')+" in your cart. Please add more knitting needles or whims merino yarn.")
+      }
+    } else if(whimsToteQuantity > 3) {
+        $("#continue_button").prop('disabled', true);
+
+        if($('.whimsError').length == 0) {
+          let whimsError = document.createElement('div');
+          $(whimsError).addClass('whimsError');
+          $(whimsError).html("<i class='fa fa-fw fa-info'></i> Only 3 totes per order, please remove a tote.")
+          $(whimsError).insertBefore($('.step__footer'));
+        } else {
+          $('.whimsError').html("<i class='fa fa-fw fa-info'></i> Only 3 totes per order, please remove a tote.")
+        }
+    } else {
+      $("#continue_button").prop('disabled', false);
+      
+      $('.whimsError').remove();
+     };
+  }
+
+  if(shippingCountry && shippingCountry != "United States") {
+    $('.total-line-table__tbody').append('<span style="width: 160%;display: inline-block;margin-top: 5%;color: tomato;font-weight: bold;">International orders may be subject to duties and/or additional taxes after shipping.</span>');
+  };
+  
+  if(firstAccess || secondAccess) {
+    $('h3').each(function() {
+      if($(this).html() == "RISK FREE SHOPPING") {
+        $(this).parent().remove();
+      }
+    });
+    
+    {% for item in checkout.line_items %}
+      {% if item.product_id == 4528867147843  %}
+        {% assign wanderCount = wanderCount | plus: 1 %}
+      {% endif %}
+
+      {% if item.product_id == 6597955747907 %}
+          Shopify.Checkout.OrderStatus.addContentBox('<p> <a target="_blank" href="https://cdn.shopify.com/s/files/1/0166/0254/files/FurlsCrochet-2021-Adventure_Beanie-Stark-FULL.pdf?v=1632317063"><img src="https://cdn.shopify.com/s/files/1/0166/0254/files/FurlsCrochet-2021-Adventure_Beanie-Stark-FULL.jpg?v=1632248573" style="max-width:80px;height:auto;border:1px solid;"/> <span style="font-size:18px;"> <strong>DOWNLOAD</strong></span> Adventure Beanie </a> </p>');
+
+          Shopify.Checkout.OrderStatus.addContentBox('<p> <a target="_blank" href="https://cdn.shopify.com/s/files/1/0166/0254/files/FurlsCrochet-2021-Adventure_Cowl-Eppolite-FULL.pdf?v=1632399609"><img src="https://cdn.shopify.com/s/files/1/0166/0254/files/FurlsCrochet-2021-Adventure_Cowl-Eppolite-COVER.jpg?v=1632399609" style="max-width:80px;height:auto;border:1px solid;"/> <span style="font-size:18px;"> <strong>DOWNLOAD</strong></span> Adventure Cowl </a> </p>');
+
+          Shopify.Checkout.OrderStatus.addContentBox('<p> <a target="_blank" href="https://cdn.shopify.com/s/files/1/0166/0254/files/FurlsCrochet-2021-adventuresocks-bucholz-FULL.pdf?v=1632399626"><img src="https://cdn.shopify.com/s/files/1/0166/0254/files/FurlsCrochet-2021-adventuresocks-bucholz-FULL.jpg?v=1632399626" style="max-width:80px;height:auto;border:1px solid;"/> <span style="font-size:18px;"> <strong>DOWNLOAD</strong></span> Adventure Socks </a> </p>');
+      {% endif %}
+    
+      <!-- begin CROCHET FOUNDRY section-->
+      {% if item.variant_id == 39532618580035 %}
+        Shopify.Checkout.OrderStatus.addContentBox('<p> <a target="_blank" href="https://cdn.shopify.com/s/files/1/0558/4388/1150/files/Fall2021Combined.pdf?v=1630086824"><img src="https://cdn.shopify.com/s/files/1/0558/4388/1150/files/Fall_2021_Crochet_Foundry_Magazine_Cover.jpg?v=1630087431" style="max-width:80px;height:auto;border:1px solid;"/> <span style="font-size:18px;"> <strong>DOWNLOAD</strong></span> Fall 2021 </a> </p>');
+      {% endif %}
+      {% if item.variant_id == 39532618448963 %}
+        Shopify.Checkout.OrderStatus.addContentBox('<p> <a target="_blank" href="https://cdn.shopify.com/s/files/1/0558/4388/1150/files/Crochet_Foundry_Summer_2021_v3_reduced_high.pdf?v=1623870504"><img src="https://cdn.shopify.com/s/files/1/0558/4388/1150/files/Summer2021Cover.png?v=1623689861" style="max-width:80px;height:auto;border:1px solid;"/> <span style="font-size:18px;"> <strong>DOWNLOAD</strong></span> Summer 2021 </a> </p>');
+      {% endif %}
+      {% if item.variant_id == 39286646014019 %}
+        Shopify.Checkout.OrderStatus.addContentBox('<p> <a target="_blank" href="https://cdn.shopify.com/s/files/1/0166/0254/files/Crochet_Foundry_Spring_2021.pdf_FINAL.pdf?v=1616621543"><img src="https://cdn.shopify.com/s/files/1/0166/0254/files/CF-spring-2021-cover-square.jpeg?v=1616601102" style="max-width:80px;height:auto;border:1px solid;"/> <span style="font-size:18px;"> <strong>DOWNLOAD</strong></span> Spring 2021 </a> </p>');
+      {% endif %}
+      {% if item.variant_id == 32232666923075 %}
+        Shopify.Checkout.OrderStatus.addContentBox('<p> <a target="_blank" href="https://cdn.shopify.com/s/files/1/0166/0254/files/Winter_2020_Crochet_Foundry_Compressed.pdf?v=1607715515"><img src="https://cdn.shopify.com/s/files/1/0166/0254/files/crochet-foundry-winter-2020-COVER.jpeg?v=1607714763" style="max-width:80px;height:auto;border:1px solid;"/> <span style="font-size:18px;"> <strong>DOWNLOAD</strong></span> Winter 2020 </a> </p>');
+      {% endif %}
+      {% if item.variant_id == 32072467447875 %}
+        Shopify.Checkout.OrderStatus.addContentBox('<p> <a target="_blank" href="https://cdn.shopify.com/s/files/1/0166/0254/files/Crochet_Foundry_Fall_2020_optimized.pdf?v=1600455914"><img src="https://cdn.shopify.com/s/files/1/0166/0254/files/Cover_Fall_2020.jpg?v=1600459291" style="max-width:80px;height:auto;border:1px solid;"/> <span style="font-size:18px;"> <strong>DOWNLOAD</strong></span> Fall 2020 </a> </p>');
+      {% endif %}
+      {% if item.variant_id == 31929075171395 %}
+        Shopify.Checkout.OrderStatus.addContentBox('<p> <a target="_blank" href="https://cdn.shopify.com/s/files/1/0166/0254/files/Crochet_Foundry_Magazine_June_2020_Single_Page_View.pdf?v=1595347937"><img src="https://cdn.shopify.com/s/files/1/0166/0254/files/crochet-foundry-summer2020-COVER_-_1.jpeg?v=1594924928" style="max-width:80px;height:auto;border:1px solid;"/> <span style="font-size:18px;"> <strong>DOWNLOAD</strong></span> Summer 2020 </a> </p>');
+      {% endif %}
+      <!-- end CROCHET FOUNDRY section-->
+      
+      <!-- begin WHIMS PATTERN section-->
+      {% if item.variant_id == 31517066428483 %}
+        Shopify.Checkout.OrderStatus.addContentBox('<p> <a target="_blank" href="/pages/whims-merino-one-skein-pattern-library"><img src="https://cdn.shopify.com/s/files/1/0166/0254/files/if_1-02_511559.png?16208689489671073101" style="max-width:80px;height:auto;border:1px solid;"/> <span style="font-size:18px;"> </span> Whims One Skein Pattern Library </a> </p>');
+      {% endif %}
+      <!-- end WHIMS PATTERN section-->
+      
+      <!-- begin QUARANTINE KIT section-->
+      {% if item.product_id == 4426429825091 %}
+          Shopify.Checkout.OrderStatus.addContentBox('<p> <a target="_blank" href="https://cdn.shopify.com/s/files/1/0296/4520/9737/files/FurlsCrochet-OneSkein-CrossedSeamsHat-FULL.pdf?v=1604346470"><img src="https://cdn.shopify.com/s/files/1/0296/4520/9737/files/FurlsCrochet-OneSkein-CrossedSeamsHat-COVER.jpg?v=1604347247" style="max-width:80px;height:auto;border:1px solid;"/> <span style="font-size:18px;"> <strong>DOWNLOAD</strong></span> Crossed Seams Hat </a> </p>'),
+          Shopify.Checkout.OrderStatus.addContentBox('<p> <a target="_blank" href="https://cdn.shopify.com/s/files/1/0296/4520/9737/files/Furls-Whims-CrossbodyBag-FULL.pdf?v=1604346469"><img src="https://cdn.shopify.com/s/files/1/0296/4520/9737/files/Furls-Whims-CrossbodyBag-FULL.jpg?v=1604347247" style="max-width:80px;height:auto;border:1px solid;"/> <span style="font-size:18px;"> <strong>DOWNLOAD</strong></span> Crossbody Bag </a> </p>'),
+          Shopify.Checkout.OrderStatus.addContentBox('<p> <a target="_blank" href="https://cdn.shopify.com/s/files/1/0296/4520/9737/files/FurlsCrochet-OneSkein-PrincessCowl-FULL.pdf?v=1604346469"><img src="https://cdn.shopify.com/s/files/1/0296/4520/9737/files/FurlsCrochet-OneSkein-PrincessCowl-2COVER.jpg?v=1604347247" style="max-width:80px;height:auto;border:1px solid;"/> <span style="font-size:18px;"> <strong>DOWNLOAD</strong></span> Princess Cowl </a> </p>'),
+          Shopify.Checkout.OrderStatus.addContentBox('<p> <a target="_blank" href="https://cdn.shopify.com/s/files/1/0296/4520/9737/files/FurlsCrochet-OneSkein-ProjectPouch-FULL.pdf?v=1604346469"><img src="https://cdn.shopify.com/s/files/1/0296/4520/9737/files/FurlsCrochet-OneSkein-ProjectPouch-COVER.jpg?v=1604347247" style="max-width:80px;height:auto;border:1px solid;"/> <span style="font-size:18px;"> <strong>DOWNLOAD</strong></span> Project Pouch </a> </p>');
+      {% endif %}
+      <!-- end QUARANTINE KIT section-->
+        
+        
+      <!-- begin DECODING CHEVRON VIDEO COURSE section-->
+      {% if item.product_id == 6649036636227 %}
+          Shopify.Checkout.OrderStatus.addContentBox("<h3>Video Course Access</h3><p> Thank you for purchasing a Furls video course. Your welcome email for course access will arrive within the next 5 minutes. If you've signed up for another video course, you can <a href='https://video.furlscrochet.com/users/sign_in'>sign in here</a>. Please contact support@furlscrochet.com for assistance.</p>");
+      {% endif %}
+      <!-- end DECODING CHEVRON VIDEO COURSE section-->
+    
+      <!-- begin HARVEST_PATTERNS section-->
+      {% if item.product_id == 4575382995011 %}
+          Shopify.Checkout.OrderStatus.addContentBox('<p> <a target="_blank" href="https://cdn.shopify.com/s/files/1/0166/0254/files/LEWhimsHarvest-AutumnCowl-Hunt-FULL.pdf?v=1603311680"><img src="https://cdn.shopify.com/s/files/1/0166/0254/files/LEWhimsHarvest-AutumnCowl-Hunt-COVER2.jpg?v=1603309765" style="max-width:80px;height:auto;border:1px solid;"/> <span style="font-size:18px;"> <strong>DOWNLOAD</strong></span> Autumn Leaves Cowl </a> </p>'),
+            Shopify.Checkout.OrderStatus.addContentBox('<p> <a target="_blank" href="https://cdn.shopify.com/s/files/1/0166/0254/files/LEWhimsHarvest-BerryPickingEarwarmer-Casale-FULL.pdf?v=1603312485"><img src="https://cdn.shopify.com/s/files/1/0166/0254/files/LEWhimsHarvest-BerryPickingEarwarmer-Casale-COVER.jpg?v=1603227297" style="max-width:80px;height:auto;border:1px solid;"/> <span style="font-size:18px;"> <strong>DOWNLOAD</strong></span> Berry Picking Earwarmer </a> </p>'),
+            Shopify.Checkout.OrderStatus.addContentBox('<p> <a target="_blank" href="https://cdn.shopify.com/s/files/1/0166/0254/files/LEWhimsHarvest-MiniSweaters-Eaves-FULL.pdf?v=1603388569"><img src="https://cdn.shopify.com/s/files/1/0166/0254/files/LEWhimsHarvest-MiniSweaters-Eaves-COVER4.jpg?v=1603309756" style="max-width:80px;height:auto;border:1px solid;"/> <span style="font-size:18px;"> <strong>DOWNLOAD</strong></span> Mini Sweaters </a> </p>'),
+            Shopify.Checkout.OrderStatus.addContentBox('<p> <a target="_blank" href="https://cdn.shopify.com/s/files/1/0166/0254/files/LEWhimsHarvest-Beanie-Avery-FULL.pdf?v=1603389814"><img src="https://cdn.shopify.com/s/files/1/0166/0254/files/LEWhimsHarvest-Beanie-Avery-COVER.jpg?v=1603227032" style="max-width:80px;height:auto;border:1px solid;"/> <span style="font-size:18px;"> <strong>DOWNLOAD</strong></span> Harvest Beanie </a> </p>');
+      {% endif %}
+      <!-- end HARVEST_PATTERNS section-->
+      
+      <!-- begin PARADISE_PATTERNS section-->
+      {% if item.product_id == 4520891842627 %}
+          Shopify.Checkout.OrderStatus.addContentBox('<p> <a target="_blank" href="https://cdn.shopify.com/s/files/1/0166/0254/files/LEWhimsSummer-FireflyRuana-Casale-FULL.pdf?v=1596481625"><img src="https://cdn.shopify.com/s/files/1/0166/0254/files/LEWhimsSummer-FireflyRuana-Casale-COVER.jpg?v=1596054535" style="max-width:80px;height:auto;border:1px solid;"/> <span style="font-size:18px;"> <strong>DOWNLOAD</strong></span> The Firefly Ruana </a> </p>'),
+          Shopify.Checkout.OrderStatus.addContentBox('<p> <a target="_blank" href="https://cdn.shopify.com/s/files/1/0166/0254/files/LEWhimsSummer-SassyKnitTop-Avery-FULL.pdf?v=1596481625"><img src="https://cdn.shopify.com/s/files/1/0166/0254/files/LEWhimsSummer-SassyKnitTop-Avery-COVER3.jpg?v=1596478463" style="max-width:80px;height:auto;border:1px solid;"/> <span style="font-size:18px;"> <strong>DOWNLOAD</strong></span> Sassy Summer Top </a> </p>');
+      {% endif %}
+      <!-- end PARADISE_PATTERNS section-->
+      
+      <!-- jumbo downloads-->
+      {% if item.product_id == 301583138843 or item.product_id == 9310696849 %}
+        Shopify.Checkout.OrderStatus.addContentBox(
+          '<p> <a target="_blank" href="https://cdn.shopify.com/s/files/1/0166/0254/files/MazieCowl.final.pdf?16502693914836726476"><img src="https://cdn.shopify.com/s/files/1/0166/0254/files/if_1-02_511559.png?16208689489671073101" style="max-width:64px;height:auto;"/> Mazie Cowl by Jessica Carey - free jumbo crochet pattern PDF</a> </p>'
+        );
+      {% endif %}
+      <!-- end jumbo downloads-->
+    
+      <!-- cascadia yarn downloads-->
+      {% if item.product_id == 2150112624707  %}
+        cascadiaQty += 1;
+        if (cascadiaQty >= 4) {
+          Shopify.Checkout.OrderStatus.addContentBox(
+            '<h3> <a target="_blank" href="https://cdn.shopify.com/s/files/1/0166/0254/files/CASCADIA-Furls-Whims-ebook-June19.2.pdf?5198"><img src="https://cdn.shopify.com/s/files/1/0166/0254/files/if_1-02_511559.png?16208689489671073101" style="max-width:64px;height:auto;"/> Cascadia yarn pattern eBook</a> </h3>'
+          )
+        }
+      {% endif %}
+      <!-- cascadia yarn downloads-->
+        
+      <!-- spa pattern downloads-->
+      {% if item.product_id == 6562692300867  %}
+        Shopify.Checkout.OrderStatus.addContentBox('<p> <a target="_blank" href="https://cdn.shopify.com/s/files/1/0166/0254/files/FurlsCrochet-2021-Total_Relaxation_Spa_Set-_Bucholz-FULL.pdf?v=1620607846"><img src="https://cdn.shopify.com/s/files/1/0166/0254/files/received_223510965776174.jpg?v=1620607365" style="max-width:80px;height:auto;border:1px solid;"/> <span style="font-size:18px;"> <strong>DOWNLOAD</strong></span> Total Relaxation Spa Set </a> </p>');
+      {% endif %}
+      <!-- spa pattern downloads-->
+
+      <!-- whims knit kit boho pattern downloads-->
+      {% if item.product_id == 6566059933763  %}
+        Shopify.Checkout.OrderStatus.addContentBox('<p> <a target="_blank" href="https://cdn.shopify.com/s/files/1/0166/0254/files/FurlsCrochet-2021-BohoKnitTasselBunting-Avery-FULL_v2.pdf?v=1621538447"><img src="https://cdn.shopify.com/s/files/1/0166/0254/files/FurlsCrochet-2021-BohoKnitTasselBunting-Avery-COVER_v2.jpg?v=1621538447" style="max-width:80px;height:auto;border:1px solid;"/> <span style="font-size:18px;"> <strong>DOWNLOAD</strong></span> Boho Knit Tassle Bunting </a> </p>');
+      {% endif %}
+      <!-- whims knit kit boho pattern downloads-->
+        
+      <!-- pride pattern downloads-->
+      {% if item.product_id == 6536931901507  %}
+        Shopify.Checkout.OrderStatus.addContentBox('<p> <a target="_blank" href="https://cdn.shopify.com/s/files/1/0166/0254/files/FurlsCrochet-2021-Pride_Prismatic_Shawl-Eppolite-FULL.pdf?v=1625057697"><img src="https://cdn.shopify.com/s/files/1/0166/0254/files/furlscrochet-2021-pride-prismatic-shawl-eppolite-f.jpg?v=1625057697" style="max-width:80px;height:auto;border:1px solid;"/> <span style="font-size:18px;"> <strong>DOWNLOAD</strong></span> Pride Prismastic Shawl </a> </p>');
+      {% endif %}
+      <!-- pride pattern downloads-->
+
+      {% if item.title contains "Round Up" %}
+        Shopify.Checkout.OrderStatus.addContentBox('<p style="font-size:18px;text-align:center;"> <img style="width: 20%;" src="https://cdn.shopify.com/s/files/1/0166/0254/files/donation-dollars-quarantine-kit-USP.jpg?v=1586808560"><br><strong>Thank you for your donation!</strong><br><a target="_blank" href="/pages/charities">Click here for more information on our chosen charity and total donations</a></p>');
+      {% endif %}
+    {% endfor %}
+
+    {% if wanderCount >= 5 %}
+      Shopify.Checkout.OrderStatus.addContentBox('<p> <a target="_blank" href="https://cdn.shopify.com/s/files/1/0166/0254/files/ThoseWhoWanderCowl-Eppolite-FULL.pdf?v=1617048284"><img src="https://cdn.shopify.com/s/files/1/0166/0254/files/FurlsCrochet-2021-ThoseWhoWander-Eppolite-COVER.jpg?v=1617048283" style="max-width:80px;height:auto;border:1px solid;"/> <span style="font-size:18px;"> <strong>DOWNLOAD</strong></span> Those Who Wander Cowl </a> </p>');
+    {% endif %}
+    
+  }
+  
+  if(firstAccess) {
+    <!-- tiktok conversion -->
+    !function (w, d, t) {
+      w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie"],ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e},ttq.load=function(e,n){var i="https://analytics.tiktok.com/i18n/pixel/events.js";ttq._i=ttq._i||{},ttq._i[e]=[],ttq._i[e]._u=i,ttq._t=ttq._t||{},ttq._t[e]=+new Date,ttq._o=ttq._o||{},ttq._o[e]=n||{};var o=document.createElement("script");o.type="text/javascript",o.async=!0,o.src=i+"?sdkid="+e+"&lib="+t;var a=document.getElementsByTagName("script")[0];a.parentNode.insertBefore(o,a)};
+      ttq.load('BVL3GJ1VB1UDSPFBF3PG');
+      ttq.page();
+    }(window, document, 'ttq');
+    <!-- tiktok conversion -->
+  }
+});
+</script>

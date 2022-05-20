@@ -1,0 +1,46 @@
+body .wc_review_main_content div,
+body .wc_review_main_content p,
+body .wc_review_main_content h1,
+body .wc_review_main_content h2,
+body .wc_review_main_content h3,
+body .wc_review_main_content h4,
+body .wc_review_main_content h5,
+body .wc_review_main_content h6,
+body .wc_review_main_content li,
+body .wc_review_main_content input,
+body .wc_review_main_content select,
+body .wc_review_btn {
+  font-family: 'Montserrat', sans-serif !important;
+}
+body .wc_product_review_badge .wc_review_badge_inner {
+  text-align: center;
+  margin-bottom: 1%;
+}
+body #wc_review_section {
+  font-family: 'Montserrat', sans-serif;
+}
+body #wc_review_section .wc_review_top_title h2 {
+  border: none;
+  width: 100%;
+  margin-top: -1%;
+}
+body #wc_review_section ul {
+  border: none;
+  width: auto;
+}
+body #wc_review_section .wc_review_form_btns a,
+body #wc_review_section .wc_review_form_btns select {
+  font-size: 120% !important;
+}
+body #wc_review_section .wc_empty_review_text p {
+  text-align: center;
+}
+body .productReviewBadge {
+  display: flex;
+  justify-content: flex-end;
+}
+body .productReviewBadge .wc_product_review_badge {
+  width: 225px!important;
+  margin-bottom: -3%;
+  margin-right: 8%;
+}

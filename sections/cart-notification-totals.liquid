@@ -1,0 +1,31 @@
+<span class="visually-hidden">{{ 'templates.cart.cart' | t }}</span>
+{%- if cart != empty -%}
+ <div class="cart-notification-totals">
+        <span class="original_total_price" data-originalTotalPrice='{{cart.original_total_price}}'>
+          {{cart.original_total_price | money_with_currency}}
+        </span> 
+   		<span class="total_discount_wrapper">
+	   		<strong> - <span class="total_discount"></span></strong>
+	   </span>
+        <br/>
+   		<span class="total_price_wrapper">
+	        total: <span class="total_price"></span>
+	   </span>
+        <br/>
+        <span class="distance_message"></span>
+  </div>
+{%- endif -%}
+
+<style type="text/css">
+  .total_discount_wrapper, .total_price_wrapper{
+    display:none;
+  }
+  .total_discount {
+    font-size:1.3rem;
+  }
+  .distance_message{
+    font-size: 1.3rem;
+    display:block;
+    margin-top:10px;
+  }
+</style>

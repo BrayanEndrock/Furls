@@ -1,0 +1,249 @@
+<script type="text/javascript">
+
+  var queue = [];
+  var data = [];
+  var needleData = [];
+  var prevOption1;
+  var el = [];
+  
+  {% for color in all_products['crochet-yarn-superwash-merino-nylon'].variants %}
+    data.push({{ color | json }});
+  {% endfor %}
+    
+  $.each(data, function(index, color) {
+    var variant = color,
+        sku = color.sku.split("-")[3],
+        weight = color.sku.split("-")[2].split("1")[1],
+        formToggle = $("div."+weight+"-form-toggle"),
+        productPricing = formToggle.find(".product-form-price"),
+        img = variant.featured_image,
+        handle = "{{product.handle}}";
+
+    if (img && weight == 'DK' && variant.inventory_quantity > 0) {
+      //set skein type
+      if (sku == "BLUE" || sku == "RED" || sku == "WHIT") {
+        //DK yardage
+        var skeinType = "hank"
+      } else {
+        //Worsted yardage
+        var skeinType = "bullet skein"
+      };
+
+      el.push("<div class='variant-toggle' data-color='"+sku+"' data-variantid='"+variant.id+"' data-soldout='false' data-chosen='false'>");
+
+      el.push("<span class='whims-variant'>");
+      el.push("<span class='whims-variant-title'>");
+      el.push(variant.title.split("-")[0]);
+      el.push("</span> <span style='display:none;' class='price'>");
+      el.push(variant.price/100)
+      el.push("</span>");
+      el.push("<span class='cart-amount'>0</span>");
+      el.push("<span class='"+sku+"-qty-left' style='display:none;'>"+variant.inventory_quantity+"</span></span></span>");
+      el.push("<span class='variant-input-wrapper'><i class='fa fa-fw fa-times-circle whims-remove'></i><input class=\"product-size-variant whims-hook-variant variant-");
+      el.push(variant.id);
+      el.push("\" data-variantid=\"");
+      el.push(variant.id);
+      el.push("\" type=\"number\" value=\"0\" min=\"0\" step=\"1\" data-color='"+sku+"' data-weight='"+weight+"' /></span>"); 
+      el.push("</div>");
+      $(el.join("")).appendTo($("."+weight+"-tbody"));
+      el = [];
+    };
+  });
+
+  {% for needle in all_products['knitting-needles'].variants %}
+    needleData.push({{ needle | json }});
+  {% endfor %}
+    
+  $.each(needleData, function(index, needle) {
+    var variant = needle,
+        sku = variant.sku,
+        color = sku.split("-")[2]
+        size = sku.split("-")[3]
+        img = variant.featured_image,
+        handle = "{{product.handle}}",
+        title = variant.option2;
+
+    if (img && size == '0550' && variant.inventory_quantity > 0) {
+
+      el.push("<div class='variant-toggle' data-color='"+color+"' data-variantid='"+variant.id+"' data-soldout='false' data-chosen='false'>");
+      el.push("<span class='needles-variant'>");
+      el.push("<span class='needles-variant-title'>");
+      el.push(title);
+      el.push("</span> <span style='display:none;' class='price'>");
+      el.push(variant.price/100)
+      el.push("</span>");
+      el.push("<span class='cart-amount'>0</span>");
+      el.push("<span class='"+sku+"-qty-left' style='display:none;'>"+variant.inventory_quantity+"</span></span></span>");
+      el.push("<span class='variant-input-wrapper'><i class='fa fa-fw fa-times-circle needle-remove'></i><input class=\"product-size-variant needles-hook-variant variant-");
+      el.push(variant.id);
+      el.push("\" data-variantid=\"");
+      el.push(variant.id);
+      el.push("\" type=\"number\" value=\"0\" min=\"0\" step=\"1\" data-color='"+sku+"' /></span>"); 
+      el.push("</div>");
+      $(el.join("")).appendTo($(".NEEDLE-tbody"));
+      el = [];
+    };
+  });
+
+  $(function(){
+    $("body").on("click", ".discount-image, #cta1, #cta2", function(){
+      $('html, body').animate({scrollTop: ($("#nav").offset().top)}, 500);
+    });
+    
+    $('#whims-checkout-table .variant-toggle').on('click', function() {
+      $('#whims-checkout-table [class*=tbody] .variant-toggle input').each(function() { 
+        $(this).val(0);
+        $(this).attr('value', '0');
+      });
+
+      $('#whims-checkout-table [class*=tbody] .variant-toggle').each(function() { 
+        $('#whims-checkout-table .variant-toggle[data-color=' + $(this).attr('data-color') + ']').attr('data-chosen', 'false');
+      });
+
+      if($(this).find('input').val() == 1) {
+        $(this).val(0);
+        $(this).attr('value', '0');        
+      } else {
+        $(this).find('input').val(1);
+        $(this).find('input').attr('value', '1');
+        $('#whims-checkout-table .variant-toggle[data-color=' + $(this).attr('data-color') + ']').attr('data-chosen', 'chosen');
+        $('.wanderImages img[data-color=' + $(this).attr("data-color") + ']').show();
+      }
+
+      // change image based on chosen option
+      $('.whimsImages img').hide();
+      $('.needlesImages img').hide();
+      $('.productImageCarousel, .productImageCarouselThumbnails').hide();
+      $('.whimsImages img[data-color=' + $(this).attr("data-color") + ']').show();
+    });
+
+    $('#needles-checkout-table .variant-toggle').on('click', function() {
+      $('#needles-checkout-table [class*=tbody] .variant-toggle input').each(function() { 
+        $(this).val(0);
+        $(this).attr('value', '0');
+      });
+
+      $('#needles-checkout-table [class*=tbody] .variant-toggle').each(function() { 
+        $('#needles-checkout-table .variant-toggle[data-color=' + $(this).attr('data-color') + ']').attr('data-chosen', 'false');
+      });
+
+      if($(this).find('input').val() == 1) {
+        $(this).val(0);
+        $(this).attr('value', '0');        
+      } else {
+        $(this).find('input').val(1);
+        $(this).find('input').attr('value', '1');
+        $('#needles-checkout-table .variant-toggle[data-color=' + $(this).attr('data-color') + ']').attr('data-chosen', 'chosen');
+      }
+
+      // change image based on chosen option
+      $('.needlesImages img').hide();
+      $('.whimsImages img').hide();
+      $('.productImageCarousel, .productImageCarouselThumbnails').hide();
+      $('.needlesImages img[data-color=' + $(this).attr("data-color") + ']').show();
+
+      let needlePrice = parseFloat($(this).find('.price').text()).toFixed(2),
+          yarnPrice = 10,
+          priceTotal = (parseFloat(needlePrice) + parseFloat(yarnPrice)).toFixed(2);
+
+      $('.totalPrice').text('$' + priceTotal);
+    });
+  });
+  
+  var cartIds = [],
+      productIds = [],
+      queue = [],
+      cartItems = {{cart | json}}["items"],
+      toteQuantity = 0;
+  
+  $.each(cartItems, function(index,item){
+    cartIds.push(item["id"]);
+    productIds.push(item["product_id"]);
+
+    if(cartItems["variant_id"] == "39406219034691") {
+      toteQuantity += parseFloat(item["quantity"]);
+    }
+  });
+    
+  function submitForm() {
+    //add items
+    if(queue.length) {
+      var item = queue.shift();
+      if (cartIds.includes(item.variant)){
+        Shopify.changeItem(item.variant, item.quantity, submitForm);
+      } else {
+        Shopify.addItem(item.variant, item.quantity, submitForm);
+      }
+    } else {
+      //send direct to checkout
+      //add discount to cart 
+      window.location = "/checkout";
+    };
+  }
+  
+  $("form#checkout-table").on("submit", function(e) {
+    var whimsCount = 0,
+        needlesCount = 0;
+
+    e.preventDefault();
+    $(".purchase .sp-mini").show();
+
+    $("#whims-checkout-table .product-size-variant").each(function(index, element) {
+      var val = parseInt($(this).val());
+
+      if(val <= 0) { 
+        return; 
+      } else {
+        whimsCount += 1;
+      }
+    });
+
+    $("#needles-checkout-table .product-size-variant").each(function(index, element) {
+      var val = parseInt($(this).val());
+
+      if(val <= 0) { 
+        return; 
+      } else {
+        needlesCount += 1;
+      }
+    });
+
+    if(whimsCount < 1) {
+      alert('Must have one yarn color chosen');
+    } else if(needlesCount < 1) {
+      alert('Must have one needle type chosen');
+    } else {
+      $(".product-size-variant").each(function(index, element) {
+        var $el = $(element),
+            val = parseInt($el.val(), 10);
+
+        if(val <= 0) { return; }
+        queue.push({
+          variant: $el.attr("data-variantid"),
+          quantity: val
+        });
+      });
+
+      if(toteQuantity < 3) {
+        // add free item
+        $.ajax({
+          type: 'POST',
+          async: false,
+          url: '/cart/add.js',
+          data: {quantity: 1,
+                 id: "39406219034691",
+                 properties: {
+                  'Tote': (toteQuantity + 1)
+                 }},
+          dataType: 'json',
+          success: function(response) { 
+            // do nothing
+          }
+        });
+      }
+      
+      submitForm();
+    }
+  });
+
+</script>

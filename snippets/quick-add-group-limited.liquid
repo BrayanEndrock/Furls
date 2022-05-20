@@ -1,0 +1,105 @@
+<script type="text/javascript">
+  var queue = [];
+  var data = [];
+  var prevOption1;
+  var el = [];
+
+
+  //Add all variants to array
+  {% for product in collections.le-alpha-sale.products %}
+    data.push([{{product | json }},{{ product.variants | json }} ]);
+  {% endfor %}
+
+  // Iterate through variants
+  $.each(data, function(index, data_set) {
+    var handle = data_set[0],
+        variants = data_set[1];
+    $.each(variants, function(index, variant) {
+        var variant = variant,
+            variant_id = variant.id,
+            variant_title = variant.title,
+            selector_formatted = variant_title.split("-")[0],
+            title_formatted = handle.title.replace("Limited Edition","").replace("Alpha Series","").replace("Crochet Hooks","").replace("Crochet Hook","").replace("Spring 2020","").replace("Special Edition",""),
+            product_id = variant.product_id,
+            product_handle = handle.handle,
+            selector = handle.handle,
+            size = variant.title.replace("Peppermint -",""),
+            tbody = $("."+selector+"-tbody"),
+            variantPrice = 0;
+      if(selector == "special-edition-black-and-white-ebony-crochet-hook" ){
+          size = size.split("/")[0];
+      };
+
+
+      if (variant.inventory_quantity > 0) {
+
+        if(selector.includes("limited-edition-burl-alpha-series")){
+          $.each(variants, function(index, variant) {
+              var variant = variant,
+                  variant_id = variant.id,
+                  product_title = handle.title,
+                  variant_title = variant.title,
+                  variant_color = variant_title.split("(")[0],
+                  variant_size = variant_title.split("(")[1].replace(")",""),
+                  product_id = variant.product_id,
+                  selector = variant.sku.split("-")[2],
+                  available = 0,
+                  title_formatted = variant.name.replace("Limited Edition","").replace("Alpha Series","").replace("Crochet Hooks","").replace("Spring 2020",""),
+                  titleType = title_formatted.split("-")[0] + " - " + title_formatted.split("-")[1].split("(")[0],
+                  titleTypeFormatted = titleType.replace("-","").replace("+","").replace(/\s+/g, '');
+                  tbody = $("."+titleTypeFormatted+"-tbody"),
+                  variantPrice = 0;
+
+              if (variant.inventory_quantity > 0){
+                //build tbody
+                if (tbody.length == 0) {
+                  $("<div class='"+titleTypeFormatted+"-tbody'><div class='selector_wrapper'><div class='selector_variant'></div></div></div>").appendTo($("div[data-groupDisplay='LMED']"));
+                  tbody = $("div[data-groupDisplay='LMED']").find("."+titleTypeFormatted+"-tbody");
+                };
+
+                //Add variants to table
+                //add title
+                if (tbody.find("img").length == 0){
+                  $("<p><strong>" + title_formatted.replace("Pink + White","Rhodonite").replace("Blue + Green","Aventurine").replace("   "," ").replace("  "," ").split("(")[0] + "</strong> - <span class='local-symbol'>$</span>"+(variant.price/100).toFixed(2)+"/each</p>").prependTo($("."+titleTypeFormatted+"-tbody .selector_wrapper"));
+                  $("<img src='"+variant.featured_image.src+"'/>").prependTo($("."+titleTypeFormatted+"-tbody .selector_wrapper"));
+                };
+                //add variant details
+                if (variant.inventory_quantity > 0){
+                  if($("[data-vid='"+variant_id+"']").length == 0){
+                    el.push("<div class='btn' data-color='"+selector+"' data-productHandle='"+product_handle+"' data-vid='"+variant_id+"'><span class='btn-notice'>In Stock</span>"+variant_size+"</div>");
+                  } 
+                } else {
+                  el.push("<div class='btn soldout' data-color='"+selector+"' data-productHandle='"+product_handle+"' data-vid='"+variant_id+"'><span class='btn-notice'>Sold Out</span>"+variant_size+"</div>");
+                };
+
+                $(el.join("")).appendTo($("."+titleTypeFormatted+"-tbody .selector_variant"));
+                el = [];
+                //hide spinner
+                $("div[data-groupDisplay='LMED']").find(".sp-mini").hide();
+              }
+          });
+        } else {
+          if($("." + selector + "-tbody").length == 0) {
+             $("<div class='"+selector+"-tbody'><div class='selector_wrapper'><div class='selector_variant'></div></div></div>").appendTo($("div[data-groupDisplay='LMED']"));
+          }
+          //Add variants to table
+          //add title
+          if (tbody.find("img").length == 0){
+            variantPrice = Shopify.formatMoney(variant.price);
+            variantPrice = variantPrice.replace('$','');
+            $("<p><strong>"+title_formatted+"</strong> - <span class='product-form-price no-dash' data-product-handle='"+product_handle+"' data-variantindex='"+data.indexOf(variant)+"' data-variantid='"+variant.id+"'><span class='local-symbol'>$</span>" + variantPrice + "/each</span></p>").prependTo($("."+selector+"-tbody .selector_wrapper"));
+            $("<img src='"+handle.featured_image+"'/>").prependTo($("."+selector+"-tbody .selector_wrapper"));
+          };
+          //add variant details
+          el.push("<div class='btn' data-color='"+selector+"' data-counted='false' data-productHandle='"+product_handle+"' data-vid='"+variant_id+"'><span class='btn-notice'>In Stock</span>"+size+"</div>");
+
+          $(el.join("")).appendTo($("."+selector+"-tbody .selector_variant"));
+          el = [];
+        }
+        //hide spinner
+        $("div[data-groupDisplay='LMED']").find(".sp-mini").hide();
+      }
+    });
+ });
+</script>
+

@@ -1,0 +1,22 @@
+<p class="blog-index-navigation">
+  <a id="crochet-tutorials-link" href="/blogs/crochet-tutorials" title="Crochet Patterns">Crochet Patterns</a> | 
+  <a id="amigurumi-crochet-tutorials-link" href="/blogs/amigurumi-crochet-tutorials" title="Amigurumi Patterns">Amigurumi Patterns</a> | 
+  <a id="knitting-patterns-link" href="/blogs/knitting-patterns-and-kals" title="Knitting Patterns">Knitting Patterns</a> |
+  <a id="maker-stories-link" href="/blogs/crochet-maker-stories" title="Maker Stories">Maker Stories </a>
+</p>
+
+<script type="text/javascript">
+  $(function(){
+    //Change link color on change of window
+    var pathname = window.location.pathname;
+    if (pathname.includes("amigurumi")){
+      $("#amigurumi-crochet-tutorials-link").addClass("current-blog-link");
+    } else if (pathname.includes("maker")) {
+      $("#maker-stories-link").addClass("current-blog-link");
+   }  else if (pathname.includes("knitting")) {
+      $("#knitting-patterns-link").addClass("current-blog-link");
+   }else{ 
+      $("#crochet-tutorials-link").addClass("current-blog-link");
+    };
+  });
+</script>

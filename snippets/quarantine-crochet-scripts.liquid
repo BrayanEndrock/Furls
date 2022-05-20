@@ -1,0 +1,402 @@
+<script type="text/javascript">
+  // clear cart first
+  // yarn, on click image changes?
+  // excludes taxes note
+  // comes with free patterns, email && thank_you page
+  
+  //set rotator
+  var rotatorId,
+      waiting = false,
+      colors = [],
+      pageItems = 0,
+      hooks= [],
+      skeins = [],
+      skein = [],
+      shuffledHookVariants = [],
+      shuffledSkeins = [];
+
+  //get colors from form-toggle divs
+  $.each($("[class$='-form-toggle']"),function(i,e){colors.push($(e).attr("class").split("-")[0]);});
+  
+  //Function for highlighting cart products
+  $.getJSON("/cart.js", function(cart) {
+    var cartSize = cart["items"].length,
+        count = 0;
+    $.each(cart["items"], function(index,item){
+      var div = $(".variant-toggle[data-variantid='"+item["id"]+"']");
+      if (div.length) {
+        pageItems += 1;
+        div.addClass("selected");
+        div.find("input").val(1);
+        var color = div.closest("div[class$='-tbody']").attr("class").split("-")[0];
+        $("div."+color+"-form-toggle").attr("data-chosen", "chosen");
+        $("div."+color+"-tbody").show();
+       };
+    });
+  });
+
+  //details-container toggle with details-close
+  $("body").on("click",".details-close",function(){
+    $(this).closest(".details-wrapper").find(".details-container").slideToggle();
+  });
+  
+  $(function(){
+    
+    $('#cta1, #cta2').on('click', function() {
+      $('html, body').animate({scrollTop: 0}, 500);
+    });
+  
+    //Function for redirect to form on discount image click
+    $("body").on("click", ".scroll_top", function(){
+      $('html, body').animate({scrollTop: ($("h1").offset().top - 100)}, 500);
+    });
+  
+    //Function for donation link
+    $("body").on("click", ".donation_link", function(){
+      $('html, body').animate({scrollTop: ($(".donation_anchor").offset().top - 100)}, 500);
+    });
+
+    $('#one-click').on("click", function () {
+       if($(this).val() == 'BUY RANDOMIZED KIT') {
+         ga('send', 'event', "Furls Night In Kit", 'Click', 'Randomized Kit');
+       }
+    });
+
+    //Function for customizing cart
+    $("body").on("click", "#customize-cart", function(){
+      ga('send', 'event', "Furls Night In Kit", 'Click', 'Customized Kit');
+      $(this).hide();
+      $('#includes-hook-note').hide();
+      $("#one-click").val("Add To Cart");
+      $("h1 span").hide();
+    });
+  
+    //Function for closing cart
+    $("body").on("click", ".close-cart", function(){
+      $(".details-container").slideUp();
+      $("#customize-cart").show();
+      $('#includes-hook-note').show();
+      $("h1 span").show();
+    });
+  
+    //Function for variant selector
+    $("body").on("click", "div.variant-toggle", function(event, target){
+      if ($(this).data("soldout") != true) {
+           //remove selected from others, add selected to this
+        $(this).closest("div[class$='-container']").find("div.variant-toggle").removeClass("selected");
+        $(this).addClass("selected");
+           //remove values from other, add value to this
+        $(this).closest("div[class$='-container']").find("input.product-size-variant").val(0);
+        $(this).find("input.product-size-variant").val(1);
+           countProducts();
+
+       //change text
+       if ($(this).attr("data-hook") ) {
+         $("span.hook-size").text($(this).text().split("(")[0]);
+         var color = $(this).closest("div[class$='-container']").find("div[class$='form-toggle'][data-chosen='chosen']").text();
+         $("span.hook-color").html("<span data-color='"+color.toLowerCase().replace(" ","")+"'>"+color+"</span>");
+       } else {
+         var color = $(this).text();
+         var weight = $(this).closest("div[class$='-container']").find("div[class$='form-toggle'][data-chosen='chosen']").text();
+         $("span.yarn-color").html("<span data-color='"+color.toLowerCase().replace(" ","")+"'>"+color+"</span>");
+         $("span.yarn-weight").html(weight.replace("Weight",""));
+         $(this).closest(".skein-variant-wrapper").find("img").hide();
+         $(this).find("img").show();
+
+         // change image based on chosen option
+         $('.whimsImages img, .productImageCarousel, .productImageCarouselThumbnails').hide();
+         $('#title-rotation').hide();
+         $('img[class*=-image]').hide();
+         $('.whimsImages img[data-color=' + $(this).attr("data-color") + ']').show();
+       };
+     };
+          
+    });
+
+    //Function for showing first available group
+    if($("div.variant-toggle[data-soldout='false']").length == 0) {
+      //if variants available, default to first color in set
+      var firstColor = colors[0];
+    } else {
+      var firstColor = $("div.variant-toggle[data-soldout='false']").eq(0).closest("[class$='-tbody']").attr("class").split("-")[0];
+    }
+
+    //Function for changing the table
+    $("body").on("click touchend","div[class$='form-toggle']", function(){
+      //1.GET COLOR
+      var color = $(this).attr("class").split("-")[0];
+      //2. SHOW THIS TBODY AND HIDE OTHERS
+      $("div."+color+"-tbody").show();
+      $(this).closest("div[class$='-checkout']").find("div[class$='-tbody']:not(."+color+"-tbody)").hide();
+      //3. ADD CHOSEN TO THIS TBODY AND REMOVE IT REMOVE OTHERS
+      $(this).closest("div[class$='-checkout']").find("div[class$='form-toggle'][data-chosen='chosen']").attr("data-chosen", false);
+      $(this).attr("data-chosen", "chosen");
+
+      //4. SHOW PRODUCT IMAGE AND HIDE OTHERS
+      if (!$(this).attr("data-weight")) {
+          $("img[class$='image'], .productImageCarousel, .productImageCarouselThumbnails").hide();
+          $("img."+color+"-image").show();
+          $('.whimsImages img').hide();
+          $("#title-rotation").hide();
+      };
+    });
+    
+    //function for hiding
+    $("body").on("click",".close-alert", function() {
+      $(this).closest("#scroll-banner").hide();
+      optOut = true;
+    });
+
+    //get hook data
+    //swirls
+    {% for product in collections.streamline-swirls.products %}
+      hooks.push({{product | json}});
+    {% endfor %}
+    //wood
+    // {% for product in collections.all-wooden-streamlines.products %}
+    //   hooks.push({{product | json}});
+    // {% endfor %}
+
+    //get yarn data
+    {% for variant in all_products["crochet-yarn-superwash-merino-nylon"].variants %}
+      skeins.push({{variant | json}});
+    {% endfor %}
+
+    shuffledSkeins = skeins.sort(function(){return .5 - Math.random()});
+
+    //add hooks to tbody
+    setTimeout(function () { 
+      $.each(hooks, function(i,hook){
+        var variants = hook["variants"];
+
+        shuffledHookVariants = variants.sort(function(){return .5 - Math.random()});
+        $.each(shuffledHookVariants, function(i, variant) {
+          var variant = variant,
+              skuColor = variant.sku.split('-')[2],
+              skuSize = variant.sku.split('-')[3],
+              titleColor = variant.title.split("-")[0],
+              titleSize = variant.title.split("-")[1],
+              formToggle = $("."+skuColor+"-form-toggle"),
+              tbody = $("."+skuColor+"-tbody"),
+              variantToggle = [];
+
+          //skip
+          if (pageItems == 0 && $('#includes-hook-note').length == 0 && variant.inventory_quantity > 0) {
+            $("." + skuColor + "-form-toggle").attr("data-chosen", "chosen");
+            $("." + skuColor + "-tbody").show();
+            $(".variant-toggle[data-variantid='" + variant.id + "']").addClass("selected");
+            $(".variant-toggle[data-variantid='" + variant.id + "']").find("input").val(1);
+
+            let includesHook = document.createElement('div');
+            includesHook.setAttribute('id', 'includes-hook-note');
+            includesHook.setAttribute('class', 'variant-details');
+            $(includesHook).html("<span>** Includes <strong><span data-color='" + skuColor + "'>" + variant.title + "</span> Streamline Swirl</strong> Crochet Hook</span>");
+            $(includesHook).insertBefore('#customize-cart');
+
+            $(".oneClickHook").html("<strong><span data-color='" + skuColor + "'>" + variant.title + "</span></strong> Streamline Swirl");
+          }
+        });
+      });
+
+      $.each(shuffledSkeins, function(i,v){
+        var variant = v,
+            color = variant.sku.split("-")[3],
+            weight = variant.sku.split("-")[2],
+            formToggle = $("."+weight+"-form-toggle"),
+            tbody = $("."+weight+"-tbody"),
+            formatWeight = variant.title.split("-")[1],
+            formatTitle = variant.title.split("-")[0],
+            white = variant.title.includes("Undyed") || variant.title.includes("White"),
+            red = variant.title.includes("Red"),
+            blue = variant.title.includes("Blue"),
+            grey = variant.title.includes("Light Grey"),
+            img = variant.featured_image;
+            
+        if (pageItems == 0 && img && $('#includes-skein-note').length == 0 && variant.inventory_quantity > 0) {
+          $("." + weight + "-form-toggle").attr("data-chosen", "chosen");
+          $("." + weight + "-tbody").show();
+          $(".variant-toggle[data-variantid='" + variant.id + "']").addClass("selected");
+          $(".variant-toggle[data-variantid='" + variant.id + "']").find("input").val(1);
+          
+          let includesSkein = document.createElement('span');
+          includesSkein.setAttribute('id', 'includes-skein-note');
+          includesSkein.setAttribute('class', 'variant-details');
+          $(includesSkein).html("and <strong><span data-color='" + color + "'>" + variant.title + "</span></strong> Yarn **");
+          $('#includes-hook-note').append(includesSkein);
+
+          $(".oneClickYarn").html("<strong><span data-color='" + color + "'>" + variant.title + "</span></strong> Yarn");
+        };
+      });
+    }, 750);
+    
+    //add hooks to tbody
+    $.each(hooks, function(i,hook){
+      var variants = hook["variants"]
+      $.each(variants, function(i, variant) {
+        var variant = variant,
+            skuColor = variant.sku.split('-')[2],
+            skuSize = variant.sku.split('-')[3],
+            titleColor = variant.title.split(" / ")[1],
+            titleSize = variant.title.split(" / ")[0],
+            formToggle = $("."+skuColor+"-form-toggle"),
+            tbody = $("."+skuColor+"-tbody"),
+            variantToggle = [];
+
+        //skip
+        if (variant.inventory_quantity > 0) {
+          //add formToggle
+          if (formToggle.length == 0){
+            formToggle = [];
+            formToggle.push("<div class='"+skuColor+"-form-toggle' data-color='"+skuColor+"'>");
+            formToggle.push(titleColor+"</div>");
+            $(formToggle.join("")).prependTo($(".hook-checkout"));
+          };
+          //add tbody
+          if (tbody.length == 0){
+            tbody = [];
+            tbody.push("<div class='"+skuColor+"-tbody'>")
+            tbody.push("<img class='title-swatch' src="+variant.featured_image.src+"/>");
+            tbody.push("<p class='variant-details'>2. Choose hook size ("+titleColor+" selected)</div>");
+            $(tbody.join("")).prependTo($(".hook-variants-wrapper"));
+          };
+
+          //add variant toggle
+          variantToggle.push("<div class='variant-toggle' data-soldout='false' data-hook='true' data-variantid='"+variant.id+"'>"+titleSize);
+          variantToggle.push("<input class='product-size-variant' data-variantid='"+variant.id+"'");
+          variantToggle.push("type='number' value='0' min='0' step='1' />");
+          variantToggle.push("</div>");
+          $(variantToggle.join("")).appendTo($("."+skuColor+"-tbody"));
+          variantToggle = [];
+
+        };
+
+      }); 
+    });
+
+    //add skeins to tbody
+    $.each(skeins, function(i,v){
+      var variant = v,
+          color = variant.sku.split("-")[3],
+          weight = variant.sku.split("-")[2],
+          formToggle = $("."+weight+"-form-toggle"),
+          tbody = $("."+weight+"-tbody"),
+          formatWeight = variant.title.split(" / ")[0],
+          formatTitle = variant.title.split(" / ")[1],
+          white = variant.title.includes("Undyed") || variant.title.includes("White"),
+          red = variant.title.includes("Red"),
+          blue = variant.title.includes("Blue"),
+          grey = variant.title.includes("Light Grey"),
+          img = variant.featured_image;
+          
+      if (img && variant.inventory_quantity > 0) {
+
+        //add formToggle
+        if (formToggle.length == 0){
+          formToggle = [];
+          formToggle.push("<div class='"+weight+"-form-toggle' data-weight='"+weight+"'>");
+          formToggle.push(formatWeight+" Weight</div>");
+          $(formToggle.join("")).prependTo($(".skein-checkout"));
+        };
+        //add tbody
+        if (tbody.length == 0){
+          tbody = [];
+          tbody.push("<div class='"+weight+"-tbody'>")
+          tbody.push("<img class='title-swatch' src="+img.src+"/>");
+          tbody.push("<p class='variant-details'>3. Choose yarn color ("+formatWeight+" selected)</div>");
+          $(tbody.join("")).appendTo($(".skein-variants-wrapper"));
+        };
+        skein.push("<div class='variant-toggle' data-color='"+color+"' data-variantid='"+variant.id+"'>"+formatTitle);
+        skein.push("<img class='title-swatch' src="+img.src+"/>");
+        skein.push("<input class='product-size-variant' data-variantid='"+variant.id+"'");
+        skein.push("type='number' value='0' min='0' step='1' /></div>");
+        skein.push(+"</div>");
+        $(skein.join("")).appendTo($("."+weight+"-tbody"));
+        skein = [];
+      };
+    });
+  });
+  
+  
+  //Function for counting products
+  var countProducts = function(){
+    $.each(colors, function(index, color) {
+      var sum = 0;
+      $.each($(".variants-table div."+color+"-tbody input"), function(index, e) { sum += parseInt($(this).val()); });
+        if (sum == 0) {
+          $("span."+color+"-count").hide();
+        } else {
+          $("span."+color+"-count").show();
+        }
+          $("span."+color+"-count").text(sum);
+    });
+  };
+  
+  
+  function nextImage() {
+    //grab the visible main image
+    var mainImage = $("#title-rotation");
+    mainImage.show();
+    $("img[class$='-image'").hide();
+    //grab the index of the currently shown thumbail
+    var currentThumb = $(".product_image_col").find(".two.columns[data-active='active']");
+    var allThumbs = $(".product_image_col").find(".two.columns");
+    var thumbIndex = allThumbs.index(currentThumb);
+    //grab the new image
+    var newIndex = (thumbIndex + 1) % (allThumbs.length);
+    var newImage = $(allThumbs[newIndex]).find("img").attr("src");
+    //change Image
+    mainImage.attr("src",newImage);
+    //set next image as active
+    $(".two.columns[data-active='active']").attr("data-active","false");
+    $(allThumbs[newIndex]).attr("data-active","active");
+  };
+  
+
+  var cartIds = [],
+      productIds = [],
+      queue = [];
+  
+  var cartItems = {{cart | json}}["items"];
+  
+    $.each(cartItems, function(index,item){
+      cartIds.push(item["id"]);
+      productIds.push(item["product_id"]);
+    });
+    
+    
+  function submitForm() {
+    //add items
+    if(queue.length) {
+      var item = queue.shift();
+      if (cartIds.includes(item.variant)){
+        Shopify.changeItem(item.variant, item.quantity, submitForm);
+      } else {
+        Shopify.addItem(item.variant, item.quantity, submitForm);
+      }
+    } else {
+      //send direct to checkout
+      //add discount to cart 
+      window.location = "/checkout";
+    };
+  }
+  
+  $("form#checkout-table").on("submit", function(e) {
+    e.preventDefault();
+    $(".purchase .sp-mini").show();
+          $(".product-size-variant").each(function(index, element) {
+            var $el = $(element);
+            var val = parseInt($el.val(), 10);
+
+            if(val <= 0) { return; }
+            queue.push({
+              variant: $el.attr("data-variantid"),
+              quantity: val
+            });
+          });
+
+    
+   submitForm();
+
+    
+  });
+</script>

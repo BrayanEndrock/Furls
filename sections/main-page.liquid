@@ -1,0 +1,120 @@
+<link rel="stylesheet" href="{{ 'section-main-page.css' | asset_url }}" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="{{ 'component-rte.css' | asset_url }}" media="print" onload="this.media='all'">
+
+<noscript>{{ 'section-main-page.css' | asset_url | stylesheet_tag }}</noscript>
+<noscript>{{ 'component-rte.css' | asset_url | stylesheet_tag }}</noscript>
+
+<script src="https://widget-prime.rafflecopter.com/launch.js"></script>
+
+{{ 'mainPage.js' | asset_url | script_tag }}
+
+<div class="page-width">
+      {% if page.title != "Wander Palette Packs" %}
+          <h1 class="main-page-title page-title h0">
+            {{ page.title | escape }}
+          </h1>
+      {% endif %}
+  <div class="rte">
+    {{ page.content }}
+    
+    {% if page.title == "FAQ's and Answers" %}
+      {% include "faqs" %}
+    {% endif %}
+
+    {% if page.title == "The Furls Team" %}
+      {% include "furls-team" %}
+    {% endif %}
+
+    {% if page.title == "Loyalty Points" %}
+      {% include "rewards" %}
+    {% endif %}
+
+    {% if page.title == "Account Downloads" %}
+      {% include "downloads" %}
+    {% endif %}
+
+    {% if page.title == "Yarn Bowl Quiz" %}
+      {% include "yarn-bowl-quiz" %}
+    {% endif %}
+
+    {% if page.title == "Furls Night In Kit" %}
+      {% include "furls-night-in-kit" %}
+    {% endif %}
+
+    {% if page.title == "Hook Sets" %}
+      {% include "hook-sets" %}
+    {% endif %}
+
+    {% if page.title == "Streamline Wood Hook Sets" %}
+      {% include "streamline-hook-sets" %}
+    {% endif %}
+
+    {% if page.title == "Streamline Swirl Hook Sets" %}
+      {% include "streamline-swirl-hook-sets" %}
+    {% endif %}
+
+    {% if page.title == "Odyssey Hook Sets" %}
+      {% include "odyssey-hook-sets" %}
+    {% endif %}
+
+    {% if page.title == "Alpha Hook Sets" %}
+      {% include "alpha-hook-sets" %}
+    {% endif %}
+
+    {% if page.title == "Candy Shop Hook Sets" %}
+      {% include "candy-shop-hook-sets" %}
+    {% endif %}
+
+    {% if page.title == "Wander Palette Packs" %}
+      {% include "wander-palette-packs" %}
+    {% endif %}
+
+    {% if page.title == "Wander Palette Quiz" %}
+      {% include "wander-palette-quiz" %}
+    {% endif %}
+
+    {% if page.title == "Wander Palette Kit" %}
+      {% include "wander-palette-kit" %}
+    {% endif %}
+
+    {% if page.title == "Whims Boho Bunting Knit Kit" %}
+      {% include "whims-boho-kit" %}
+    {% endif %}
+
+    {% if page.title == "Free Furls Crochet Patterns" %}
+      {% include "free-patterns" %}
+    {% endif %}
+
+    {% if page.title == "Charities" %}
+      {% include "charities" %}
+    {% endif %}
+
+    {% if page.title == "Stitch Tutorials" %}
+      {% include "stitch-tutorials" %}
+    {% endif %}
+
+    {% if page.title == "Tool Tutorials" %}
+      {% include "tool-tutorials" %}
+    {% endif %}
+
+    {% if page.title == "Warehouse Warming Sale" %}
+      {% include "warehouse-sale" %}
+    {% endif %}
+    
+    {% if page.title == "Wander Adventure Kit" %}
+      {% include "wander-adventure-kit" %}
+    {% endif %}
+  </div>
+
+  {% if page.title == "Spooky Season Pattern Collection" %}
+    {% include "spooky-season-patterns" %}
+  {% endif %}
+</div>
+
+{% schema %}
+{
+  "name": "t:sections.main-page.name",
+  "tag": "section",
+  "class": "spaced-section"
+}
+{% endschema %}

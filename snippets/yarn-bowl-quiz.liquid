@@ -1,0 +1,103 @@
+<div class="sixteen columns coverPage">
+   <p>
+      Furls Crochet has several different yarn bowls to choose from, so 
+      how do you know which one is best for you?
+   </p>
+   <p> 
+      We've noticed that quite often our preferred home decor aesthetic carries over into all 
+      aspects of our lives. Is this true for you, too? 
+   </p>
+   <p class="strong">
+      Answer each question honestly by just going with your gut and 
+      choosing the answers that are most appealing.
+   </p>
+  <br/>
+   <span class="fakeButton">Start the quiz!</span><br>
+  <img src="https://cdn.shopify.com/s/files/1/0166/0254/files/yarn-bowl-quiz-coverPage-banner_-_1.jpeg?v=1602264724">
+</div>
+
+<div class="sixteen columns">
+  <!-- Buttons -->
+  <div class="controls header">
+      <button class="previous">Previous</button>
+      <button class="next">Next</button>
+  </div>
+</div>
+
+<div class="quiz-container sixteen columns">
+  <div id="question" class="question"></div>
+  
+  <div class="answerContainer">
+  <label class="option">
+      <img class="image1" src=""><br>
+      <input type="radio" name="option" value="1" />
+      <span class="option1"></span>
+  </label>
+  <label class="option">
+      <img class="image2" src=""><br>
+      <input type="radio" name="option" value="2" />
+      <span class="option2"></span>
+  </label>
+  <label class="option">
+      <img class="image3" src=""><br>
+      <input type="radio" name="option" value="3" />
+      <span class="option3"></span>
+  </label>
+  <label class="option">
+      <img class="image4" src=""><br>
+      <input type="radio" name="option" value="4" />
+      <span class="option4"></span>
+  </label>
+  <label class="option">
+      <img class="image5" src=""><br>
+      <input type="radio" name="option" value="5" />
+      <span class="option5"></span>
+  </label>
+  <label class="option">
+      <img class="image6" src=""><br>
+      <input type="radio" name="option" value="6" />
+      <span class="option6"></span>
+  </label>
+  </div>
+
+  <!-- Buttons -->
+  <div class="controls">
+      <button class="previous">Previous</button>
+      <button class="next">Next</button>
+  </div>
+</div>
+
+<div class="result sixteen columns">
+
+</div>
+
+<div class="sixteen columns">
+  <div class="section clearfix">  
+    {{ page.content }}
+  </div>
+</div>
+
+<div class='quick-add-product' data-location=''>
+  <div data-groupDisplay="BWLS" class="section clearfix">
+    <div class='sp-mini sp-circle'></div>
+    <div class="tbodyContainer"></div>
+      {% include 'quick-add-group-bowls' %}
+  </div>
+</div>
+
+<div id="cart-alert-banner">
+  <span class="cart-alert">cart alert</span>
+  <span class="fake-link close-cart-alert"><i class="fa fa-fw fa-times"></i></span>
+</div>
+
+<button class="restart">Restart Quiz</button>
+<div class="sixteen columns">
+  <div class="section clearfix">
+{% include "klaviyo-yarnbowl-signup" %}
+  </div>
+</div>
+
+{% include 'quick-add-cart-yarn-bowl-scripts' %} 
+
+{% include "yarn-bowl-scripts" %}
+{{ 'yarnQuiz.css' | asset_url | stylesheet_tag }}

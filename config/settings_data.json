@@ -1,0 +1,61 @@
+{
+  "current": {
+    "colors_accent_1": "#c4afa2",
+    "colors_accent_2": "#c4afa2",
+    "colors_text": "#373639",
+    "colors_outline_button_labels": "#c4afa2",
+    "colors_background_2": "#d5d5d5",
+    "social_twitter_link": "https:\/\/twitter.com\/furlscrochet",
+    "social_facebook_link": "http:\/\/facebook.com\/furlscrochet",
+    "social_pinterest_link": "https:\/\/www.pinterest.com\/furlsfiberarts\/",
+    "social_instagram_link": "https:\/\/www.instagram.com\/furlscrochet\/",
+    "social_youtube_link": "https:\/\/www.youtube.com\/channel\/UC1bA308cJfQ9PYoAOk6dzGw",
+    "favicon": "shopify:\/\/shop_images\/furlsfiberarts-logo_1_0e2d5555-9b03-4aa6-be70-e4a66b33baa7.png",
+    "checkout_logo_image": "shopify:\/\/shop_images\/furlsfiberarts-logo_1_73eef061-d9c3-4860-aace-71c03ff9b8a0.png",
+    "checkout_logo_size": "large",
+    "checkout_accent_color": "#c4afa2",
+    "checkout_button_color": "#c4afa2",
+    "sections": {
+      "announcement-bar": {
+        "type": "announcement-bar",
+        "settings": {}
+      },
+      "header": {
+        "type": "header",
+        "settings": {
+          "logo": "shopify:\/\/shop_images\/furlsfiberarts-logo_1_73eef061-d9c3-4860-aace-71c03ff9b8a0.png",
+          "logo_width": 250,
+          "logo_position": "top-center",
+          "menu": "main-menu-flyout",
+          "show_line_separator": false,
+          "enable_sticky_header": true
+        }
+      },
+      "footer": {
+        "type": "footer",
+        "blocks": {
+          "footer-0": {
+            "type": "link_list",
+            "settings": {
+              "heading": "Quick links",
+              "menu": "footer"
+            }
+          }
+        },
+        "block_order": [
+          "footer-0"
+        ],
+        "settings": {
+          "color_scheme": "background-1",
+          "newsletter_enable": false,
+          "newsletter_heading": "Sign up to our emails",
+          "show_social": false,
+          "enable_country_selector": false,
+          "enable_language_selector": false,
+          "payment_enable": false
+        }
+      }
+    },
+    "content_for_index": []
+  }
+}

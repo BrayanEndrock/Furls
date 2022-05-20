@@ -1,0 +1,1004 @@
+{% comment %}theme-check-disable TemplateLength{% endcomment %}
+{{ 'section-main-product.css' | asset_url | stylesheet_tag }}
+{{ 'component-accordion.css' | asset_url | stylesheet_tag }}
+{{ 'component-badge.css' | asset_url | stylesheet_tag }}
+{{ 'component-price.css' | asset_url | stylesheet_tag }}
+{{ 'component-rte.css' | asset_url | stylesheet_tag }}
+{{ 'component-slider.css' | asset_url | stylesheet_tag }}
+
+<link rel="stylesheet" href="{{ 'component-cart-notification.css' | asset_url }}" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="{{ 'component-deferred-media.css' | asset_url }}" media="print" onload="this.media='all'">
+
+<script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
+
+{{ 'mainProduct.js' | asset_url | script_tag }}
+
+{% comment %} SellersDash collect child product details {% endcomment %}
+{% assign shsd_product_details = product.metafields.sellersdash.shsdproducts %}
+{% if shsd_product_details.product_type == "shsd_parent" %}
+{% assign shsd_product_handles = product.handle %}
+{% assign shsd_product_handles = shsd_product_handles | concat: shsd_product_details.handles %}
+{% for shsd_handle in shsd_product_handles %}
+{% assign shsd_single_product = all_products[shsd_handle] %}
+{% assign shsd_product_variants = shsd_product_variants | concat: shsd_single_product.variants %}
+{% assign shsd_product_media = shsd_product_media | concat: shsd_single_product.media %}
+{% assign shsd_product_images = shsd_product_images | concat: shsd_single_product.images %}
+{% endfor %}
+{% assign shsd_product_options_with_values = shsd_product_details.options_with_values %}
+{% else %}
+{% assign shsd_product_options_with_values = product.options_with_values %}
+{% assign shsd_product_variants = product.variants %}
+{% assign shsd_product_media = product.media %}
+{% assign shsd_product_images = product.images %}
+{% endif %}
+{% assign shsd_product_options = shsd_product_options_with_values | map: "name" %}
+
+{%- assign first_3d_model = shsd_product_media | where: "media_type", "model" | first -%}
+{%- if first_3d_model -%}
+  {{ 'component-product-model.css' | asset_url | stylesheet_tag }}
+  <link id="ModelViewerStyle" rel="stylesheet" href="https://cdn.shopify.com/shopifycloud/model-viewer-ui/assets/v1.0/model-viewer-ui.css" media="print" onload="this.media='all'">
+  <link id="ModelViewerOverride" rel="stylesheet" href="{{ 'component-model-viewer-ui.css' | asset_url }}" media="print" onload="this.media='all'">
+{%- endif -%}
+
+<section class="page-width">
+  <div class="product grid grid--1-col {% if shsd_product_media.size > 0 %}grid--2-col-tablet{% else %}product--no-media{% endif %}">
+    <div class="grid__item product__media-wrapper">
+
+      <div id="product-image" class="nine columns alpha">
+        <a class="skip-to-content-link button visually-hidden" href="#ProductInfo-{{ section.id }}">
+          {{ "accessibility.skip_to_product_info" | t }}
+        </a>
+        <div class="productImageCarousel">
+          {%- if shsd_single_product.selected_or_first_available_variant.featured_media != null -%}
+            {%- assign media = shsd_single_product.selected_or_first_available_variant.featured_media -%}
+            <div>
+              <img
+                srcset="{% if media.preview_image.width >= 288 %}{{ media.preview_image | img_url: '288x' }} 288w,{% endif %}
+                        {% if media.preview_image.width >= 576 %}{{ media.preview_image | img_url: '576x' }} 576w,{% endif %}
+                        {% if media.preview_image.width >= 550 %}{{ media.preview_image | img_url: '550x' }} 550w,{% endif %}
+                        {% if media.preview_image.width >= 1100 %}{{ media.preview_image | img_url: '1100x' }} 1100w{% endif %}"
+                src="{{ media | img_url: '550x550' }}"
+                sizes="(min-width: 1200px) calc((1200px - 10rem) / 2), (min-width: 750px) calc((100vw - 11.5rem) / 2), calc(100vw - 4rem)"
+                loading="lazy"
+                width="576"
+                height="{{ 576 | divided_by: media.preview_image.aspect_ratio | ceil }}"
+                alt="{{ media.preview_image.alt | escape }}"
+              >
+            </div>
+          {%- endif -%}
+          {%- for media in shsd_product_media -%}
+            {%- unless media.id == shsd_single_product.selected_or_first_available_variant.featured_media.id -%}
+              <div>
+                <img
+                  srcset="{% if media.preview_image.width >= 288 %}{{ media.preview_image | img_url: '288x' }} 288w,{% endif %}
+                          {% if media.preview_image.width >= 576 %}{{ media.preview_image | img_url: '576x' }} 576w,{% endif %}
+                          {% if media.preview_image.width >= 550 %}{{ media.preview_image | img_url: '550x' }} 550w,{% endif %}
+                          {% if media.preview_image.width >= 1100 %}{{ media.preview_image | img_url: '1100x' }} 1100w{% endif %}"
+                  src="{{ media | img_url: '550x550' }}"
+                  sizes="(min-width: 1200px) calc((1200px - 10rem) / 2), (min-width: 750px) calc((100vw - 11.5rem) / 2), calc(100vw - 4rem)"
+                  loading="lazy"
+                  width="576"
+                  height="{{ 576 | divided_by: media.preview_image.aspect_ratio | ceil }}"
+                  alt="{{ media.preview_image.alt | escape }}"
+                >
+              </div>
+            {%- endunless -%}
+          {%- endfor -%}
+        </div>
+        <div class="productImageControlsWrapper">
+          <div class="productImageControls" aria-label="Carousel Navigation" tabindex="0">
+            <span class="prev" aria-controls="customize" tabindex="-1" data-controls="prev">
+              <i class="fas fa-arrow-left"></i>
+            </span>
+            <span class="next" aria-controls="customize" tabindex="-1" data-controls="next">
+              <i class="fas fa-arrow-right"></i>
+            </span>
+          </div>
+        </div>
+        <div class="thumbnails product_image_col productImageCarouselThumbnails">
+          {%- if shsd_single_product.selected_or_first_available_variant.featured_media != null -%}
+            {%- assign media = shsd_single_product.selected_or_first_available_variant.featured_media -%}
+            <div class="two columns thumb">
+              <img
+                srcset="{% if media.preview_image.width >= 288 %}{{ media.preview_image | img_url: '288x' }} 288w,{% endif %}
+                        {% if media.preview_image.width >= 576 %}{{ media.preview_image | img_url: '576x' }} 576w,{% endif %}
+                        {% if media.preview_image.width >= 550 %}{{ media.preview_image | img_url: '550x' }} 550w,{% endif %}
+                        {% if media.preview_image.width >= 1100 %}{{ media.preview_image | img_url: '1100x' }} 1100w{% endif %}"
+                src="{{ media | img_url: '550x550' }}"
+                sizes="(min-width: 1200px) calc((1200px - 10rem) / 2), (min-width: 750px) calc((100vw - 11.5rem) / 2), calc(100vw - 4rem)"
+                loading="lazy"
+                width="576"
+                height="{{ 576 | divided_by: media.preview_image.aspect_ratio | ceil }}"
+                alt="{{ media.preview_image.alt | escape }}"
+              >
+            </div>
+          {%- endif -%}
+          {%- for media in shsd_product_media -%}
+            {%- unless media.id == shsd_single_product.selected_or_first_available_variant.featured_media.id -%}
+              <div class="two columns thumb">
+                <img
+                  srcset="{% if media.preview_image.width >= 288 %}{{ media.preview_image | img_url: '288x' }} 288w,{% endif %}
+                          {% if media.preview_image.width >= 576 %}{{ media.preview_image | img_url: '576x' }} 576w,{% endif %}
+                          {% if media.preview_image.width >= 550 %}{{ media.preview_image | img_url: '550x' }} 550w,{% endif %}
+                          {% if media.preview_image.width >= 1100 %}{{ media.preview_image | img_url: '1100x' }} 1100w{% endif %}"
+                  src="{{ media | img_url: '550x550' }}"
+                  sizes="(min-width: 1200px) calc((1200px - 10rem) / 2), (min-width: 750px) calc((100vw - 11.5rem) / 2), calc(100vw - 4rem)"
+                  loading="lazy"
+                  width="576"
+                  height="{{ 576 | divided_by: media.preview_image.aspect_ratio | ceil }}"
+                  alt="{{ media.preview_image.alt | escape }}"
+                >
+              </div>
+            {%- endunless -%}
+          {%- endfor -%}
+        </div>
+      </div>
+      {%- if first_3d_model -%}
+        <button
+          class="button button--full-width product__xr-button"
+          type="button"
+          aria-label="{{ 'products.product.xr_button_label' | t }}"
+          data-shopify-xr
+          data-shopify-model3d-id="{{ first_3d_model.id }}"
+          data-shopify-title="{{ product.title | escape }}"
+          data-shopify-xr-hidden
+        >
+          {% render 'icon-3d-model' %}
+          {{ 'products.product.xr_button' | t }}
+        </button>
+      {%- endif -%}
+    </div>
+    <div class="product__info-wrapper grid__item">
+      <div id="ProductInfo-{{ section.id }}" class="product__info-container{% if section.settings.enable_sticky_info %} product__info-container--sticky{% endif %}">
+        {%- assign product_form_id = 'product-form-' | append: section.id -%}
+
+        {%- for block in section.blocks -%}
+          {%- case block.type -%}
+          {%- when '@app' -%}
+            {% render block %}
+          {%- when 'text' -%}
+            <p class="product__text{% if block.settings.text_style == 'uppercase' %} caption-with-letter-spacing{% elsif block.settings.text_style == 'subtitle' %} subtitle{% endif %}" {{ block.shopify_attributes }}>
+              {{- block.settings.text -}}
+            </p>
+          {%- when 'title' -%}
+            <h1 class="product__title" {{ block.shopify_attributes }}>
+              {{ product.title | escape }}
+            </h1>
+          {%- when 'price' -%}
+            <div class="no-js-hidden" id="price-{{ section.id }}" {{ block.shopify_attributes }}>
+              {%- render 'price', product: product, use_variant: true, show_badges: true, price_class: 'price--large' -%}
+            </div>
+          {%- when 'description' -%}
+            {%- if product.description != blank -%}
+              <div class="product__description rte">
+                {{ product.description }}
+              </div>
+            {%- endif -%}
+          {%- when 'collapsible_tab' -%}
+            <div class="product__accordion accordion" {{ block.shopify_attributes }}>
+              <details>
+                <summary>
+                  <div class="summary__title">
+                    {% render 'icon-accordion', icon: block.settings.icon %}
+                    <h2 class="h4 accordion__title">
+                      {{ block.settings.heading | default: block.settings.page.title }}
+                    </h2>
+                  </div>
+                  {% render 'icon-caret' %}
+                </summary>
+                <div class="accordion__content rte">
+                  {{ block.settings.content }}
+                  {{ block.settings.page.content }}
+                </div>
+              </details>
+            </div>
+
+          {%- when 'quantity_selector' -%}
+            <div class="product-form__input product-form__quantity" {{ block.shopify_attributes }}>
+              <label class="form__label" for="Quantity-{{ section.id }}">
+                {{ 'products.product.quantity.label' | t }}
+              </label>
+              <quantity-input class="quantity">
+                <button class="quantity__button no-js-hidden" name="minus" type="button">
+                  <span class="visually-hidden">{{ 'products.product.quantity.decrease' | t: product: product.title | escape }}</span>
+                  {% render 'icon-minus' %}
+                </button>
+                <input class="quantity__input"
+                    type="number"
+                    name="quantity"
+                    id="Quantity-{{ section.id }}"
+                    min="1"
+                    value="1"
+                    form="product-form-{{ section.id }}"
+                  >
+                <button class="quantity__button no-js-hidden" name="plus" type="button">
+                  <span class="visually-hidden">{{ 'products.product.quantity.increase' | t: product: product.title | escape }}</span>
+                  {% render 'icon-plus' %}
+                </button>
+              </quantity-input>
+            </div>
+          {%- when 'popup' -%}
+              <modal-opener class="product-popup-modal__opener no-js-hidden" data-modal="#PopupModal-{{ block.id }}" {{ block.shopify_attributes }}>
+                <button id="ProductPopup-{{ block.id }}" class="product-popup-modal__button link" type="button" aria-haspopup="dialog">{{ block.settings.link_label | default: block.settings.page.title }}</button>
+              </modal-opener>
+              <a href="{{ block.settings.page.url }}" class="product-popup-modal__button link no-js">{{ block.settings.link_label }}</a>
+          {%- when 'share' -%}
+            <share-button class="share-button" {{ block.shopify_attributes }}>
+              <button class="share-button__button button button--tertiary hidden">
+                {% render 'icon-share' %}
+                {{ 'general.share.share' | t }}
+              </button>
+              <details>
+                <summary class="share-button__button button button--tertiary">
+                  {% render 'icon-share' %}
+                  {{ 'general.share.share' | t }}
+                </summary>
+                <div class="share-button__fallback">
+                  <div class="field">
+                    <input type="text"
+                          class="field__input"
+                          id="url"
+                          value="{{ shop.url | append: product.url }}"
+                          placeholder="{{ 'general.share.share_url' | t }}"
+                          onclick="this.select();"
+                          readonly
+                    >
+                    <label class="field__label" for="url">{{ 'general.share.share_url' | t }}</label>
+                  </div>
+                  <button class="button button--tertiary">
+                    {% render 'icon-clipboard' %}
+                    {{ 'general.share.copy_to_clipboard' | t }}
+                  </button>
+                  <span id="ShareMessage-{{ section.id }}" class="share-button__message hidden" role="status" aria-hidden="true">
+                    {{ 'general.share.success_message' | t }}
+                  </span>
+                </div>
+              </details>
+            </share-button>
+            <script src="{{ 'share.js' | asset_url }}" defer="defer"></script>
+
+          {%- when 'variant_picker' -%}
+            {%- unless product.has_only_default_variant -%}
+              {%- if block.settings.picker_type == 'button' -%}
+                <variant-radios class="no-js-hidden" data-section="{{ section.id }}" data-url="{{ product.url }}" {{ block.shopify_attributes }}>
+                  {%- for option in shsd_product_options_with_values -%}
+                      <fieldset class="js product-form__input">
+                        <legend class="form__label">{{ option.name }}</legend>
+                        {%- for value in option.values -%}
+
+                          {% if product.title == 'Streamline - Ergonomic Wooden Crochet Hooks' and value == 'Cruella' %}
+
+                          {% elsif product.title == 'Tunisian Crochet Hooks' and value == 'Peppermint' %}
+
+                          {% elsif product.title == 'Special Edition Wander Tote' and value == 'FREE Tote' %}
+
+                          {% elsif product.title == 'Special Edition Whims Tote' and value == 'FREE Tote' %}
+
+                          {% elsif product.title == '5 Hook Gift Box' and value == '5 Hook Gift Box - Free' %}
+                        
+                          {% elsif product.title == 'Special Edition Wristlet Clutch - Iris' and value == 'FREE Iris Wristlet' %}
+
+                          {% else %}
+                            <input type="radio" id="{{ section.id }}-{{ option.name }}-{{ forloop.index0 }}"
+                                  name="{{ option.name }}"
+                                  value="{{ value | escape }}"
+                                  form="product-form-{{ section.id }}"
+                            >
+                            <label for="{{ section.id }}-{{ option.name }}-{{ forloop.index0 }}">
+                              {{ value }}
+                            </label>
+                          {% endif %}
+                        {%- endfor -%}
+                      </fieldset>
+                  {%- endfor -%}
+                  <script type="application/json">
+                    {{ shsd_product_variants | json }}
+                  </script>
+                </variant-radios>
+              {%- else -%}
+                <variant-selects class="no-js-hidden" data-section="{{ section.id }}" data-url="{{ product.url }}" {{ block.shopify_attributes }}>
+                  {%- for option in shsd_product_options_with_values -%}
+                    <div class="product-form__input product-form__input--dropdown">
+                      <label class="form__label" for="Option-{{ section.id }}-{{ forloop.index0 }}">
+                        {{ option.name }}
+                      </label>
+                      <div class="select">
+                        <select id="Option-{{ section.id }}-{{ forloop.index0 }}"
+                          class="select__select"
+                          name="options[{{ option.name | escape }}]"
+                          form="product-form-{{ section.id }}"
+                        >
+                          {%- for value in option.values -%}
+                            <option value="{{ value | escape }}" {% if option.selected_value == value %}selected="selected"{% endif %}>
+                              {{ value }}
+                            </option>
+                          {%- endfor -%}
+                        </select>
+                        {% render 'icon-caret' %}
+                      </div>
+                    </div>
+                  {%- endfor -%}
+
+                  <script type="application/json">
+                    {{ shsd_product_variants | json }}
+                  </script>
+                </variant-selects>
+              {%- endif -%}
+            {%- endunless -%}
+
+            <script type="text/javascript">
+              var data = [],
+                  handles = [],
+                  soldOut = [],
+                  valueTypeSize = '',
+                  valueTypeColor = '';
+              
+              {% for variant in shsd_product_variants %}
+                data.push({{ variant | json }});
+
+                {% if variant.available == false %}
+                  soldOut.push({{ variant | json }});
+                {% endif %}
+              {% endfor %}
+
+              {% for handles in shsd_product_handles %}
+                handles.push({{ handles | json }});
+              {% endfor %}
+
+              $(function() {
+                $.each(data, function(index, variant) {
+                  if($('.shopify-payment-button__button.shopify-payment-button__button--unbranded #ProductPopup-notify').text() == 'Notify When Available' && variant.inventory_quantity <= 0) {
+                    $('.shopify-payment-button__button.shopify-payment-button__button--unbranded.product-popup-modal__opener.no-js-hidden.notifyLink.button.button--full-width.button--secondary').show();
+                  }
+                });
+
+                if($('.product__title').text().trim() == 'Handmade Wooden Needle Case') {
+                  $('.product-form__input input').on('click', function () {
+                    var valueType = $(this).attr('value'),
+                        valueTypeCleaned = valueType.replace(/\s/g, ''),
+                        valueTypeDash = valueType.replace(/\s/g, '-'),
+                        mainImageSwitch = false;
+
+                    $('[class*=mainImage]').remove();
+
+                    if($(this).attr('name') == 'Size') {
+                      valueTypeSize = $(this).attr('value');
+                    }
+
+                    if($(this).attr('name') == 'Color') {
+                      valueTypeColor = $(this).attr('value');
+                    }
+
+                    $.each(data, function(index, variant) {
+                      if(valueTypeColor != '' &&
+                         valueTypeSize != '') {
+
+                        if(valueTypeSize == variant.option1 &&
+                           valueTypeColor == variant.option2) {
+                          if($('.mainImage' + valueTypeCleaned).length == 0) {
+                            let mainImage = document.createElement('img');
+                            mainImage.setAttribute('class', 'mainImage' + valueTypeCleaned);
+                            mainImage.setAttribute('style', 'width:100%;height:100%;');
+                            mainImage.setAttribute('src', variant.featured_image.src);
+
+                            $('#product-image').append(mainImage);
+                          }
+                          $('[class*=mainImage]').hide();
+                          $('.tns-outer').hide();
+                          $('.productImageControlsWrapper').hide();
+                          $('.productImageCarouselThumbnails').hide();
+                          $('.mainImage' + valueTypeCleaned).show();
+                        }
+                      }
+                    });
+                  });
+                } else if($('.product__title').text().trim() == 'Candy Shop Crochet Hooks') {
+                  $('.product-form__input input').on('click', function () {
+                    var valueType = $(this).attr('value'),
+                        valueTypeCleaned = valueType.replace(/\s/g, ''),
+                        valueTypeDash = valueType.replace(/\s/g, '-'),
+                        valueTypeCleanedAgain = valueTypeCleaned.split("-")[2],
+                        mainImageSwitch = false;
+
+                    $.each(data, function(index, variant) {
+                      if(valueType == variant.title) {
+                        if($('.mainImage' + valueTypeCleanedAgain).length == 0) {
+                          let mainImage = document.createElement('img');
+                          mainImage.setAttribute('class', 'mainImage' + valueTypeCleanedAgain);
+                          mainImage.setAttribute('style', 'width:100%;height:100%;');
+                          mainImage.setAttribute('src', variant.featured_image.src);
+
+                          $('#product-image').append(mainImage);
+                        }
+
+                        $('[class*=mainImage]').hide();
+                        $('.tns-outer').hide();
+                        $('.productImageControlsWrapper').hide();
+                        $('.productImageCarouselThumbnails').hide();
+                        $('.mainImage' + valueTypeCleanedAgain).show();
+                      }
+                    });
+                  });
+                } else if($('.product__title').text().trim() == 'Metal Yarn Bowls') {
+                  $('.product-form__input input').on('click', function () {
+                    var valueType = $(this).attr('value'),
+                        valueTypeCleaned = valueType.replace(/\s/g, ''),
+                        valueTypeDash = valueType.replace(/\s/g, '-'),
+                        valueTypeCleanedAgain = valueTypeCleaned.split("-")[2],
+                        mainImageSwitch = false;
+
+                    $.each(data, function(index, variant) {
+                      if(valueType == variant.title) {
+                        if($('.mainImage' + valueTypeCleaned).length == 0) {
+                          let mainImage = document.createElement('img');
+                          mainImage.setAttribute('class', 'mainImage' + valueTypeCleaned);
+                          mainImage.setAttribute('style', 'width:100%;height:100%;');
+                          mainImage.setAttribute('src', variant.featured_image.src);
+
+                          $('#product-image').append(mainImage);
+                        }
+
+                        $('[class*=mainImage]').hide();
+                        $('.tns-outer').hide();
+                        $('.productImageControlsWrapper').hide();
+                        $('.productImageCarouselThumbnails').hide();
+                        $('.mainImage' + valueTypeCleaned).show();
+                      }
+                    });
+                  });
+                } else {
+                  $('.product-form__input input').on('click', function () {
+                    var valueType = $(this).attr('value'),
+                        valueTypeCleaned = valueType.replace(/\s/g, ''),
+                        valueTypeDash = valueType.replace(/\s/g, '-'),
+                        mainImageSwitch = false;
+
+                    $.each(data, function(index, variant) {
+                      if(valueType == variant.option2) {
+                        if($('.mainImage' + valueTypeCleaned).length == 0) {
+                          let mainImage = document.createElement('img');
+                          mainImage.setAttribute('class', 'mainImage' + valueTypeCleaned);
+                          mainImage.setAttribute('style', 'width:100%;height:100%;');
+                          mainImage.setAttribute('src', variant.featured_image.src);
+
+                          $('#product-image').append(mainImage);
+                        }
+                        $('[class*=mainImage]').hide();
+                        $('.tns-outer').hide();
+                        $('.productImageControlsWrapper').hide();
+                        $('.productImageCarouselThumbnails').hide();
+                        $('.mainImage' + valueTypeCleaned).show();
+                      }
+                    });
+                  });
+
+                  $('label').on('click', function() {
+                    $('input[name=Color] + label').each(function() {
+                      $(this).removeClass('soldOut');
+                    });
+
+                    $('input[name=Size] + label').each(function() {
+                      $(this).removeClass('soldOut');
+                    });
+
+                    if($(this).attr('for').includes('Size')) {
+                      let forAttr = $(this).attr('for');
+
+                      $.each(soldOut, function(index, variant) {
+                        if($('input#' + forAttr).val().includes(variant.option1)) {
+                          $('input[name=Color]').each(function() {
+                            if($(this).val() == variant.option2) {
+                              $('label[for=' + $(this).attr('id') + ']').addClass('soldOut');
+                            }
+                          });
+                        }
+                      });
+                    }
+
+                    if($(this).attr('for').includes('Color')) {
+                      let forAttr = $(this).attr('for');
+                      
+                      $.each(soldOut, function(index, variant) {
+                        if($('input#' + forAttr).val().includes(variant.option2)) {
+                          $('input[name=Size]').each(function() {
+                            if($(this).val() == variant.option1) {
+                              $('label[for=' + $(this).attr('id') + ']').addClass('soldOut');
+                            }
+                          });
+                        }
+                      });
+                    }
+                  });
+                }
+
+                setTimeout(function() {
+                  $('.shopify-payment-button__button.shopify-payment-button__button--unbranded').on('click', function() {
+                    if($(this).text() == 'NOTIFY WHEN AVAILABLE') {
+                      SIPopover.show({variantId: 39494646235203});
+                    }
+                  });
+                }, 2500);
+              });
+            </script>
+
+            <noscript>
+              <div class="product-form__input{% if shsd_single_product %} hidden{% endif %}">
+                <label class="form__label" for="Variants-{{ section.id }}">{{ 'shsd_product_variants' | t }}</label>
+                <div class="select">
+                  <select name="id" id="Variants-{{ section.id }}" class="select__select" form="product-form">
+                    {%- for variant in shsd_product_variants -%}
+                      <option
+                        {% if variant == shsd_single_product.selected_or_first_available_variant %}selected="selected"{% endif %}
+                        {% if variant.available == false %}disabled{% endif %}
+                        value="{{ variant.id }}"
+                      >
+                        {{ variant.title }}
+                        {%- if variant.available == false %} - {{ 'products.product.sold_out' | t }}{% endif %}
+                        - {{ variant.price | money | strip_html }}
+                      </option>
+
+                    {%- endfor -%}
+                  </select>
+                  {% render 'icon-caret' %}
+                </div>
+              </div>
+            </noscript>
+          {%- when 'buy_buttons' -%}
+            <div {{ block.shopify_attributes }}>
+              <product-form class="product-form">
+                {%- form 'product', product, id: product_form_id, class: 'form', novalidate: 'novalidate', data-type: 'add-to-cart-form' -%}
+                  <input type="hidden" name="id" value="{{ shsd_single_product.selected_or_first_available_variant.id }}">
+                  <div class="product-form__buttons">
+                    <button
+                      type="submit"
+                      name="add"
+                      class="product-form__submit button button--full-width {% if block.settings.show_dynamic_checkout and product.selling_plan_groups == empty %}button--secondary{% else %}button--primary{% endif %}"
+                    {% if product.selected_or_first_available_variant.available == false %}disabled{% endif %}
+                    >
+                        {%- if shsd_single_product.selected_or_first_available_variant.available -%}
+                          {{ 'products.product.add_to_cart' | t }}
+                        {%- else -%}
+                          {{ 'products.product.sold_out' | t }}
+                        {%- endif -%}
+                    </button>
+                    {%- if block.settings.show_dynamic_checkout -%}
+                      {{ form | payment_button }}
+                    {%- endif -%}
+                  </div>
+                
+                  {% if product.metafields.my_fields.belowcheckoutdetail %}
+		                <div class="belowCheckoutDetail">{{ product.metafields.my_fields.belowcheckoutdetail }}</div>
+                		
+                  {% endif %}
+                
+                {%- endform -%}
+
+                <div style="text-align:center;" id="smartwishlist" data-product="{{ product.id }}" data-variant="{{ product.variants.first.id }}"></div>
+              </product-form>
+
+              <modal-opener style="display:none;" class="shopify-payment-button__button shopify-payment-button__button--unbranded product-popup-modal__opener no-js-hidden notifyLink button button--full-width button--secondary" data-modal="#PopupModal-notify">
+                <button id="ProductPopup-notify" class="product-popup-modal__button link" type="button" aria-haspopup="dialog">Notify When Available</button>
+              </modal-opener>
+
+              {{ 'component-pickup-availability.css' | asset_url | stylesheet_tag }}
+
+              {%- assign pick_up_availabilities = shsd_single_product.selected_or_first_available_variant.store_availabilities | where: 'pick_up_enabled', true -%}
+
+              <pickup-availability class="product__pickup-availabilities no-js-hidden"
+                {% if shsd_single_product.selected_or_first_available_variant.available and pick_up_availabilities.size > 0 %} available{% endif %}
+                data-base-url="{{ shop.url }}{{ routes.root_url }}"
+                data-variant-id="{{ product.selected_or_first_available_variant.id }}"
+                data-has-only-default-variant="{{ shsd_single_product }}"
+              >
+                <template>
+                  <pickup-availability-preview class="pickup-availability-preview">
+                    {% render 'icon-unavailable' %}
+                    <div class="pickup-availability-info">
+                      <p class="caption-large">{{ 'products.product.pickup_availability.unavailable' | t }}</p>
+                      <button class="pickup-availability-button link link--text underlined-link">{{ 'products.product.pickup_availability.refresh' | t }}</button>
+                    </div>
+                  </div>
+                </template>
+              </pickup-availability>
+            </div>
+
+            <div {{ block.shopify_attributes }}>
+              {%- form 'product', product, id: 'product-form-installment', class: 'installment caption-large' -%}
+                <input type="hidden" name="id" value="{{ shsd_single_product.selected_or_first_available_variant.id }}">
+                {{ form | payment_terms }}
+              {%- endform -%}
+            </div>
+
+            <script src="{{ 'pickup-availability.js' | asset_url }}" defer="defer"></script>
+          {%- endcase -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+  {%- render 'cart-notification' -%}
+
+  <modal-dialog id="PopupModal-notify" class="product-popup-modal">
+    <div role="dialog" aria-label="notify" aria-modal="true" class="product-popup-modal__content" tabindex="-1">
+      <button id="ModalClose-notify" type="button" class="product-popup-modal__toggle" aria-label="{{ 'accessibility.close' | t }}">{% render 'icon-close' %}</button>
+      <div class="product-popup-modal__content-info">
+        <h1 class="h2">NOTIFY WHEN AVAILABLE</h1>
+        <p>We will send you a notification as soon as this product is available again.</p><br>
+        <h2>{{ product.title }}</h2><br>
+        <form class="notifyForm" id="notifyForm">
+          <div class="select">
+            <select name="id" id="Variants-{{ section.id }}" class="select__select">
+              {%- for variant in shsd_product_variants -%}
+                {%- if variant.available == false -%}
+                  <option value="{{ variant.id }}" product_id="{{ variant.product.id }}">
+                    {{ variant.title }}
+                  </option>
+                {%- endif -%}
+              {%- endfor -%}
+            </select>
+            {% render 'icon-caret' %}
+          </div>
+          <input type="email" value="" name="email" id="notify_email" placeholder="Enter your email" title="Enter your email" aria-required="true" data-parsley-required="true" data-parsley-type="email">
+          <button class="button button--primary button--full-width" name="notifyForm" form="notifyForm">Notify</button>
+
+          <p class="notifySuccess">Thank you! You will be notified when this item is back in stock.</p>
+
+          <div class="notifyMeCheckbox">
+            <input type="checkbox" class="custom-control-input" name="customer_accepts_marketing"  id="customer_accepts_marketing" value="">
+            <label for="customer_accepts_marketing">Sign up for the Furls newsletter and receive an exclusive 15% off code!</label>
+          </div>
+          <small>We respect your privacy and will not share your email.</small>
+        </form>
+      </div>
+    </div>
+  </modal-dialog>
+
+  {% assign popups = section.blocks | where: "type", "popup" %}
+  {%- for block in popups -%}
+    <modal-dialog id="PopupModal-{{ block.id }}" class="product-popup-modal" {{ block.shopify_attributes }}>
+      <div role="dialog" aria-label="{{ block.settings.link_label }}" aria-modal="true" class="product-popup-modal__content" tabindex="-1">
+        <button id="ModalClose-{{ block.id }}" type="button" class="product-popup-modal__toggle" aria-label="{{ 'accessibility.close' | t }}">{% render 'icon-close' %}</button>
+        <div class="product-popup-modal__content-info">
+          <h1 class="h2">{{ block.settings.page.title }}</h1>
+          {{ block.settings.page.content }}
+        </div>
+      </div>
+    </modal-dialog>
+  {%- endfor -%}
+</section>
+
+<script type="text/javascript">
+  {% if customer == null %}
+    $(function() {
+      $('#smartwishlist').on('click', function() {
+        if($('#sw_wishlist_label').text() == 'Remove from Wishlist') {
+          if (confirm('Would you like to save this wishlist to your account?')) {
+            window.location.href = "https://furlscrochet.com/account";
+          } else {
+            // do nothing
+          }
+        }
+      })
+    });
+  {% endif %}
+</script>
+
+{% javascript %}
+  class ProductModal extends ModalDialog {
+    constructor() {
+      super();
+    }
+
+    hide() {
+      super.hide();
+      window.pauseAllMedia();
+    }
+
+    show(opener) {
+      super.show(opener);
+      this.showActiveMedia();
+    }
+
+    showActiveMedia() {
+      this.querySelectorAll(`[data-media-id]:not([data-media-id="${this.openedBy.getAttribute("data-media-id")}"])`).forEach((element) => {
+          element.classList.remove('active');
+        }
+      )
+      const activeMedia = this.querySelector(`[data-media-id="${this.openedBy.getAttribute("data-media-id")}"]`);
+      activeMedia.classList.add('active');
+      activeMedia.scrollIntoView();
+
+      if (activeMedia.nodeName == 'DEFERRED-MEDIA' && activeMedia.querySelector('template')?.content?.querySelector('.js-youtube'))
+        activeMedia.loadContent();
+    }
+  }
+
+  customElements.define('product-modal', ProductModal);
+{% endjavascript %}
+
+{%- if first_3d_model -%}
+  <script type="application/json" id="ProductJSON-{{ product.id }}">
+    {{ shsd_product_media | where: 'media_type', 'model' | json }}
+  </script>
+
+  <script src="{{ 'product-model.js' | asset_url }}" defer></script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "t:sections.main-product.name",
+  "tag": "section",
+  "class": "product-section spaced-section",
+  "blocks": [
+    {
+      "type": "@app"
+    },
+    {
+      "type": "text",
+      "name": "t:sections.main-product.blocks.text.name",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "default": "Text block",
+          "label": "t:sections.main-product.blocks.text.settings.text.label"
+        },
+        {
+          "type": "select",
+          "id": "text_style",
+          "options": [
+            {
+              "value": "body",
+              "label": "t:sections.main-product.blocks.text.settings.text_style.options__1.label"
+            },
+            {
+              "value": "subtitle",
+              "label": "t:sections.main-product.blocks.text.settings.text_style.options__2.label"
+            },
+            {
+              "value": "uppercase",
+              "label": "t:sections.main-product.blocks.text.settings.text_style.options__3.label"
+            }
+          ],
+          "default": "body",
+          "label": "t:sections.main-product.blocks.text.settings.text_style.label"
+        }
+      ]
+    },
+    {
+      "type": "title",
+      "name": "t:sections.main-product.blocks.title.name",
+      "limit": 1
+    },
+    {
+      "type": "price",
+      "name": "t:sections.main-product.blocks.price.name",
+      "limit": 1
+    },
+    {
+      "type": "quantity_selector",
+      "name": "t:sections.main-product.blocks.quantity_selector.name",
+      "limit": 1
+    },
+    {
+      "type": "variant_picker",
+      "name": "t:sections.main-product.blocks.variant_picker.name",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "select",
+          "id": "picker_type",
+          "options": [
+            {
+              "value": "dropdown",
+              "label": "t:sections.main-product.blocks.variant_picker.settings.picker_type.options__1.label"
+            },
+            {
+              "value": "button",
+              "label": "t:sections.main-product.blocks.variant_picker.settings.picker_type.options__2.label"
+            }
+          ],
+          "default": "button",
+          "label": "t:sections.main-product.blocks.variant_picker.settings.picker_type.label"
+        }
+      ]
+    },
+    {
+      "type": "buy_buttons",
+      "name": "t:sections.main-product.blocks.buy_buttons.name",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "show_dynamic_checkout",
+          "default": true,
+          "label": "t:sections.main-product.blocks.buy_buttons.settings.show_dynamic_checkout.label",
+          "info": "t:sections.main-product.blocks.buy_buttons.settings.show_dynamic_checkout.info"
+        }
+      ]
+    },
+    {
+      "type": "description",
+      "name": "t:sections.main-product.blocks.description.name",
+      "limit": 1
+    },
+    {
+      "type": "share",
+      "name": "t:sections.main-product.blocks.share.name",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "t:sections.main-product.blocks.share.settings.featured_image_info.content"
+        },
+        {
+          "type": "paragraph",
+          "content": "t:sections.main-product.blocks.share.settings.title_info.content"
+        }
+      ]
+    },
+    {
+      "type": "collapsible_tab",
+      "name": "t:sections.main-product.blocks.collapsible_tab.name",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "default": "Collapsible tab",
+          "info": "t:sections.main-product.blocks.collapsible_tab.settings.heading.info",
+          "label": "t:sections.main-product.blocks.collapsible_tab.settings.heading.label"
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "t:sections.main-product.blocks.collapsible_tab.settings.content.label"
+        },
+        {
+          "type": "page",
+          "id": "page",
+          "label": "t:sections.main-product.blocks.collapsible_tab.settings.page.label"
+        },
+        {
+          "type": "select",
+          "id": "icon",
+          "options": [
+            {
+              "value": "none",
+              "label": "t:sections.main-product.blocks.collapsible_tab.settings.icon.options__1.label"
+            },
+            {
+              "value": "box",
+              "label": "t:sections.main-product.blocks.collapsible_tab.settings.icon.options__2.label"
+            },
+            {
+              "value": "chat_bubble",
+              "label": "t:sections.main-product.blocks.collapsible_tab.settings.icon.options__3.label"
+            },
+            {
+              "value": "check_mark",
+              "label": "t:sections.main-product.blocks.collapsible_tab.settings.icon.options__4.label"
+            },
+            {
+              "value": "dryer",
+              "label": "t:sections.main-product.blocks.collapsible_tab.settings.icon.options__5.label"
+            },
+            {
+              "value": "eye",
+              "label": "t:sections.main-product.blocks.collapsible_tab.settings.icon.options__6.label"
+            },
+            {
+              "value": "heart",
+              "label": "t:sections.main-product.blocks.collapsible_tab.settings.icon.options__7.label"
+            },
+            {
+              "value": "iron",
+              "label": "t:sections.main-product.blocks.collapsible_tab.settings.icon.options__8.label"
+            },
+            {
+              "value": "leaf",
+              "label": "t:sections.main-product.blocks.collapsible_tab.settings.icon.options__9.label"
+            },
+            {
+              "value": "leather",
+              "label": "t:sections.main-product.blocks.collapsible_tab.settings.icon.options__10.label"
+            },
+            {
+              "value": "lock",
+              "label": "t:sections.main-product.blocks.collapsible_tab.settings.icon.options__11.label"
+            },
+            {
+              "value": "map_pin",
+              "label": "t:sections.main-product.blocks.collapsible_tab.settings.icon.options__12.label"
+            },
+            {
+              "value": "pants",
+              "label": "t:sections.main-product.blocks.collapsible_tab.settings.icon.options__13.label"
+            },
+            {
+              "value": "plane",
+              "label": "t:sections.main-product.blocks.collapsible_tab.settings.icon.options__14.label"
+            },
+            {
+              "value": "price_tag",
+              "label": "t:sections.main-product.blocks.collapsible_tab.settings.icon.options__15.label"
+            },
+            {
+              "value": "question_mark",
+              "label": "t:sections.main-product.blocks.collapsible_tab.settings.icon.options__16.label"
+            },
+            {
+              "value": "return",
+              "label": "t:sections.main-product.blocks.collapsible_tab.settings.icon.options__17.label"
+            },
+            {
+              "value": "ruler",
+              "label": "t:sections.main-product.blocks.collapsible_tab.settings.icon.options__18.label"
+            },
+            {
+              "value": "shirt",
+              "label": "t:sections.main-product.blocks.collapsible_tab.settings.icon.options__19.label"
+            },
+            {
+              "value": "shoe",
+              "label": "t:sections.main-product.blocks.collapsible_tab.settings.icon.options__20.label"
+            },
+            {
+              "value": "silhouette",
+              "label": "t:sections.main-product.blocks.collapsible_tab.settings.icon.options__21.label"
+            },
+            {
+              "value": "star",
+              "label": "t:sections.main-product.blocks.collapsible_tab.settings.icon.options__22.label"
+            },
+            {
+              "value": "truck",
+              "label": "t:sections.main-product.blocks.collapsible_tab.settings.icon.options__23.label"
+            },
+            {
+              "value": "washing",
+              "label": "t:sections.main-product.blocks.collapsible_tab.settings.icon.options__24.label"
+            }
+          ],
+          "default": "check_mark",
+          "label": "t:sections.main-product.blocks.collapsible_tab.settings.icon.label"
+        }
+      ]
+    },
+    {
+      "type": "popup",
+      "name": "t:sections.main-product.blocks.popup.name",
+      "settings": [
+        {
+          "type": "text",
+          "id": "link_label",
+          "default": "Pop-up link text",
+          "label": "t:sections.main-product.blocks.popup.settings.link_label.label"
+        },
+        {
+          "id": "page",
+          "type": "page",
+          "label": "t:sections.main-product.blocks.popup.settings.page.label"
+        }
+      ]
+    }
+  ],
+  "settings": [
+    {
+      "type": "header",
+      "content": "t:sections.main-product.settings.header.content",
+      "info": "t:sections.main-product.settings.header.info"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_sticky_info",
+      "default": true,
+      "label": "t:sections.main-product.settings.enable_sticky_info.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_video_looping",
+      "default": false,
+      "label": "t:sections.main-product.settings.enable_video_looping.label"
+    }
+  ]
+}
+{% endschema %}

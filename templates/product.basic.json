@@ -1,0 +1,171 @@
+{
+  "sections": {
+    "page_review_badge": {
+      "type": "product-review-badge",
+      "settings": {
+        "title": "Shop By Category"
+      }
+    },
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "title": {
+          "type": "title",
+          "settings": {}
+        },
+        "subtitle": {
+          "type": "text",
+          "settings": {
+            "text": "{{ product.metafields.descriptors.subtitle.value }}",
+            "text_style": "subtitle"
+          }
+        },
+        "price": {
+          "type": "price",
+          "settings": {}
+        },
+        "variant_picker": {
+          "type": "variant_picker",
+          "settings": {
+            "picker_type": "button"
+          }
+        },
+        "quantity_selector": {
+          "type": "quantity_selector",
+          "settings": {}
+        },
+        "buy_buttons": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": true
+          }
+        },
+        "description": {
+          "type": "description",
+          "settings": {}
+        },
+        "share": {
+          "type": "share",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "title",
+        "subtitle",
+        "price",
+        "variant_picker",
+        "quantity_selector",
+        "buy_buttons",
+        "description",
+        "share"
+      ],
+      "settings": {
+        "enable_sticky_info": true,
+        "enable_video_looping": false
+      }
+    },
+    "video_section": {
+      "type": "video-section",
+      "settings": {}
+    },
+    "1628783711e60e3269": {
+      "type": "multicolumn-product",
+      "blocks": {
+        "1628783711e60e3269-0": {
+          "type": "column",
+          "settings": {
+            "title": "",
+            "text": ""
+          }
+        },
+        "1628783711e60e3269-1": {
+          "type": "column",
+          "settings": {
+            "title": "Column",
+            "text": "&nbsp;"
+          }
+        },
+        "1628783711e60e3269-2": {
+          "type": "column",
+          "settings": {
+            "title": "Column",
+            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.<\/p>"
+          }
+        }
+      },
+      "block_order": [
+        "1628783711e60e3269-0",
+        "1628783711e60e3269-1",
+        "1628783711e60e3269-2"
+      ],
+      "settings": {
+        "title": "",
+        "image_width": "full",
+        "image_ratio": "square",
+        "column_alignment": "center",
+        "background_style": "none",
+        "button_label": "",
+        "button_link": "",
+        "swipe_on_mobile": true
+      }
+    },
+    "1628867082698f78f8": {
+      "type": "image-with-text-product",
+      "blocks": {
+        "1628867082698f78f8-0": {
+          "type": "heading",
+          "settings": {
+            "heading": "Image with text"
+          }
+        },
+        "1628867082698f78f8-1": {
+          "type": "text",
+          "settings": {
+            "text": ""
+          }
+        }
+      },
+      "block_order": [
+        "1628867082698f78f8-0",
+        "1628867082698f78f8-1"
+      ],
+      "settings": {
+        "height": "adapt",
+        "color_scheme": "background-1",
+        "layout": "text_first"
+      }
+    },
+    "1628867362637ce0a4": {
+      "type": "homepage-riskreversal",
+      "settings": {
+        "title": ""
+      }
+    },
+    "page_review_content": {
+      "type": "product-review-content",
+      "settings": {
+        "title": "Shop By Category"
+      }
+    },
+    "product-recommendations": {
+      "type": "product-recommendations",
+      "settings": {
+        "heading": "You may also like",
+        "image_ratio": "square",
+        "show_secondary_image": true,
+        "add_image_padding": false,
+        "show_vendor": false
+      }
+    }
+  },
+  "order": [
+    "page_review_badge",
+    "main",
+    "video_section",
+    "1628783711e60e3269",
+    "1628867082698f78f8",
+    "1628867362637ce0a4",
+    "page_review_content",
+    "product-recommendations"
+  ]
+}

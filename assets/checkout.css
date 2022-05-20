@@ -1,0 +1,20 @@
+.wanderError,
+.whimsError {
+  background-color: #ad938d;
+  padding: 2%;
+  border-radius: 15px;
+  color: #373639;
+}
+.wanderError a,
+.whimsError a {
+  color: #373639;
+  text-decoration: underline;
+}
+.wanderError a:hover,
+.whimsError a:hover {
+  text-decoration: none;
+}
+#continue_button:disabled {
+  cursor: not-allowed;
+  opacity: .5;
+}

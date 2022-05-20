@@ -1,0 +1,113 @@
+<div class="sixteen columns clearfix new-slider"> 
+  
+  <div> 
+    <a href='https://furlscrochet.com/collections/hooks-and-needles'>
+      <img src='https://cdn.shopify.com/s/files/1/0166/0254/files/moody-site-banner-1.jpg?v=1651521740'/>
+    </a>
+    </div>
+  
+ </div> 
+
+<style type="text/css">
+  h1{    
+    border:none;
+    font-weight:bold;
+    margin:0px;
+    letter-spacing: 2px;
+    padding:0px;
+  }
+  
+  img{
+  padding:10px 50px;
+  }
+  
+  @media only screen 
+    and (max-device-width: 600px){
+      img{
+      padding:0px 10px;
+      }
+    }
+    
+  
+</style>
+
+<script type="text/javascript">
+
+$(function(){
+
+  //show timer if now is before expiry.
+  $.each($(".timer-wrapper"),function(){
+    var now = $.now(),
+        banner = $(this),
+        expiry = new Date(banner.data("expiry")).getTime();
+  //show wrapper
+      if (now <= expiry) {
+        //sale banner  
+        banner.show();
+      };
+    //set time
+    var timer;
+    var compareDate = new Date($(this).data("expiry"));
+    timer = setInterval(function() {
+      timeBetweenDates(compareDate, banner, timer);
+    }, 1000);
+  });
+  
+  //function for counting down
+  function timeBetweenDates(toDate, wrapper, timer) {
+    var timer = timer,
+        wrapper = wrapper,
+      dateEntered = toDate,
+      now = new Date(),
+      difference = dateEntered.getTime() - now.getTime();
+
+    if (difference <= 0) {
+      // Timer done
+      clearInterval(timer);
+    } else {
+      var seconds = Math.floor(difference / 1000);
+      var minutes = Math.floor(seconds / 60);
+      var hours = Math.floor(minutes / 60);
+      var days = Math.floor(hours / 24);
+
+      hours %= 24;
+      minutes %= 60;
+      seconds %= 60;
+
+      wrapper.find(".days").text(days);
+      wrapper.find(".hours").text(hours);
+      wrapper.find(".minutes").text(minutes);
+      wrapper.find(".seconds").text(seconds);
+    }
+  };
+
+  
+});
+
+var slider = tns({
+  "container": ".new-slider",
+  "items": 1,
+  "autoplay": true,
+  "speed": 600,
+  "nav": false
+});
+  
+</script>
+
+{% schema %}
+{
+  "name": "homepageBanner",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title"
+    }
+  ],
+  "presets": [
+    {
+      "name": "homepageBanner"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,70 @@
+.sixteen.columns { 
+  margin: auto;
+  text-align: center;
+}
+.charitiesWrapper h2 {
+  font-weight: bold;
+  text-transform: capitalize;
+  font-variant: small-caps;
+  border: none;
+}
+.charitiesWrapper .aboutCharity img {
+  width: 100%;
+}
+.pastCharitiesWrapper img {
+  width: 100%;
+}
+.pastCharitiesWrapper [class*=pastCharities] {
+  text-align: center;
+  display: inline-block;
+}
+.pastCharitiesWrapper h3 {
+  text-align: center;
+  display: inline-block;
+  border: none;
+}
+
+@media only screen and (min-width: 768px) and (max-width: 959px) {
+  .eight.columns { 
+    width: 364px; 
+  }
+  .sixteen.columns { 
+    width: 748px; 
+  }
+}
+
+/* Tablet-portrait (and larger)
+ * Tablet-landscape (and larger) 
+ * Laptops (and larger) 
+ */
+@media (min-width: 768px), (min-width: 992px), (min-width: 1200px) {
+  .charitiesWrapper .aboutCharity,
+  .mainMonthWrapper {
+    display: flex;
+  }
+  .charitiesWrapper .aboutCharity img {
+    width: 40%;
+  }
+  .charitiesWrapper .aboutCharity p {
+    margin-left: 5%;
+  }
+  .pastCharitiesWrapper [class*=pastCharities] {
+    width: 25%;
+  }
+  .pastCharitiesWrapper .pastCharitiesMarch img {
+    width: 100%;
+  }
+  .pastCharitiesWrapper .pastCharitiesApril img {
+    width: 65%;
+  }
+  .pastCharitiesWrapper {
+    display: flex;
+    justify-content: space-around;
+  }
+  .sixteen.columns {
+    width: 940px;
+  }
+  .eight.columns {
+    width: 460px;
+  }
+}

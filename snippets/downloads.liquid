@@ -1,0 +1,588 @@
+{% assign cfSpring2021 = false %}
+{% assign cfWinter2020 = false %}
+{% assign cfFall2020 = false %}
+{% assign cfSummer2020 = false %}
+{% assign whimsPattern = false %}
+{% assign quarantine = false %}
+{% assign harvest = false %}
+{% assign paradise = false %}
+{% assign jumbo = false %}
+{% assign cascadia = false %}
+{% assign wanderKit = false %}
+{% assign wanderCount = 0 %}
+{% assign spaPattern = false %}
+{% assign bohoPattern = false %}
+{% assign pridePattern = false %}
+{% assign adventureKit = false %}
+{% assign cfWinter2021 = false %}
+{% assign SlumberBlanket = false %}
+{% assign HecateShawl = false %}
+{% assign cfspring2022 = false %}
+{% assign SonderCowl = false %}
+{% assign florashawl042122 = false %}
+
+{% for order in customer.orders %}
+  {% for item in order.line_items %}
+    <!-- begin CROCHET FOUNDRY section-->
+    {% if item.variant_id == 39286646014019 %}
+      {% assign cfSpring2021 = true %}
+    {% endif %}
+    {% if item.variant_id == 32232666923075 %}
+      {% assign cfWinter2020 = true %}
+    {% endif %}
+    {% if item.variant_id == 32072467447875 %}
+      {% assign cfFall2020 = true %}
+    {% endif %}
+    {% if item.variant_id == 31929075171395 %}
+      {% assign cfSummer2020 = true %}
+    {% endif %}
+    {% if item.variant_id == 39532618448963 %}
+      {% assign cfSummer2021 = true %}
+    {% endif %}
+    {% if item.variant_id == 39532618580035 %}
+      {% assign cfFall2021 = true %}
+    {% endif %}
+    {% if item.variant_id == 39661098434627 %}
+      {% assign cfWinter2021 = true %}
+    {% endif %}
+    {% if item.variant_id == 39812679106627 %}
+      {% assign cfspring2022 = true %}
+    {% endif %}
+
+    <!-- end CROCHET FOUNDRY section-->
+    
+    <!-- begin SonderCowl PATTERN section-->
+    {% if item.variant_id == 6663543455811 %}
+      {% assign SonderCowl = true %}
+    {% endif %}
+    <!-- end SonderCowl PATTERN section-->
+
+    <!-- begin WHIMS PATTERN section-->
+    {% if item.variant_id == 31517066428483 %}
+      {% assign whimsPattern = true %}
+    {% endif %}
+    <!-- end WHIMS PATTERN section-->
+    
+    <!-- begin QUARANTINE KIT section-->
+    {% if item.product_id == 4426429825091 %}
+      {% assign quarantine = true %}
+    {% endif %}
+    <!-- end QUARANTINE KIT section-->
+  
+    <!-- begin HARVEST_PATTERNS section-->
+    {% if item.product_id == 4575382995011 %}
+      {% assign harvest = true %}
+    {% endif %}
+    <!-- end HARVEST_PATTERNS section-->
+    
+    <!-- begin PARADISE_PATTERNS section-->
+    {% if item.product_id == 4520891842627 %}
+      {% assign paradise = true %}
+    {% endif %}
+    <!-- end PARADISE_PATTERNS section-->
+    
+    <!-- jumbo downloads-->
+    {% if item.product_id == 301583138843 or item.product_id == 9310696849 %}
+      {% assign jumbo = true %}
+    {% endif %}
+    <!-- end jumbo downloads-->
+  
+    <!-- cascadia yarn downloads-->
+    {% if item.product_id == 2150112624707  %}
+      {% assign cascadia = true %}
+    {% endif %}
+    <!-- cascadia yarn downloads-->
+
+    <!-- wander yarn kit downloads-->
+    {% if item.product_id == 6543249637443  %}
+      {% assign wanderKit = true %}
+    {% endif %}
+
+    {% if item.product_id == 4528867147843  %}
+      {% assign wanderCount = wanderCount | plus: 1 %}
+    {% endif %}
+    <!-- wander yarn kit downloads-->
+
+    <!-- spa kit downloads-->
+    {% if item.product_id == 6562692300867  %}
+      {% assign spaPattern = true %}
+    {% endif %}
+    <!-- spa kit downloads-->
+
+    <!-- whims knit kit boho downloads-->
+    {% if item.product_id == 6566059933763  %}
+      {% assign bohoPattern = true %}
+    {% endif %}
+    <!-- whims knit kit boho downloads-->
+
+    <!-- pride pattern downloads-->
+    {% if item.product_id == 6536931901507  %}
+      {% assign pridePattern = true %}
+    {% endif %}
+    <!-- pride pattern downloads-->
+
+    <!-- Flora Shawl Kit pattern downloads-->
+    {% if item.product_id == 6676837859395  %}
+      {% assign florashawl042122 = true %}
+    {% endif %}
+    <!-- Flora Shawl Kit downloads-->
+
+    <!-- Hecate Shawl Kit pattern downloads-->
+    {% if item.product_id == 6642940706883  %}
+      {% assign HecateShawl = true %}
+    {% endif %}
+    <!-- Hecate Shawl Kit downloads-->
+
+    <!-- Slumber Blanket Kit pattern downloads-->
+    {% if item.product_id == 6633595076675  %}
+      {% assign SlumberBlanket = true %}
+    {% endif %}
+    <!-- Slumber Blanket Kit downloads-->
+
+    <!-- adventure kit downloads-->
+    {% if item.product_id == 6597955747907  %}
+      {% assign adventureKit = true %}
+    {% endif %}
+    <!-- adventure kit downloads-->
+  {% endfor %}
+{% endfor %}
+
+{% if wanderCount >= 5 %}
+  {% assign wanderKit = true %}
+{% endif %}
+
+<a href="/account">
+  Return to Account details
+</a>
+
+<div class="sixteen columns accountContainer">
+  <div id="accountDownloads">
+    <h2>Your Downloads</h2>
+
+    {% if adventureKit %}
+      {% if adventureKit %}
+      <div class="downloadsWrapper">
+        <div class="four columns alpha">
+          <a target="_blank" href="https://cdn.shopify.com/s/files/1/0166/0254/files/FurlsCrochet-2021-Adventure_Beanie-Stark-FULL.pdf?v=1632317063"><img src="https://cdn.shopify.com/s/files/1/0166/0254/files/FurlsCrochet-2021-Adventure_Beanie-Stark-FULL.jpg?v=1632248573" style="border:1px solid;"/></a>
+        </div>
+        <div class="four columns omega">
+          <h3><span>Adventure Beanie</span> by Pam Stark</h3>
+          <p class="pattern-link">
+            <a target="_blank" href="https://cdn.shopify.com/s/files/1/0166/0254/files/FurlsCrochet-2021-Adventure_Beanie-Stark-FULL.pdf?v=1632317063">DOWNLOAD</a>
+          </p>
+        </div>
+      </div>
+      
+      <div class="downloadsWrapper">
+        <div class="four columns alpha">
+          <a target="_blank" href="https://cdn.shopify.com/s/files/1/0166/0254/files/FurlsCrochet-2021-Adventure_Cowl-Eppolite-FULL.pdf?v=1632399609"><img src="https://cdn.shopify.com/s/files/1/0166/0254/files/FurlsCrochet-2021-Adventure_Cowl-Eppolite-COVER.jpg?v=1632399609" style="border:1px solid;"/></a>
+        </div>
+        <div class="four columns omega">
+          <h3><span>Adventure Cowl</span> by Lorene Eppolite</h3>
+          <p class="pattern-link">
+            <a target="_blank" href="https://cdn.shopify.com/s/files/1/0166/0254/files/FurlsCrochet-2021-Adventure_Cowl-Eppolite-FULL.pdf?v=1632399609">DOWNLOAD</a>
+          </p>
+        </div>
+      </div>
+
+      <div class="downloadsWrapper">
+        <div class="four columns alpha">
+          <a target="_blank" href="https://cdn.shopify.com/s/files/1/0166/0254/files/FurlsCrochet-2021-adventuresocks-bucholz-FULL.pdf?v=1632399626"><img src="https://cdn.shopify.com/s/files/1/0166/0254/files/FurlsCrochet-2021-adventuresocks-bucholz-FULL.jpg?v=1632399626" style="border:1px solid;"/></a>
+        </div>
+        <div class="four columns omega">
+          <h3><span>Adventure Socks</span> by Crystal Bucholz</h3>
+          <p class="pattern-link">
+            <a target="_blank" href="https://cdn.shopify.com/s/files/1/0166/0254/files/FurlsCrochet-2021-adventuresocks-bucholz-FULL.pdf?v=1632399626">DOWNLOAD</a>
+          </p>
+        </div>
+      </div>
+    {% endif %}
+    {% endif %}
+    
+      {% if whimsPattern or quarantine %}
+      <div class="downloadsWrapper">
+        <div class="four columns alpha">
+          <a target="_blank" href="https://cdn.shopify.com/s/files/1/0166/0254/files/FurlsCrochet-OneSkein-CrossedSeamsHat-FULL.pdf?v=1614344183"><img src="https://cdn.shopify.com/s/files/1/0166/0254/files/FurlsCrochet-OneSkein-CrossedSeamsHat-COVER.jpg?v=1614344191" style="border:1px solid;"/></a>
+        </div>
+        <div class="four columns omega">
+          <h3><span>Cross Seams Hat</span> by Julie-Sarah Desjardins</h3>
+          <p class="pattern-link">
+            <a target="_blank" href="https://cdn.shopify.com/s/files/1/0166/0254/files/FurlsCrochet-OneSkein-CrossedSeamsHat-FULL.pdf?v=1614344183">DOWNLOAD</a>
+          </p>
+        </div>
+      </div>
+      
+      <div class="downloadsWrapper">
+        <div class="four columns alpha">
+          <a target="_blank" href="https://cdn.shopify.com/s/files/1/0166/0254/files/Furls-Whims-CrossbodyBag-FULL.pdf?v=1614346495"><img src="https://cdn.shopify.com/s/files/1/0166/0254/files/Furls-Whims-CrossbodyBag-FULL.jpg?v=1614343310" style="border:1px solid;"/></a>
+        </div>
+        <div class="four columns omega">
+          <h3><span>Crossbody Bag</span> by Emily Reiter</h3>
+          <p class="pattern-link">
+            <a target="_blank" href="https://cdn.shopify.com/s/files/1/0166/0254/files/Furls-Whims-CrossbodyBag-FULL.pdf?v=1614346495">DOWNLOAD</a>
+          </p>
+        </div>
+      </div>
+
+      <div class="downloadsWrapper">
+        <div class="four columns alpha">
+          <a target="_blank" href="https://cdn.shopify.com/s/files/1/0166/0254/files/FurlsCrochet-OneSkein-ProjectPouch-FULL.pdf?v=1614344193"><img src="https://cdn.shopify.com/s/files/1/0166/0254/files/FurlsCrochet-OneSkein-ProjectPouch-COVER.jpg?v=1614344193" style="border:1px solid;"/></a>
+        </div>
+        <div class="four columns omega">
+          <h3><span>Project Pouch</span> by Brianna Iaropoli</h3>
+          <p class="pattern-link">
+            <a target="_blank" href="https://cdn.shopify.com/s/files/1/0166/0254/files/FurlsCrochet-OneSkein-ProjectPouch-FULL.pdf?v=1614344193">DOWNLOAD</a>
+          </p>
+        </div>
+      </div>
+    
+     <div class="downloadsWrapper">
+        <div class="four columns alpha">
+          <a target="_blank" href="https://cdn.shopify.com/s/files/1/0166/0254/files/FurlsCrochet-OneSkein-PrincessCowl-FULL.pdf?v=1614344302"><img src="https://cdn.shopify.com/s/files/1/0166/0254/files/FurlsCrochet-OneSkein-PrincessCowl-2COVER.jpg?v=1614344291" style="border:1px solid;"/></a>
+        </div>
+        <div class="four columns omega">
+          <h3><span>Princess Cowl</span> by Deb Keck</h3>
+          <p class="pattern-link">
+            <a target="_blank" href="https://cdn.shopify.com/s/files/1/0166/0254/files/FurlsCrochet-OneSkein-PrincessCowl-FULL.pdf?v=1614344302">DOWNLOAD</a>
+          </p>
+        </div>
+      </div>
+    {% endif %}
+  
+    {% if florashawl042122 %}
+      <div class="downloadsWrapper">
+        <div class="four columns alpha">
+          <a target="_blank" href="https://cdn.shopify.com/s/files/1/0166/0254/files/FurlsCrochet-2021-Flora_Shawl_V2.pdf?v=1651512728"><img src="https://cdn.shopify.com/s/files/1/0166/0254/files/flora-shawl-cover.jpg?v=1650555746" style="border:1px solid;"/></a>
+        </div>
+        <div class="four columns omega">
+          <h3><span>Flora Shawl</span> by Torie Dell</h3>
+          <p class="pattern-link">
+            <a target="_blank" href="https://cdn.shopify.com/s/files/1/0166/0254/files/FurlsCrochet-2021-Flora_Shawl_V2.pdf?v=1651512728">DOWNLOAD</a>
+          </p>
+        </div>
+      </div>
+    {% endif %}
+    
+    {% if SonderCowl %}
+      <div class="downloadsWrapper">
+        <div class="four columns alpha">
+          <a target="_blank" href="https://cdn.shopify.com/s/files/1/0166/0254/files/FurlsCrochet-2022-Sonder_Cowl.pdf?v=1647285755"><img src="https://cdn.shopify.com/s/files/1/0166/0254/files/FurlsCrochet-2022-Sonder_Cowl-COVER.jpg?v=1647285755" style="border:1px solid;"/></a>
+        </div>
+        <div class="four columns omega">
+          <h3><span>Sonder Cowl</span> by Lorene Eppolite</h3>
+          <p class="pattern-link">
+            <a target="_blank" href="https://cdn.shopify.com/s/files/1/0166/0254/files/FurlsCrochet-2022-Sonder_Cowl.pdf?v=1647285755">DOWNLOAD</a>
+          </p>
+        </div>
+      </div>
+    {% endif %}
+    
+    {% if pridePattern %}
+      <div class="downloadsWrapper">
+        <div class="four columns alpha">
+          <a target="_blank" href="https://cdn.shopify.com/s/files/1/0166/0254/files/FurlsCrochet-2021-Pride_Prismatic_Shawl-Eppolite-FULL.pdf?v=1625057697"><img src="https://cdn.shopify.com/s/files/1/0166/0254/files/furlscrochet-2021-pride-prismatic-shawl-eppolite-f.jpg?v=1625057697" style="border:1px solid;"/></a>
+        </div>
+        <div class="four columns omega">
+          <h3><span>Pride Prismastic Shawl</span> by Lorene Eppolite</h3>
+          <p class="pattern-link">
+            <a target="_blank" href="https://cdn.shopify.com/s/files/1/0166/0254/files/FurlsCrochet-2021-Pride_Prismatic_Shawl-Eppolite-FULL.pdf?v=1625057697">DOWNLOAD</a>
+          </p>
+        </div>
+      </div>
+    {% endif %}
+
+     {% if HecateShawl %}
+      <div class="downloadsWrapper">
+        <div class="four columns alpha">
+          <a target="_blank" href="https://cdn.shopify.com/s/files/1/0166/0254/files/FurlsCrochet-2021-Hecate_Shawl-Dell-FULL_1c454caa-4360-4556-babe-bc2329904c0b.pdf?v=1644330852"><img src="https://cdn.shopify.com/s/files/1/0166/0254/files/FurlsCrochet-2021-Hecate_Shawl-Dell-COVER.jpg?v=1642611547" style="border:1px solid;"/></a>
+        </div>
+        <div class="four columns omega">
+          <h3><span>Hecate Shawl Crochet Pattern</span> by Torie Dell</h3>
+          <p class="pattern-link">
+            <a target="_blank" href="https://cdn.shopify.com/s/files/1/0166/0254/files/FurlsCrochet-2021-Hecate_Shawl-Dell-FULL_1c454caa-4360-4556-babe-bc2329904c0b.pdf?v=1644330852">DOWNLOAD</a>
+          </p>
+        </div>
+      </div>
+    {% endif %}
+    
+    {% if SlumberBlanket %}
+      <div class="downloadsWrapper">
+        <div class="four columns alpha">
+          <a target="_blank" href="https://cdn.shopify.com/s/files/1/0166/0254/files/Slumber_Blanket.pdf?v=1640205693"><img src="https://cdn.shopify.com/s/files/1/0166/0254/files/FurlsCrochet-2021-Slumber_Blanket-Bucholz.jpg?v=1640205693" style="border:1px solid;"/></a>
+        </div>
+        <div class="four columns omega">
+          <h3><span>Slumber Blanket Crochet Pattern</span> by Crystal Bucholz</h3>
+          <p class="pattern-link">
+            <a target="_blank" href="https://cdn.shopify.com/s/files/1/0166/0254/files/Slumber_Blanket.pdf?v=1640205693">DOWNLOAD</a>
+          </p>
+        </div>
+      </div>
+    {% endif %}
+    
+    {% if bohoPattern %}
+      <div class="downloadsWrapper">
+        <div class="four columns alpha">
+          <a target="_blank" href="https://cdn.shopify.com/s/files/1/0166/0254/files/FurlsCrochet-2021-BohoKnitTasselBunting-Avery-FULL_v2.pdf?v=1621538447"><img src="https://cdn.shopify.com/s/files/1/0166/0254/files/FurlsCrochet-2021-BohoKnitTasselBunting-Avery-COVER_v2.jpg?v=1621538447" style="border:1px solid;"/></a>
+        </div>
+        <div class="four columns omega">
+          <h3><span>Boho Knit Tassle Bunting</span> by Ashlie Avery</h3>
+          <p class="pattern-link">
+            <a target="_blank" href="https://cdn.shopify.com/s/files/1/0166/0254/files/FurlsCrochet-2021-BohoKnitTasselBunting-Avery-FULL_v2.pdf?v=1621538447">DOWNLOAD</a>
+          </p>
+        </div>
+      </div>
+    {% endif %}
+    
+    {% if spaPattern %}
+      <div class="downloadsWrapper">
+        <div class="four columns alpha">
+          <a target="_blank" href="https://cdn.shopify.com/s/files/1/0166/0254/files/FurlsCrochet-2021-Total_Relaxation_Spa_Set-_Bucholz-FULL.pdf?v=1620607846"><img src="https://cdn.shopify.com/s/files/1/0166/0254/files/received_223510965776174.jpg?v=1620607365" style="border:1px solid;"/></a>
+        </div>
+        <div class="four columns omega">
+          <h3><span>Total Relaxation Spa Set</span> by Crystal Bucholz</h3>
+          <p class="pattern-link">
+            <a target="_blank" href="https://cdn.shopify.com/s/files/1/0166/0254/files/FurlsCrochet-2021-Total_Relaxation_Spa_Set-_Bucholz-FULL.pdf?v=1620607846">DOWNLOAD</a>
+          </p>
+        </div>
+      </div>
+    {% endif %}
+    
+    {% if wanderKit %}
+      <div class="downloadsWrapper">
+        <div class="four columns alpha">
+          <a target="_blank" href="https://cdn.shopify.com/s/files/1/0166/0254/files/ThoseWhoWanderCowl-Eppolite-FULL.pdf?v=1617048284"><img src="https://cdn.shopify.com/s/files/1/0166/0254/files/FurlsCrochet-2021-ThoseWhoWander-Eppolite-COVER.jpg?v=1617048283" style="border:1px solid;"/></a>
+        </div>
+        <div class="four columns omega">
+          <h3><span>Those Who Wander Cowl</span> by Lorene Eppolite</h3>
+          <p class="pattern-link">
+            <a target="_blank" href="https://cdn.shopify.com/s/files/1/0166/0254/files/ThoseWhoWanderCowl-Eppolite-FULL.pdf?v=1617048284">DOWNLOAD</a>
+          </p>
+        </div>
+      </div>
+    {% endif %}
+
+    {% if cfFall2021 %}
+      <div class="downloadsWrapper">
+        <div class="four columns alpha">
+          <a target="_blank" href="https://cdn.shopify.com/s/files/1/0558/4388/1150/files/Fall2021Combined.pdf?v=1630086824"><img src="https://cdn.shopify.com/s/files/1/0558/4388/1150/files/Fall_2021_Crochet_Foundry_Magazine_Cover.jpg?v=1630087431" style="border:1px solid;"/></a>
+        </div>
+        <div class="four columns omega">
+          <h3><span>Fall 2021 Issue</span> by Crochet Foundry</h3>
+          <p class="pattern-link">
+            <a target="_blank" href="https://cdn.shopify.com/s/files/1/0558/4388/1150/files/Fall2021Combined.pdf?v=1630086824">DOWNLOAD</a>
+          </p>
+        </div>
+      </div>
+    {% endif %}
+    
+    {% if cfWinter2021 %}
+      <div class="downloadsWrapper">
+        <div class="four columns alpha">
+          <a target="_blank" href="https://cdn.shopify.com/s/files/1/0166/0254/files/Crochet_Foundry_Magazine_Winter_2021.pdf?v=1638369837"><img src="https://cdn.shopify.com/s/files/1/0166/0254/files/winter-2021-cover_2.jpg?v=1638369780" style="border:1px solid;"/></a>
+        </div>
+        <div class="four columns omega">
+          <h3><span>Winter 2021 Issue</span> by Crochet Foundry</h3>
+          <p class="pattern-link">
+            <a target="_blank" href="https://cdn.shopify.com/s/files/1/0166/0254/files/Crochet_Foundry_Magazine_Winter_2021.pdf?v=1638369837">DOWNLOAD</a>
+          </p>
+        </div>
+      </div>
+    {% endif %}
+    
+        {% if cfspring2022 %}
+      <div class="downloadsWrapper">
+        <div class="four columns alpha">
+          <a target="_blank" href="https://cdn.shopify.com/s/files/1/0166/0254/files/Crochet_Foundry_Spring_2022.pdf?v=1646409116"><img src="https://cdn.shopify.com/s/files/1/0166/0254/files/spring-cover-3.jpg?v=1646408994" style="border:1px solid;"/></a>
+        </div>
+        <div class="four columns omega">
+          <h3><span>Spring 2022 Issue</span> by Crochet Foundry</h3>
+          <p class="pattern-link">
+            <a target="_blank" href="https://cdn.shopify.com/s/files/1/0166/0254/files/Crochet_Foundry_Spring_2022.pdf?v=1646409116">DOWNLOAD</a>
+          </p>
+        </div>
+      </div>
+    {% endif %}
+
+    {% if cfSummer2021 %}
+      <div class="downloadsWrapper">
+        <div class="four columns alpha">
+          <a target="_blank" href="https://cdn.shopify.com/s/files/1/0558/4388/1150/files/Crochet_Foundry_Summer_2021_v3_reduced_high.pdf?v=1623870504"><img src="https://cdn.shopify.com/s/files/1/0558/4388/1150/files/Summer2021Cover.png?v=1623689861" style="border:1px solid;"/></a>
+        </div>
+        <div class="four columns omega">
+          <h3><span>Summer 2021 Issue</span> by Crochet Foundry</h3>
+          <p class="pattern-link">
+            <a target="_blank" href="https://cdn.shopify.com/s/files/1/0558/4388/1150/files/Crochet_Foundry_Summer_2021_v3_reduced_high.pdf?v=1623870504">DOWNLOAD</a>
+          </p>
+        </div>
+      </div>
+    {% endif %}
+
+    {% if cfSpring2021 %}
+      <div class="downloadsWrapper">
+        <div class="four columns alpha">
+          <a target="_blank" href="https://cdn.shopify.com/s/files/1/0166/0254/files/Crochet_Foundry_Spring_2021.pdf_FINAL.pdf?v=1616621543"><img src="https://cdn.shopify.com/s/files/1/0166/0254/files/CF-spring-2021-cover.jpg?v=1616680995" style="border:1px solid;"/></a>
+        </div>
+        <div class="four columns omega">
+          <h3><span>Spring 2021 Issue</span> by Crochet Foundry</h3>
+          <p class="pattern-link">
+            <a target="_blank" href="https://cdn.shopify.com/s/files/1/0166/0254/files/Crochet_Foundry_Spring_2021.pdf_FINAL.pdf?v=1616621543">DOWNLOAD</a>
+          </p>
+        </div>
+      </div>
+    {% endif %}
+
+    {% if cfWinter2020 %}
+      <div class="downloadsWrapper">
+        <div class="four columns alpha">
+          <a target="_blank" href="https://cdn.shopify.com/s/files/1/0166/0254/files/Winter_2020_Crochet_Foundry_Compressed.pdf?v=1607715515"><img src="https://cdn.shopify.com/s/files/1/0166/0254/files/crochet-foundry-winter-2020-COVER.jpeg?v=1607714763" style="border:1px solid;"/></a>
+        </div>
+        <div class="four columns omega">
+          <h3><span>Winter 2020 Issue</span> by Crochet Foundry</h3>
+          <p class="pattern-link">
+            <a target="_blank" href="https://cdn.shopify.com/s/files/1/0166/0254/files/Winter_2020_Crochet_Foundry_Compressed.pdf?v=1607715515">DOWNLOAD</a>
+          </p>
+        </div>
+      </div>
+    {% endif %}
+
+    {% if cfFall2020 %}
+      <div class="downloadsWrapper">
+        <div class="four columns alpha">
+          <a target="_blank" href="https://cdn.shopify.com/s/files/1/0166/0254/files/Crochet_Foundry_Fall_2020_optimized.pdf?v=1600455914"><img src="https://cdn.shopify.com/s/files/1/0166/0254/files/Cover_Fall_2020.jpg?v=1600459291" style="border:1px solid;"/></a>
+        </div>
+        <div class="four columns omega">
+          <h3><span>Fall 2020 Issue</span> by Crochet Foundry</h3>
+          <p class="pattern-link">
+            <a target="_blank" href="https://cdn.shopify.com/s/files/1/0166/0254/files/Crochet_Foundry_Fall_2020_optimized.pdf?v=1600455914">DOWNLOAD</a>
+          </p>
+        </div>
+      </div>
+    {% endif %}
+
+    {% if cfSummer2020 %}
+      <div class="downloadsWrapper">
+        <div class="four columns alpha">
+          <a target="_blank" href="https://cdn.shopify.com/s/files/1/0166/0254/files/Crochet_Foundry_Magazine_June_2020_Single_Page_View.pdf?v=1595347937"><img src="https://cdn.shopify.com/s/files/1/0166/0254/files/crochet-foundry-summer2020-COVER_-_1.jpeg?v=1594924928" style="border:1px solid;"/></a>
+        </div>
+        <div class="four columns omega">
+          <h3><span>Spring 2021 Issue</span> by Crochet Foundry</h3>
+          <p class="pattern-link">
+            <a target="_blank" href="https://cdn.shopify.com/s/files/1/0166/0254/files/Crochet_Foundry_Magazine_June_2020_Single_Page_View.pdf?v=1595347937">DOWNLOAD</a>
+          </p>
+        </div>
+      </div>
+    {% endif %}
+
+    {% if harvest %}
+      <div class="downloadsWrapper">
+        <div class="four columns alpha">
+          <a target="_blank" href="https://cdn.shopify.com/s/files/1/0166/0254/files/LEWhimsHarvest-AutumnCowl-Hunt-FULL.pdf?v=1603311680"><img src="https://cdn.shopify.com/s/files/1/0166/0254/files/LEWhimsHarvest-AutumnCowl-Hunt-COVER2.jpg?v=1603309765" style="border:1px solid;"/></a>
+        </div>
+        <div class="four columns omega">
+          <h3><span>Autumn Leaves Cowl</span> by Dianne Hunt</h3>
+          <p class="pattern-link">
+            <a target="_blank" href="https://cdn.shopify.com/s/files/1/0166/0254/files/LEWhimsHarvest-AutumnCowl-Hunt-FULL.pdf?v=1603311680">DOWNLOAD</a>
+          </p>
+        </div>
+      </div>
+
+      <div class="downloadsWrapper">
+        <div class="four columns alpha">
+          <a target="_blank" href="https://cdn.shopify.com/s/files/1/0166/0254/files/LEWhimsHarvest-BerryPickingEarwarmer-Casale-FULL.pdf?v=1603312485"><img src="https://cdn.shopify.com/s/files/1/0166/0254/files/LEWhimsHarvest-BerryPickingEarwarmer-Casale-COVER.jpg?v=1603227297" style="border:1px solid;"/></a>
+        </div>
+        <div class="four columns omega">
+          <h3><span>Berry Earwarmer</span> by Samantha Casale</h3>
+          <p class="pattern-link">
+            <a target="_blank" href="https://cdn.shopify.com/s/files/1/0166/0254/files/LEWhimsHarvest-BerryPickingEarwarmer-Casale-FULL.pdf?v=1603312485">DOWNLOAD</a>
+          </p>
+        </div>
+      </div>
+
+      <div class="downloadsWrapper">
+        <div class="four columns alpha">
+          <a target="_blank" href="https://cdn.shopify.com/s/files/1/0166/0254/files/LEWhimsHarvest-MiniSweaters-Eaves-FULL.pdf?v=1603388569"><img src="https://cdn.shopify.com/s/files/1/0166/0254/files/LEWhimsHarvest-MiniSweaters-Eaves-COVER4.jpg?v=1603309756" style="border:1px solid;"/></a>
+        </div>
+        <div class="four columns omega">
+          <h3><span>Mini Sweaters</span> by Brenna Eaves</h3>
+          <p class="pattern-link">
+            <a target="_blank" href="https://cdn.shopify.com/s/files/1/0166/0254/files/LEWhimsHarvest-MiniSweaters-Eaves-FULL.pdf?v=1603388569">DOWNLOAD</a>
+          </p>
+        </div>
+      </div>
+
+      <div class="downloadsWrapper">
+        <div class="four columns alpha">
+          <a target="_blank" href="https://cdn.shopify.com/s/files/1/0166/0254/files/LEWhimsHarvest-Beanie-Avery-FULL.pdf?v=1603389814"><img src="https://cdn.shopify.com/s/files/1/0166/0254/files/LEWhimsHarvest-AutumnCowl-Hunt-COVER2.jpg?v=1603309765" style="border:1px solid;"/></a>
+        </div>
+        <div class="four columns omega">
+          <h3><span>Harvest Beanie</span> by Ashlie Avery</h3>
+          <p class="pattern-link">
+            <a target="_blank" href="https://cdn.shopify.com/s/files/1/0166/0254/files/LEWhimsHarvest-Beanie-Avery-FULL.pdf?v=1603389814">DOWNLOAD</a>
+          </p>
+        </div>
+      </div>
+    {% endif %}
+
+    {% if paradise %}
+      <div class="downloadsWrapper">
+        <div class="four columns alpha">
+          <a target="_blank" href="https://cdn.shopify.com/s/files/1/0166/0254/files/LEWhimsSummer-FireflyRuana-Casale-FULL.pdf?v=1596481625"><img src="https://cdn.shopify.com/s/files/1/0166/0254/files/LEWhimsSummer-FireflyRuana-Casale-COVER.jpg?v=1596054535" style="border:1px solid;"/></a>
+        </div>
+        <div class="four columns omega">
+          <h3><span>The Firefly Ruana</span> by Samantha Casale</h3>
+          <p class="pattern-link">
+            <a target="_blank" href="https://cdn.shopify.com/s/files/1/0166/0254/files/LEWhimsSummer-FireflyRuana-Casale-FULL.pdf?v=1596481625">DOWNLOAD</a>
+          </p>
+        </div>
+      </div>
+
+      <div class="downloadsWrapper">
+        <div class="four columns alpha">
+          <a target="_blank" href="https://cdn.shopify.com/s/files/1/0166/0254/files/LEWhimsSummer-SassyKnitTop-Avery-FULL.pdf?v=1596481625"><img src="https://cdn.shopify.com/s/files/1/0166/0254/files/LEWhimsSummer-SassyKnitTop-Avery-COVER3.jpg?v=1596478463" style="border:1px solid;"/></a>
+        </div>
+        <div class="four columns omega">
+          <h3><span>Sassy Summer Top</span> by Ashlie Avery</h3>
+          <p class="pattern-link">
+            <a target="_blank" href="https://cdn.shopify.com/s/files/1/0166/0254/files/LEWhimsSummer-SassyKnitTop-Avery-FULL.pdf?v=1596481625">DOWNLOAD</a>
+          </p>
+        </div>
+      </div>
+    {% endif %}
+
+    {% if jumbo %}
+      <div class="downloadsWrapper">
+        <div class="four columns alpha">
+          <a target="_blank" href="https://cdn.shopify.com/s/files/1/0166/0254/files/MazieCowl.final.pdf?16502693914836726476"><img src="https://cdn.shopify.com/s/files/1/0166/0254/files/if_1-02_511559.png?16208689489671073101" style="border:1px solid;"/></a>
+        </div>
+        <div class="four columns omega">
+          <h3><span>Mazie Cowl</span> by Jessica Carey</h3>
+          <p class="pattern-link">
+            <a target="_blank" href="https://cdn.shopify.com/s/files/1/0166/0254/files/MazieCowl.final.pdf?16502693914836726476">DOWNLOAD</a>
+          </p>
+        </div>
+      </div>
+    {% endif %}
+
+    {% if cascadia %}
+      <div class="downloadsWrapper">
+        <div class="four columns alpha">
+          <a target="_blank" href="https://cdn.shopify.com/s/files/1/0166/0254/files/CASCADIA-Furls-Whims-ebook-June19.2.pdf?5198"><img src="https://cdn.shopify.com/s/files/1/0166/0254/files/if_1-02_511559.png?16208689489671073101" style="border:1px solid;"/></a>
+        </div>
+        <div class="four columns omega">
+          <h3><span>Cascadia Yarn Pattern eBook</span> by Furls Crochet</h3>
+          <p class="pattern-link">
+            <a target="_blank" href="https://cdn.shopify.com/s/files/1/0166/0254/files/CASCADIA-Furls-Whims-ebook-June19.2.pdf?5198">DOWNLOAD</a>
+          </p>
+        </div>
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+<script type="text/javascript">
+  $(function(){
+    $('.accountSidebar .downloads').addClass('active');
+  });
+</script>
+
+{{ 'account.css' | asset_url | stylesheet_tag }}

@@ -1,0 +1,51 @@
+<script type="text/javascript">
+  var queue = [];
+  var data = [];
+  var prevOption1;
+  var el = [];
+
+  //Add all variants to array
+  {% for hooks in collections.streamline-swirl-crochet-hooks.products %}
+        data.push(["{{hooks.handle}}",{{ hooks.variants | json }} ]);
+  {% endfor %}
+
+  // Iterate through variants
+  $.each(data, function(index, data_set) {
+    var handle = data_set[0],
+        variants = data_set[1];
+    $.each(variants, function(index, variant) {
+        var variant = variant,
+            variant_id = variant.id,
+            variant_title = variant.title,
+            selector = variant.sku.split("-")[2],
+            selector_formatted = variant_title.split(" / ")[1],
+            title_formatted = variant_title.split(" / ")[0],
+            product_id = variant.product_id,
+            product_handle = handle,
+            size = variant.sku.split("-")[3],
+            tbody = $("."+selector+"-tbody")
+            variantPrice = 0;
+
+      if (variant.inventory_quantity > 0 && title_formatted != "Solar Flare") {
+        if($("." + selector + "-tbody").length == 0) {
+           $("<div class='"+selector+"-tbody'><div class='selector_wrapper'><div class='selector_variant'></div></div></div>").appendTo($("div[data-groupDisplay='SWRL']"));
+        }
+        //Add variants to table
+        //add title
+        if (tbody.find("img").length == 0){
+          variantPrice = Shopify.formatMoney(variant.price);
+          variantPrice = variantPrice.replace('$','');
+          $("<p><strong>"+selector_formatted+"</strong> - <span class='product-form-price no-dash' data-product-handle='"+product_handle+"' data-variantindex='"+data.indexOf(variant)+"' data-variantid='"+variant.id+"'><span class='local-symbol'>$</span>" + variantPrice + "/each</span> </p>").prependTo($("."+selector+"-tbody .selector_wrapper"));
+          $("<img src='"+variant.featured_image.src+"'/>").prependTo($("."+selector+"-tbody .selector_wrapper"));
+        };
+        //add variant details
+        el.push("<div class='btn' data-color='"+selector+"' data-counted='false' data-productHandle='"+product_handle+"' data-vid='"+variant_id+"'><span class='btn-notice'>In Stock</span>"+title_formatted+"</div>");
+
+        $(el.join("")).appendTo($("."+selector+"-tbody .selector_variant"));
+        el = [];
+        //hide spinner
+        $("div[data-groupDisplay='SWRL']").find(".sp-mini").hide();
+      }
+    });
+ });
+</script>

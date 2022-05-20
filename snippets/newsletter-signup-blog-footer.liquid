@@ -1,0 +1,60 @@
+<div id="blog-footer-signup" class="sixteen columns">
+    <div class="section clearfix"> 
+    
+      <div id="blog-footer-signup-image" class="twelve columns alpha">
+      </div>
+      <div id="blog-footer-signup-wrapper" class="four columns omega">
+          <form id="email_signup" class="klaviyo_styling klaviyo_standard_embed_MdUgK6" action="//manage.kmail-lists.com/subscriptions/subscribe" data-ajax-submit="//manage.kmail-lists.com/ajax/subscriptions/subscribe" method="GET" target="_blank" novalidate="novalidate">
+            <input type="hidden" name="g" value="MdUgK6">
+            <input type="hidden" name="$fields" value="$hook_size,$first_name"/>
+            <div class="klaviyo_field_group">
+              <input type="text" value="" name="$first_name" id="klaviyo_form_first_name" placeholder="Your name" />
+              <input type="email" value="" name="email" id="k_id_email" placeholder="Your email" />
+              <select name="$hook_size" id="hook_size">
+                <option >Your Favorite Hook Size</option>
+                <option value="Thread Size Hooks">Thread Sizes</option>
+                <option value="Size B - 2.25mm">Size B - 2.25mm</option>
+                <option value="Size C - 2.75mm">Size C - 2.75mm</option>
+                <option value="Size D - 3.25mm">Size D - 3.25mm</option>
+                <option value="Size E - 3.5mm">Size E - 3.5mm</option>
+                <option value="Size F - 3.75mm">Size F - 3.75mm</option>
+                <option value="Size G - 4.0mm">Size G - 4.0mm</option>
+                <option value="Size G+ - 4.5mm">Size G+ - 4.5mm</option>
+                <option value="Size H - 5.0mm">Size H - 5.0mm</option>
+                <option value="Size I - 5.5mm">Size I - 5.5mm</option>
+                <option value="Size J - 6.0mm">Size J - 6.0mm</option>
+                <option value="Size K - 6.5mm">Size K - 6.5mm</option>
+                <option value="Size L - 7.0mm">Size L - 7.0mm</option>
+                <option value="Size M - 8.0mm">Size M - 8.0mm</option>
+                <option value="Size N - 9.0mm">Size N - 9.0mm</option>
+                <option value="Size P - 10.0mm">Size P - 10.0mm</option>
+                <option value="Size PP - 13.0mm">Size PP - 13.0mm</option>
+                <option value="Size Q - 15.0mm">Size Q - 15.0mm</option>
+              </select>
+            </div>
+            <div class="klaviyo_messages">
+              <div class="success_message" style="display:none;"></div>
+              <div class="error_message" style="display:none;"></div>
+            </div>
+            <div class="klaviyo_form_actions">
+              <button type="submit" class="action_button">Subscribe</button>
+            </div>
+          </form>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="//www.klaviyo.com/media/js/public/klaviyo_subscribe.js"></script>
+<script type="text/javascript">
+  KlaviyoSubscribe.attachToForms('#email_signup', {
+    hide_form_on_success: true,
+    success_message: "Thanks for subscribing! You'll get all the CAL and giveaway updates direct to your inbox.",
+    extra_properties: {
+      $source: 'blog-footer'
+    },
+     success: function ($form) {
+       $("#hook_size").hide();
+       $(".points-wrapper").slideUp();
+     }
+  });
+</script>

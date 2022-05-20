@@ -1,0 +1,149 @@
+<div class="sixteen columns clearfix new-slider"> 
+{% if section.settings.video_override == true %}
+  <div data-section-id="{{ section.id }}" data-section-type="hero-section">
+     <a href='{{section.settings.banner_url}}'>
+    <video id="videobackground" autoplay="" loop="" muted="" playsinline="">
+        <source src="{{section.settings.banner_video}}" poster="{{section.settings.banner_img}}" type="video/mp4;codecs=&quot;avc1.42E01E, mp4a.40.2&quot;">
+    </video>
+    </a>
+  </div>
+    {% else %}
+<div> 
+    <a href='{{section.settings.banner_url}}'>
+      <img src='{{section.settings.banner_img | img_url: 'master' }}'/>
+    </a>
+    </div>
+  {% endif %}
+ </div> 
+
+<style type="text/css">
+  video#videobackground {
+    max-width: 100%;
+    height: auto;
+    min-width: 100%;
+}
+  h1{    
+    border:none;
+    font-weight:bold;
+    margin:0px;
+    letter-spacing: 2px;
+    padding:0px;
+  }
+  
+  img{
+  padding:10px 50px;
+  }
+  
+  @media only screen 
+    and (max-device-width: 600px){
+      img{
+      padding:0px 10px;
+      }
+    }
+    
+  
+</style>
+
+<script type="text/javascript">
+
+$(function(){
+
+  //show timer if now is before expiry.
+  $.each($(".timer-wrapper"),function(){
+    var now = $.now(),
+        banner = $(this),
+        expiry = new Date(banner.data("expiry")).getTime();
+  //show wrapper
+      if (now <= expiry) {
+        //sale banner  
+        banner.show();
+      };
+    //set time
+    var timer;
+    var compareDate = new Date($(this).data("expiry"));
+    timer = setInterval(function() {
+      timeBetweenDates(compareDate, banner, timer);
+    }, 1000);
+  });
+  
+  //function for counting down
+  function timeBetweenDates(toDate, wrapper, timer) {
+    var timer = timer,
+        wrapper = wrapper,
+      dateEntered = toDate,
+      now = new Date(),
+      difference = dateEntered.getTime() - now.getTime();
+
+    if (difference <= 0) {
+      // Timer done
+      clearInterval(timer);
+    } else {
+      var seconds = Math.floor(difference / 1000);
+      var minutes = Math.floor(seconds / 60);
+      var hours = Math.floor(minutes / 60);
+      var days = Math.floor(hours / 24);
+
+      hours %= 24;
+      minutes %= 60;
+      seconds %= 60;
+
+      wrapper.find(".days").text(days);
+      wrapper.find(".hours").text(hours);
+      wrapper.find(".minutes").text(minutes);
+      wrapper.find(".seconds").text(seconds);
+    }
+  };
+
+  
+});
+
+var slider = tns({
+  "container": ".new-slider",
+  "items": 1,
+  "autoplay": true,
+  "speed": 600,
+  "nav": false
+});
+  
+</script>
+
+{% schema %}
+{
+  "name": "homepageBanner w/ video",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title"
+    },
+ {
+      "type": "url",
+      "id": "banner_url",
+      "label": "Banner Url"
+    },
+{
+      "type": "image_picker",
+      "id": "banner_img",
+      "label": "Banner Image"
+    },
+{
+      "type": "checkbox",
+      "id": "video_override",
+      "label": "Use Video "
+    },
+
+{
+      "type": "url",
+      "id": "banner_video",
+      "label": "Banner Video URL"
+    }
+
+
+  ],
+  "presets": [
+    {
+      "name": "homepageBanner w/video"
+    }
+  ]
+}
+{% endschema %}

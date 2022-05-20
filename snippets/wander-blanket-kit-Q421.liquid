@@ -1,0 +1,144 @@
+<div class="sixteen columns">
+    <div class="section clearfix productWrapper">
+
+        <div id="productImageWrapper" class="eight columns alpha">
+          <div class="productImageCarousel">
+            <div>
+              <img src="https://cdn.shopify.com/s/files/1/0166/0254/files/daydreamer_1.jpg?v=1640036263"/>
+            </div>
+            <div>
+              <img src="https://cdn.shopify.com/s/files/1/0166/0254/files/daydreamer_2.jpg?v=1640036263">
+            </div>
+            <div>
+              <img src="https://cdn.shopify.com/s/files/1/0166/0254/files/daydreamer_3.jpg?v=1640036263">
+            </div>
+            <div>
+              <img src="https://cdn.shopify.com/s/files/1/0166/0254/files/daydreamer_4.jpg?v=1640036263">
+            </div>
+            <div>
+              <img src="https://cdn.shopify.com/s/files/1/0166/0254/files/daydreamer_5.jpg?v=1640036263">
+            </div>
+          </div>
+          <div class="productImageControlsWrapper">
+            <div class="productImageControls" aria-label="Carousel Navigation" tabindex="0">
+              <span class="prev" aria-controls="customize" tabindex="-1" data-controls="prev">
+                <i class="fas fa-arrow-left"></i>
+              </span>
+              <span class="next" aria-controls="customize" tabindex="-1" data-controls="next">
+                <i class="fas fa-arrow-right"></i>
+              </span>
+            </div>
+          </div>
+
+          <div class="thumbnails product_image_col productImageCarouselThumbnails">
+            <div class="two columns thumb">
+              <img src="https://cdn.shopify.com/s/files/1/0166/0254/files/daydreamer_1.jpg?v=1640036263"/>
+            </div>
+            <div class="two columns thumb">
+              <img src="https://cdn.shopify.com/s/files/1/0166/0254/files/daydreamer_2.jpg?v=1640036263"/>
+            </div>
+            <div class="two columns thumb">
+              <img src="https://cdn.shopify.com/s/files/1/0166/0254/files/daydreamer_3.jpg?v=1640036263"/>
+            </div>
+            <div class="two columns thumb">
+              <img src="https://cdn.shopify.com/s/files/1/0166/0254/files/daydreamer_4.jpg?v=1640036263"/>
+            </div>
+            <div class="two columns thumb">
+              <img src="https://cdn.shopify.com/s/files/1/0166/0254/files/daydreamer_5.jpg?v=1640036263"/>
+            </div>
+          </div>
+        </div>
+
+        <div class="eight columns omega">
+          <h1><span class='productTitle'>Wander Blanket Kit - $78.45</span>
+               <span class='productSubtitle'>15 Skeins of Yarn + Swirl Hook + Digital Pattern </span>
+               <span class='productSubtitle'> & Free Tote Bag</span>
+               <span class="productByline">normally $99 - <u>save 20%</u></span>
+            </h1>
+          {%include 'wander-blanket-kit-Q421-product-form'%}
+          <hr/>
+          <div class="form-bylines">
+              <p> 100% Satisfaction Guarantee <i class='fa fa-fw fa-star'></i></p>
+            <p class="alert-byline"></p>
+              <p style="font-weight:bold;"> <i class='fa fa-fw fa-phone'></i> QUESTIONS ORDERING? EMAIL US AT SUPPORT@FURLSCROCHET.COM</p>
+          </div>
+        </div>
+    </div>
+  
+  
+  </div>
+
+{%include 'wander-blanket-kit-Q421-scripts'%}
+
+{{ 'wanderKitStylesQ421.css' | asset_url | stylesheet_tag }}
+
+<style type="text/css">
+  #cowl-wrapper h2{
+    letter-spacing:4px;
+  }
+  #cowl-wrapper h3{
+    text-align:left; 
+    text-transform:uppercase;
+  }
+  #cowl-wrapper h4{
+  text-align:center;
+    font-weight:bold;
+    letter-spacing:2px;
+  }
+  #cowl-wrapper p{
+    text-align:left;
+  }
+  #cowl-wrapper p.title{
+    font-size:18px;
+    font-family:'Montserrat', sans-serif;
+    margin-bottom:10px;
+  }
+  #cowl-wrapper .sized-image{
+    max-width:90px;
+    border-radius:50%;
+    padding:2px;
+    border:1px solid #d3d3d3;
+  }
+  #cowl-wrapper img {
+    width:100%;
+  }
+  .product-form{
+    display:none;
+  }
+  .productVariantControls {
+    position: relative;
+  }
+  .productVariantControls .prev,
+  .productVariantControls .next {
+    position: absolute;
+    top: -190px;
+    font-size: 24px;
+  }
+  .productVariantControls .prev {
+    left: -10%;
+  }
+  .productVariantControls .next {
+    right: -10%;
+  }
+  /* Tablet-portrait (and larger)
+   * Tablet-landscape (and larger) 
+   * Laptops (and larger) 
+   */
+  @media (min-width: 768px), (min-width: 992px), (min-width: 1200px) {
+    #cowl-wrapper {
+      margin-left:26%;
+    }
+    .productVariantControls .prev,
+    .productVariantControls .next {
+      top: -265px;
+    }
+  }
+</style>
+
+<script type="text/javascript">
+  var variantSlider = tns({
+    "container": ".productVariantCarousel",
+    "controlsContainer": ".productVariantControls", 
+    "items": 1
+  });
+</script>

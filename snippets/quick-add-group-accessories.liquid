@@ -1,0 +1,58 @@
+<script type="text/javascript">
+  var data = [],
+      el = [],
+      div = $("div[data-groupDisplay='ACCS']");
+
+  //Add all variants to array
+  {% for product in collections.all-accessories.products %}
+    data.push([{{product | json }},{{ product.variants | json }} ]);
+  {% endfor %}
+
+  // Iterate through variants
+  $.each(data, function(index, data_set) {
+    var handle = data_set[0],
+        variants = data_set[1];
+    $.each(variants, function(index, variant) {
+        var variant = variant,
+            variant_id = variant.id,
+            variant_title = variant.title,
+            selector_formatted = variant_title.split("-")[0],
+            title_formatted = variant_title.split("-")[1],
+            product_id = variant.product_id,
+            product_handle = handle.handle,
+            selector = variant.sku.split("-")[2],
+            size = variant.sku.split("-")[3],
+            variantName = variant.name,
+            variantNameFormatted = variant.name.split("-")[0],
+            tbody = $("."+handle.handle+"-tbody"),
+            variantPrice = 0,
+            reformatHandles =["odyssey-single-crochet-hook-stand","odyssey-12-hook-stand","odyssey-yarn-bowls"];
+      if (reformatHandles.includes(product_handle)) {
+          variant_title = variant.title.split("/")[1];
+      }
+      // We don't want to include free gift box as an option
+      // Only want to show in stock items
+      if (variant.inventory_quantity > 0 && variant_id != '31075850387523') {
+
+        if($("." + handle.handle + "-tbody").length == 0) {
+           $("<div class='"+handle.handle+"-tbody'><div class='selector_wrapper'><div class='selector_variant'></div></div></div>").appendTo($("div[data-groupDisplay='ACCS']"));
+        }
+        //Add variants to table
+        //add title
+        if (tbody.find("img").length == 0){
+          variantPrice = Shopify.formatMoney(variant.price);
+          variantPrice = variantPrice.replace('$','');
+          $("<p><strong>"+variantNameFormatted+"</strong> - <span class='product-form-price no-dash' data-product-handle='"+product_handle+"' data-variantindex='"+data.indexOf(variant)+"' data-variantid='"+variant.id+"'><span class='local-symbol'>$</span>" + variantPrice + "/each</span> </p>").prependTo($("."+handle.handle+"-tbody .selector_wrapper"));
+          $("<img src='"+handle.featured_image+"'/>").prependTo($("."+handle.handle+"-tbody .selector_wrapper"));
+        };
+        //add variant details
+        el.push("<div class='btn' data-color='"+selector+"' data-counted='false' data-productHandle='"+product_handle+"' data-vid='"+variant_id+"'><span class='btn-notice'>In Stock</span>"+variant_title+"</div>");
+
+        $(el.join("")).appendTo($("."+handle.handle+"-tbody .selector_variant"));
+        el = [];
+        //hide spinner
+        $("div[data-groupDisplay='ACCS']").find(".sp-mini").hide();
+      }
+    });
+ });
+</script>

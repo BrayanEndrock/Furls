@@ -1,0 +1,106 @@
+/* Tablet-portrait (and larger)
+ * Tablet-landscape (and larger) 
+ * Laptops (and larger)
+ */
+@media (min-width: 768px),
+(min-width: 992px),
+(min-width: 1200px) {
+  ul {
+   .firstColumn,
+   .secondColumn,
+   .thirdColumn {
+      margin: 1% 2% 0;
+   }
+   .secondColumn {
+      position: absolute;
+      top: 8%;
+      left: 25%;
+   }
+   .thirdColumn {
+      position: absolute;
+      top: 8%;
+      left: 55%;
+   }
+  }
+  .header__submenu.list-menu.list-menu--disclosure.caption-large.motion-reduce {
+      width: 1000px;
+      height: 31rem;
+      li {
+        width:95%;
+      }
+      .calloutBanner {
+         position: absolute;
+         top: 5%;
+         height: 90%;
+         border-radius: 3px;
+         z-index: 999999;
+         height:280px;
+         background-size: 100%;
+         background-repeat: no-repeat;
+         background-position: center;
+      }
+      &.NewNow {
+         .calloutBanner {
+            background-image: url(https://cdn.shopify.com/s/files/1/0166/0254/files/top-nav-new-now-031921.jpg?v=1616106198);
+         }
+      }
+      &.HooksNeedles {
+         left: -126px;
+         .calloutBanner {
+            background-image: url(https://cdn.shopify.com/s/files/1/0166/0254/files/streamline-wood-topNav.png?v=1600288386);
+         }
+      }
+      &.Accessories {
+         left: -364px;
+         .calloutBanner {
+            background-image: url(https://cdn.shopify.com/s/files/1/0166/0254/files/wood-bowls-topNav.png?v=1600290328);
+         }
+      }
+      &.Yarn {
+         left: -291px;
+         .calloutBanner {
+            background-image: url(https://cdn.shopify.com/s/files/1/0166/0254/files/wander-top-nav.jpeg?v=1612469164); 
+         }
+      }
+      &.Patterns {
+         left: -716px;
+      }
+      &.AboutFurls {
+         left: -590px;
+         .calloutBanner {
+            background-image: url(https://cdn.shopify.com/s/files/1/0166/0254/files/crochethook-homepage-squares-07.jpg?v=1541619065);
+         }
+      }
+      &.Tutorials {
+         left: -820px;
+         .calloutBanner {
+            background-image: url(https://cdn.shopify.com/s/files/1/0166/0254/files/odyssey-web-square-sets-8.jpeg?v=1608060466);
+        }
+      }
+      &.Blog {
+         left: -924px;
+         .calloutBanner {
+            background-image: url(https://cdn.shopify.com/s/files/1/0166/0254/files/knitting-needle-wood-single-point14.jpg?5371);
+        }
+      }
+      &.HooksNeedles,
+      &.Accessories,
+      &.AboutFurls,
+      &.NewNow {
+         .calloutBanner {
+            left:50%;
+            width: 450px;
+         }
+      }
+      &.Yarn,
+      &.Patterns,
+      &.Blog,
+      &.Tutorials
+       {
+         .calloutBanner {
+            left: 26%;
+            width: 685px;
+         }
+      }
+   }
+}

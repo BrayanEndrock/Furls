@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="{{ locale }}" dir="{{ direction }}" class="{{ checkout_html_classes }}">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, height=device-height, minimum-scale=1.0, user-scalable=0">
+    <meta name="referrer" content="origin">
+    <!-- jQuery and jQuery fallback -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    {{ 'api.jquery.js' | shopify_asset_url | script_tag }}
+
+    <title>{{ page_title }}</title>
+
+    {{ content_for_header }}
+
+    {{ checkout_stylesheets }}
+    {{ checkout_scripts }}
+    
+    <!-- Google Optimize -->
+    <script src="https://www.googleoptimize.com/optimize.js?id=OPT-K5SBJ5P"></script>
+    <!-- End Google Optimize -->
+
+    {{ 'checkout.css' | asset_url | stylesheet_tag }}
+    
+  </head>
+  
+  {% include "checkout-scripts" %}
+  
+  <body>
+    {{ skip_to_content_link }}
+
+    <header class="banner" data-header role="banner">
+      <div class="wrap">
+        {{ content_for_logo }}
+      </div>
+    </header>
+    
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TDFDBHV"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    {{ order_summary_toggle }} 
+    <div class="content" data-content>
+      <div class="wrap">
+        <div class="main">
+          <header class="main__header" role="banner">
+            {{ content_for_logo }}
+            {{ breadcrumb }}
+            {{ alternative_payment_methods }}
+          </header>
+          <main class="main__content" role="main">
+            {{ content_for_layout }}
+          </main>
+          <footer class="main__footer" role="contentinfo">
+            {{ content_for_footer }}
+          </footer>
+        </div>
+        <aside class="sidebar" role="complementary">
+          <div class="sidebar__header">
+            {{ content_for_logo }}
+          </div>
+          <div class="sidebar__content">
+            
+            <script src="https://cdn.shoppinggives.com/cc-utilities/shopify-round-up.js?sid=cccae091-39a5-46be-b633-98b7ec601c6e&vid=39404052873283&product-page=false"></script>
+            
+            {{ content_for_order_summary }}
+            
+            {% include 'checkout-upsell' %}
+          </div>
+          <div class="riskFreeBlurb" style="text-align: center;padding-bottom:15%;">
+            <h3>RISK FREE SHOPPING</h3><br>
+            <img style="max-width:100px;" src="https://cdn.shopify.com/s/files/1/0166/0254/files/04_warranty.png?2596393278410594558"><br>
+            <span>
+              Remember, when you shop with Furls, you get our 100% satisfaction guarantee.<br><br>
+              If for any reason your Furls product does not live up to your wildest fiber arts dreams, 
+              please contact us and we will make it right.
+            </span>
+          </div>
+        </aside>
+      </div>
+    </div>
+
+    {{ tracking_code }}
+  </body>
+</html>
+

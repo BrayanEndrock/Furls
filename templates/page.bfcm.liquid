@@ -1,0 +1,15 @@
+{{ 'shopAll.js' | asset_url | script_tag }}
+{{ 'shopAll.css' | asset_url | stylesheet_tag }}
+
+<div class="page-width">
+  <div class="rte">
+      <div id='shop'>
+        <p class='bfcm-title'>black friday & cyber monday deals</p>
+        <p><span class="tier-wrapper" style='opacity:1;text-decoration: underline;'><span class='tier-discount'>20% off</span> <span class='tier-amount'>all orders</span></span>
+        <span class="tier-wrapper"><span class='tier-discount'>25% off</span> <span class='tier-amount'>orders $150+</span></span>
+        <span class="tier-wrapper"><span class='tier-discount'>30% off</span> <span class='tier-amount'>orders $300+</span></span></p>
+        </h3>
+        {% section 'quick-add-all-products-wrapper' %}
+      </div>
+  </div>
+</div>

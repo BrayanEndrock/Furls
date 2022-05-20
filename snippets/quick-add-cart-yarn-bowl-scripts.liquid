@@ -1,0 +1,141 @@
+<script type="text/javascript">
+  $(function(){  
+     //Load cart items
+    $.getJSON("/cart.js", function(cart) {
+      var cartSize = cart["items"].length,
+          count = 0;
+      if (cartSize >= 1) {
+      $.each(cart["items"], function(index,item){
+        count += 1;
+        //Get variables
+        var variantTitle = item["variant_title"],
+            productTitle = item["product_title"],
+            productHandle = item["handle"],              
+            quantity = item["quantity"],
+            rawPrice = item["price"],
+            subtotal = quantity*rawPrice,
+            productUrl = item["url"].split("?")[0],
+            img = item["image"],
+            unitPrice = (rawPrice/100).toFixed(2),
+            subtotalPrice = ((quantity*rawPrice)/100).toFixed(2),
+            stockQty = 0,
+            el = [];
+            //check quantity
+            $.getJSON("/products/"+productHandle+".js", function(product){
+              var productId = product["id"];
+              $.each(product["variants"],function(){
+                var variant = $(this)[0],
+                    freePattern = variant.title == "4 Free Patterns";
+                if (variant.id == item["id"]){
+                  stockQty += variant.inventory_quantity;
+                  if (stockQty > 0 || freePattern) { 
+                    //remove buttons
+                    $(".btn[data-vid='"+item["id"]+"']").remove();
+                  };
+                };
+              });
+            });
+      });
+      } else     {
+        //if no items in cart
+        $(".checkout_table_header").after("<p class='no-cart-alert'> Click the products above to get started. Or <a href='/collections/crochet'>start shopping here</a> </p>")
+        $(".cart-items").find(".sp-mini").hide();
+        $("#checkout-wrapper").find(".sp-mini").hide();
+      };
+    
+     });
+  });
+
+   //quick add button click, add to cart   
+   $("body").on("click",".selector_variant .btn", function(){
+      var variantId = parseInt($(this).attr("data-vid")),
+          productHandle = $(this).attr("data-productHandle"),
+          btn = $(this),
+          text = btn.html();
+     if (!btn.hasClass("soldout") && !btn.hasClass("in-cart")) {
+        //first, hide banner, disable checkout, show spinner
+        $("#cart-alert-banner").hide();
+        btn.html("<div class='sp-mini sp-circle'></div>");
+        $(".checkout_button").prop('disabled', true);
+        //then add product
+      $.getJSON("/products/"+productHandle+".js", function(product){
+        $.each(product["variants"],function(){
+          var variant = $(this)[0];
+          if (variant.id == variantId){
+            //Get variables
+            var variantTitle = variant.title,
+                productTitle = product.title,
+                productUrl = product.url,
+                rawPrice = variant.price, 
+                price = (variant.price/100).toFixed(2),
+                qty = variant.inventory_quantity,
+                compareAt = variant.compare_at_price,
+                el = [];
+            //condition for bowls 
+            if (variantId == "278843800") {
+              variantTitle = "medium bowl";
+            } else if (variantId == "15410985796") {
+              variantTitle = "large bowl";
+            };
+            //set image
+            if (variant.featured_image) {
+              var img = variant.featured_image.src;
+            } else {
+              var img = product.featured_image;
+            };
+            if (qty > 0 ) {
+              //add shopify item
+              Shopify.addItem(variantId, 1);
+              // show cart alert
+              $(".cart-alert").html("Item added to your cart. <a href='https://furlscrochet.com/cart'>See your cart.</a>");
+              $("#cart-alert-banner").show();
+              $(btn).hide();
+              setTimeout(function() { $("#cart-alert-banner").hide() }, 4000);
+            } else {
+              //if out of stock, show message and update button HTML
+              btn.addClass("soldout");
+              btn.html(variantTitle+"<div class='btn-notice'>Sold Out</div>");
+              btn.closest(".quick-add-product").find(".btn").eq(0).before("<p class='quick-add-error'>Sorry, this is out of stock</p>");
+              setTimeout(function() { $(".quick-add-error").hide(); }, 2000); 
+          $(".checkout_button").prop('disabled', false);
+            };
+          }; 
+        });
+      });
+     $(".no-cart-alert").hide();
+   };
+  });
+    
+  //disable standard alert and display custom alert
+  Shopify.onItemAdded=function(t){ 
+    
+          //update cart
+          $(".cart-updated").html(" ");
+          $(".checkout_button").prop('disabled', false);
+          $(".cart-updated").html("Cart updated <i class='fa fa-fw fa-check'></i>");
+          setTimeout(function() { $(".cart-updated").html(" "); }, 2000); 
+    //prevent default dialog
+    return false; 
+  };
+    
+
+  //disable the alert and display custom alert
+  Shopify.onCartUpdate=function(t){
+    
+          //update cart
+          $(".cart-updated").html(" ");
+          $(".checkout_button").prop('disabled', false);
+          $(".cart-updated").html("Cart updated <i class='fa fa-fw fa-check'></i>");
+          setTimeout(function() { $(".cart-updated").html(" "); }, 2000); 
+    //prevent default dialog
+    return false; 
+  };
+    
+  //prevent iPhone "GO" button from submitting form
+    $("body").keydown(function(){
+      if(event.keyCode == 13) {
+          document.activeElement.blur();
+          return false;
+      }
+  });
+</script>

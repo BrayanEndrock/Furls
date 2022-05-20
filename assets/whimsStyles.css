@@ -1,0 +1,451 @@
+h2{
+    font-weight:bold;
+    letter-spacing:4px;
+    text-transform:capitalize;
+    font-variant:small-caps;
+  }
+  h3{
+    text-align:center;
+    text-transform:capitalize;
+    font-variant:small-caps;
+    letter-spacing:2px;
+  }
+  p.start-text, p.body-text{
+    text-indent:15px;
+    margin-bottom:8px;
+  }
+  p.reduced{
+    font-size:13px;
+    line-height:20px;
+  }
+  p.start-text:first-letter{
+    font-size:2em;
+    font-weight:bold;
+  }
+  p.testimonial-text i{
+    font-size:10px;
+  }
+  p.testimonial-text{
+    font-family:'Montserrat', sans-serif;
+    font-size:16px;
+    text-align:center;
+    margin-bottom:8px;
+  }
+  #discount-details p{
+    text-align:center;
+    font-family:'Montserrat', sans-serif;
+    font-size:18px;
+    margin:20px auto 10px;
+    padding-bottom:5px;
+    font-weight:bold;
+    border-bottom:1px solid #d3d3d3;
+    
+  }
+  #timeline p, #usps p{
+    text-indent:25px;
+  }
+  #timeline p:first-letter, #usps p:first-letter{
+    font-size:2em;
+    font-weight:bold;
+  }
+  .discount-image{
+    border-bottom:1px solid #f5f5f5;
+    box-shadow:0px 3px 5px 1px rgba(0,0,0,0.15);
+    margin:7px auto 13px;
+    border-radius:4px;
+  }
+  .discount-image:hover{
+    cursor:pointer;
+    box-shadow:0px 4px 6px 1px rgba(0,0,0,0.2);
+  }
+  .coming-text{
+    font-weight:normal;
+    padding-left:10px;
+  }
+  div[class$='-tbody'], .cart-amount {
+    display:none;
+  }
+  div[class$='-tbody'] {
+    position:relative;
+  }
+  span[class$='-count']{
+    display:none;
+    position:absolute;
+    top:0;
+    left:0;
+    height:24px;
+    margin-top:-12px;
+    width:24px;
+    margin-left:-12px;
+    background-color:#fff;
+    color:#222;
+    border-radius:50%;
+    border:2px solid #777;
+    vertical-align:middle;
+    text-align:center;
+    display:none;
+  }
+  .soldout-text{
+     font-weight:normal;
+     text-transform: lowercase;
+     line-height: 38px;
+     display:none;
+  }
+  .PURP-image-solo, .RED-image-solo, .BLUE-image-solo, .WHIT-image-solo, .LGRA-image-solo, .all-image-group{
+    display:none;
+  }
+  #subtotal-message, #discount-message, #presale-terms, #agree-warning{
+      font-family:'Montserrat', sans-serif;
+      margin:6px;
+      font-size:14px;
+    }
+  #subtotal-message{
+      display:none;
+      font-size:16px;
+    }
+  #presale-terms{
+    display:none;
+  }
+  
+  #subtotal-message #total{
+      text-decoration:line-through;
+    }
+  #subtotal-message #discounted_total{
+      font-weight:bold;
+    }
+  
+  #product-form-toggle .title-swatch{
+    display:inline-block;
+    border-radius:50%;
+    max-width:20px;
+  }
+  #product-form-toggle .title-swatch{
+    display:inline-block;
+    border-radius:50%;
+    max-width:20px;
+  }
+  #whims-checkout-table .title-swatch-large{
+    display:inline-block;
+    float:left;
+    border-radius:50%;
+    border: 1px solid #d3d3d3;
+    padding:2px;
+    margin:2px 4px;
+    max-width:40px;
+  }
+  #product-form-toggle {
+    display:table;
+    width:100%;
+  }
+  #product-form-toggle .toggle-row {
+    display:table;
+    width:100%;
+  }
+  #product-form-toggle div{
+    width:33.3%;
+  }
+  #product-form-toggle div[data-chosen='chosen']{
+    background-color:#fff;
+    border:1px solid #d3d3d3;
+    display:table-cell;
+    text-align:center;
+    font-weight:bold;
+    font-size:14px;
+    font-family:'Montserrat', sans-serif;
+    padding:4px 0;
+    border-top-left-radius:4px;
+    border-top-right-radius:4px;
+    position:relative;
+    z-index:998;
+  }
+  #product-form-toggle div[data-chosen='false']{
+    background-color:#f5f5f5;
+    border:1px solid #d3d3d3;
+    display:table-cell;
+    text-align:center;
+    font-weight:bold;
+    font-size:14px;
+    font-family:'Montserrat', sans-serif;
+    padding:4px 0;
+    border-top-left-radius:4px;
+    border-top-right-radius:4px;
+    position:relative;
+    z-index:998;
+    background-color:#f5f5f5;
+    box-shadow:inset 2px -2px 1px 0px rgba(0,0,0,0.05);
+  }
+  #product-form-toggle div[class$='form-toggle']:first-of-type{
+    border-left:none;
+  }
+  #product-form-toggle div[class$='form-toggle']:last-of-type{
+    border-right:none;
+  }
+  #product-form-toggle div[class$='form-toggle'][data-chosen='false']:hover{
+    cursor:pointer;
+    background-color:#e5e5e5;
+  }
+/*Styles for the checkbox    */
+    
+  #whims-checkout{
+    box-shadow:2px 2px 2px 2px rgba(0,0,0,0.05);
+    border-radius:4px;
+    border:1px solid #d3d3d3;
+  }
+  
+  #whims-checkout-table{
+    color:#222;
+    font-family:'Montserrat', sans-serif;
+    background-color:#fff;
+    z-index:999;
+    width:100%;
+    margin-bottom:2px;
+    border:none;
+  }
+  #whims-checkout-table tbody:before, #whims-checkout-table tbody:after{
+    content:"";
+    height:15px;
+    display:block;
+  }
+  #whims-checkout-table tr{
+    color:#222;
+    background-color:transparent;
+    width:100%;
+  }
+ #whims-checkout-table div.variant-toggle {
+    display:inline-block;
+    height:40px;
+    border-radius:4px;
+    width: 40%;
+    vertical-align:middle;
+    padding:1px 0.5%;
+    margin:3px 2% 3px 4%;
+    border: 2px solid transparent;
+    color: white;
+    opacity: .87;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+  #whims-checkout-table div.variant-toggle[data-soldout='true']{
+    opacity:0.35;
+  }
+  #whims-checkout-table div.variant-toggle:hover{
+  opacity:1.0;
+    cursor:pointer;
+  }
+  #whims-checkout-table div.variant-toggle[data-soldout='true']:hover{
+    cursor:not-allowed;
+  opacity:0.5;
+  }
+  #whims-checkout-table div.selected{
+    outline: 0 !important;
+    box-shadow: 0 0 5px 0 blue;
+    
+  }
+  #whims-checkout-table .variant-details{
+    margin:10px 0 5px;
+    padding-left:15px;
+    font-size:16px;
+  }
+  #whims-checkout-table div.variant-toggle span{
+    font-size:14px;
+  }
+  #whims-checkout-table div.variant-toggle span.whims-variant{
+    position:relative;
+    display:inline-block;
+    margin-top:8px;
+  }
+  #whims-checkout-table span.variant-input-wrapper {
+    padding-top:10px;
+    max-width:80%;
+    height:20px;
+  }
+  #whims-checkout-table span.variant-input-wrapper input {
+    max-width:60px;
+    height: 16px;
+    margin: 5px auto;
+    text-align: center;
+    background: rgba(255,255,255,0.95);
+    border: none;
+    display:inline-block;
+    float:right;
+}
+
+  #whims-checkout-table span.variant-input-wrapper i.whims-remove{
+    float:right;
+    font-size:14px;
+    margin-top:14px;
+    margin-left:8px;
+  }
+  #whims-checkout-table .whims-price{
+    font-weight:normal;
+    border-bottom:1px solid rgba(255,255,255,0.1);
+  }
+  #whims-checkout-table .variant-name {
+    padding-right: 5px;
+  }
+  
+  #whims-checkout-table .whims-variant-title{
+    margin:0 5px 0 0;
+  }
+  #whims-checkout-table .whims-variant-title{
+    font-weight:bold;
+    text-shadow:none;
+    text-align:right;
+  }
+
+  #whims-checkout-table span.variant-input-wrapper input, #whims-checkout-table .whims-remove {
+    display:none;
+  }
+  #whims-checkout-table div.variant-toggle.live:hover .whims-variant-title, #whims-checkout-table div.variant-toggle.live:hover .whims-variant{
+    display:none;
+  }
+  #whims-checkout-table div.variant-toggle[data-soldout="true"]:hover .whims-variant-title {
+    display:none;
+  }
+  #whims-checkout-table div.variant-toggle.live:hover input, #whims-checkout-table div.variant-toggle.live:hover .whims-remove {
+    display:inline-block;
+  }
+  #whims-checkout-table div.variant-toggle[data-soldout="true"]:hover .soldout-text{
+    display:inline-block;
+  }
+    
+
+  
+ #whims-checkout-table div.variant-toggle:hover {
+   opacity:1.0;
+ }
+ #whims-checkout-table div.variant-toggle:hover .hover-info{
+   display:none;
+ }
+#whims-checkout-table div.variant-toggle[data-color='PURP'] {
+    background-color:#5B0063;
+  }
+#whims-checkout-table div.variant-toggle[data-color='TEAL'] {
+    background-color:#4bebc8;
+  }
+#whims-checkout-table div.variant-toggle[data-color='PINK'] {
+    background-color:#ffa1a1;
+  }
+div.variant-toggle[data-color='MUST'] {
+    background-color:#cfb932;
+  }
+div.variant-toggle[data-color='CHAR'] {
+    background-color:#999;
+  }
+#whims-checkout-table div.variant-toggle[data-color='WHIT'] {
+    background-color:#fff;
+    border:2px solid #222;
+    color:#222;
+  }
+  #whims-checkout-table div.variant-toggle[data-color='LVDR'] {
+    background-color:#BAA6E0;
+  }
+  #whims-checkout-table div.variant-toggle[data-color='LTBL'] {
+    background-color:#8FB5F2;
+  }
+  #whims-checkout-table div.variant-toggle[data-color='GREN'] {
+    background-color:#AAE07C;
+  }
+div.variant-toggle[data-color='LGRA'] {
+    background-color:#d3d3d3;
+  }
+div.variant-toggle[data-color='BLUE'] {
+    background-color:#4A8CFF;
+  }
+div.variant-toggle[data-color='RED'] {
+    background-color:red ;
+  }
+  
+  .whimsImages img {
+    display:none;
+  }
+  
+  .hover-info{
+    display:none;
+    position:absolute;
+    top:0;
+    right:0;
+  margin-top:10px;
+  margin-right:10px;
+  }
+  .hover-info img{
+    max-width:60px;
+    border-radius:50%;
+  }
+  #whims-checkout-table div.variant-toggle span.hover-title{
+  text-transform:lowercase;
+    color:#999;
+    font-size:14px;
+    letter-spacing:0px;
+  }
+  #color-type-message{
+    display:none;
+    margin: 6px 0;
+    font-family: 'Montserrat', sans-serif;
+  }
+  
+  #form-testimonial{
+    font-family: 'Montserrat', sans-serif;
+    font-weight:bold;
+    font-variant:small-caps;
+    letter-spacing:1px;
+    font-size:22px;
+    text-align:center;
+    margin-bottom:10px;
+  }
+  #form-testimonial i{
+    font-size:10px;
+  }
+  #form-testimonial .author{
+    font-size:14px;
+    letter-spacing:0px;
+  }
+    
+  
+/*Styles for the checkout button    */
+  
+
+  .purchase {
+    text-align:center;
+  }
+  .purchase .action_button, input.action_button{
+    padding: 12px 20px !important;
+    text-align: center !important;
+    font-size: 20px !important;
+    line-height:20px;
+    margin:5px auto;
+    max-width:350px;
+  }
+
+  
+/* Mobile Portrait Size to Mobile Landscape Size (devices and browsers) */
+  @media only screen and (max-width: 479px) {
+    #whims-checkout-table div.variant-toggle input {
+      max-width:40px;
+    }
+    .hover-info {
+      margin-top:0px; 
+    }
+    #whims-checkout-table div.variant-toggle span.hover-title {
+      position: absolute;
+      top: 100%;
+      width: 120px;
+      text-align:right;
+      right: 0;
+      margin-top: -8px;
+    }
+  }
+  /* Tablet-portrait (and larger)
+ * Tablet-landscape (and larger) 
+ * Laptops (and larger) 
+ */
+@media (min-width: 768px), (min-width: 992px), (min-width: 1200px) {
+  #whims-checkout-table div.variant-toggle {
+    width: 29%;
+    margin:3px 1%;
+  }
+  #whims-checkout-table div.variant-toggle:hover .hover-info{
+   display:block;
+  }
+}

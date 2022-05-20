@@ -1,0 +1,105 @@
+<div id='quick-cart-wrapper' class="section clearfix">
+    <p class="quick-add-title">cart</p>
+    <hr/>
+    <div id="mobile-checkout-wrapper" class="sixteen columns mobile_only">
+      <div class="eight columns">
+        <p class="subtotal_amount_mobile">
+          <span class="right">
+              <span class="current_cart_count_mobile"> </span>
+              <span id="current_amount_mobile" style="font-weight:bold;">
+                  <span class="old_amount"></span>
+                  <span class='new_amount'></span>
+              </span> 
+                <br/>
+                <small class="excluding_tax"><em>Excluding tax &amp; shipping</em></small>
+                <br/>
+          </span>
+          <span id="discount_amount_mobile"></span>
+        </p>
+
+        <hr/>
+        <p class='cart-updated left' style="height:28px;"> </p>
+      </div>
+      <div class="eight columns">
+        <div class="right align_right">
+          <p>
+            <input type="submit" class="checkout_button" name="checkout" value="Checkout" />
+          </p>
+        </div>
+      </div>
+      <hr style="border-color:transparent;"/>
+      <hr/>
+      <div class="checkout-shipping-notice-bfcm">
+        <i class="fa fa-fw fa-truck"></i>
+        <span>Free US shipping orders over $60+</span><br>
+        <span>Free Canadian shipping on orders over $150+</span><br>
+        <span>Free International shipping on orders over $400+</span>
+        <i class="fa fa-fw fa-truck"></i>
+      </div>
+      <hr/>
+    </div>
+  
+    <div class="eleven columns alpha">
+
+        <div class="checkout_table_header"> 
+          <div class="seven columns alpha">      
+            <h4 >Item</h4>
+          </div>
+
+          <div class="two columns mobile_hide">
+            <h4>Price</h4>
+          </div>    
+
+          <div class="one column">
+            <h4>Qty</h4>
+          </div>
+
+          <div class="two columns omega">
+            <h4>Total</h4>
+          </div>
+        </div>
+        <ul class="cart-items" style="border:0">
+            <!--   Cart items go here     -->
+            <div class='sp-mini sp-circle'></div>
+        </ul>
+      </div>
+
+    <div id="order-summary" class="four columns offset-by-one omega">
+          <div id="checkout-wrapper">
+              <h4 class="subtotal">
+                Order Summary
+              </h4>
+              <p class="subtotal_amount">
+                <span id="current_amount" style="font-weight:bold;">
+                  <span class="old_amount"></span>
+                  <span class='new_amount'></span>
+                  <div class='sp-mini sp-circle'></div>
+                </span> 
+                <br/>
+                <span id="discount_amount"></span>
+
+                <small id="estimated-shipping" style="display:none">+ <em>{{ 0 | money }}</em> estimated shipping </small>
+
+                <small class="excluding_tax"><em>Excluding tax &amp; shipping</em></small>
+              </p>
+              <p style="margin-bottom:0px;position:relative;">
+                <input type="hidden" name="attributes[omni_id]" value="" />
+                <input type="hidden" name="attributes[from_upsell]" value="" />
+                <input type="submit" class="checkout_button" name="checkout" value="Checkout" />
+              </p>
+              <p class='cart-updated' style="height:28px;"> </p>
+              <div class="checkout-shipping-notice-bfcm">
+                <i class="fa fa-fw fa-truck"></i>
+                <span>Free US shipping on orders over $60+</span><br>
+                <span>Free Canadian shipping on orders over $150+</span><br>
+                <span>Free International shipping on orders over $400+</span>
+                <i class="fa fa-fw fa-truck"></i>
+              </div>
+          </div>
+        </div>
+    <div class="sixteen columns">
+      <p class="box-message"></p>
+    </div>
+
+
+</div>

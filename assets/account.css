@@ -1,0 +1,385 @@
+.parsley-errors-list {
+  border: none;
+}
+.parsley-errors-list li {
+  padding: 0;
+}
+.email.note {
+  font-size: 13px;
+}
+.customer.account .accountLink {
+  font-family: var(--font-heading-family);
+  font-style: var(--font-heading-style);
+  font-weight: var(--font-heading-weight);
+  letter-spacing: .06rem;
+  color: rgb(var(--color-foreground));
+  line-height: 1.3;
+  font-size: 20px;
+}
+.errors {
+  background: #ffd3d2;
+  border: 2px solid #b7221d;
+  border-radius: 12px;
+  text-align: center;
+  padding: 0 5px;
+  font-size: 0.9rem;
+  color: #b7221d;
+  margin-bottom: 3%;
+  margin-top: 3%;
+}
+.errors ul {
+  border: none;
+}
+.errors ul li {
+  padding: 10px;
+  margin-bottom: -7%;
+}
+.errors ul li a {
+  font-weight: bold;
+}
+.accountContainer {
+  font-family: 'Montserrat', sans-serif;
+}
+.accountContainer h1,
+.accountContainer h2,
+.accountContainer h3,
+.accountContainer h4,
+.accountContainer h5 {
+  text-transform: none;
+  border: none;
+}
+.accountContainer h1 {
+  font-size: 24px;
+  margin: 0px 5px 10px 0px;
+  padding: 0;
+  text-align: left;
+}
+.accountContainer h5 {
+  font-size: 20px;
+}
+.accountContainer .accountSidebar {
+  font-size: 18px;
+}
+.accountContainer .accountSidebar a {
+  margin: 5% 0;
+  display: inline-block;
+}
+.accountContainer .accountSidebar a.active {
+  font-weight: bold;
+}
+.accountContainer .rewardsContainer.guest .rewardsHeader {
+  padding-top: 3%;
+  padding-bottom: 3%;
+}
+.accountContainer .rewardsContainer.guest .rewardsHeader a {
+  padding: 1%;
+  color: white;
+}
+.accountContainer .rewardsContainer.guest .rewardsHeader a.joinNow {
+  background-color: grey;
+  margin-right: 3%;
+}
+.accountContainer .rewardsContainer.guest .rewardsHeader a.loginButton {
+  border: 1px solid grey;
+}
+.accountContainer .rewardsContainer .rewardsFAQs {
+  font-size: 18px;
+}
+.accountContainer .rewardsContainer .rewardsFAQs .answer {
+  display: none;
+  margin-bottom: 3%;
+}
+.accountContainer .rewardsContainer .rewardsFAQs .question {
+  border-bottom: 1px solid #d3d3d3;
+}
+.accountContainer .rewardsContainer .rewardsFAQs .question .fas.fa-plus {
+  float: right;
+}
+.accountContainer #customer_orders table {
+  width: 100%;
+  background: #fff;
+  background-color: #fff;
+  border: none;
+  border-right: 1px solid #d3d3d3;
+  font-family: 'Montserrat', sans-serif;
+}
+.accountContainer #customer_orders table tr,
+.accountContainer #customer_orders table th,
+.accountContainer #customer_orders table td {
+  border-bottom: 1px solid #d3d3d3;
+  background: #fff;
+  background-color: #fff;
+}
+.accountContainer .addressContainer {
+  font-size: 18px;
+}
+.accountContainer .addressContainer h4 {
+  font-size: 20px;
+}
+.accountContainer #accountDownloads {
+  font-size: 16px;
+}
+.accountContainer #accountDownloads img {
+  width: 220px;
+  height: 280px;
+}
+.accountContainer #accountDownloads .pattern-link {
+  background-color: #c5afa2;
+  width: 150px;
+  padding: 2%;
+  font-size: 18px;
+  font-weight: 700;
+  border-radius: 8px;
+  text-align: center;
+}
+.accountContainer #accountDownloads .pattern-link a {
+  color: #fff;
+}
+.rewardsContainer {
+  position: relative;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 130%;
+}
+.rewardsContainer h2 {
+  border: none;
+  text-transform: none;
+}
+.rewardsContainer .rewardsHeader {
+  padding-bottom: 0.5%;
+  background-color: #505050;
+  color: #fff;
+  text-align: center;
+}
+.rewardsContainer .rewardsHeader h2 {
+  color: #fff;
+}
+.rewardsContainer .rewardsHeader::before {
+  content: "";
+  background-image: url(https://cdn.shopify.com/s/files/1/0166/0254/files/FurlsLogo-F-01-white.png?v=1615409703);
+  background-size: 50%;
+  position: absolute;
+  width: 30%;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+  opacity: 0.1;
+  background-repeat: no-repeat;
+  height: 10%;
+}
+.rewardsContainer .rewardsTiers {
+  background-color: #d3d3d3;
+}
+.rewardsContainer .rewardsTiers #loyaltylion .lion-tier-box__you-are-here {
+  background-color: #c5afa2;
+}
+.rewardsContainer .rewardsTiers #loyaltylion .lion-tier-overview {
+  background-color: #d3d3d3;
+}
+.rewardsContainer .rewardsTiers #loyaltylion .lion-tier-overview .lion-tier-box {
+  border-radius: 0;
+}
+.rewardsContainer .rewardsTiers #loyaltylion .lion-tier-overview .lion-tier-box__header {
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  border-radius: 0;
+  align-items: flex-end;
+}
+.rewardsContainer .rewardsTiers #loyaltylion .lion-tier-overview .lion-tier-box__header div {
+  color: #000;
+  margin-right: 3%;
+}
+.rewardsContainer .rewardsTiers #loyaltylion .lion-tier-overview .lion-tier-box__title {
+  color: #000;
+}
+.rewardsContainer .rewardsTiers #loyaltylion .lion-tier-overview .lion-tier-box--0 .lion-tier-box__header {
+  background-image: url("https://cdn.shopify.com/s/files/1/0166/0254/files/20210402_132802_02_1.jpg?v=1617384930");
+}
+.rewardsContainer .rewardsTiers #loyaltylion .lion-tier-overview .lion-tier-box--1 .lion-tier-box__header {
+  background-image: url("https://cdn.shopify.com/s/files/1/0166/0254/files/eb96d23b-b41e-48f5-8fe0-3d8c4ba340da_1_201_a_1.jpg?v=1617391848");
+}
+.rewardsContainer .rewardsTiers #loyaltylion .lion-tier-overview .lion-tier-box--2 .lion-tier-box__header {
+  background-image: url("https://cdn.shopify.com/s/files/1/0166/0254/files/160517fa-3d93-42bd-998d-abbed7365b45_1_201_a_1.jpg?v=1617391846");
+}
+.rewardsContainer .rewardsTiers #loyaltylion .lion-tier-box.lion-tier-box--3 {
+  display: none;
+}
+.rewardsContainer .rewardsTiers ul {
+  border: none;
+}
+.rewardsContainer .rewardsTiers ul li {
+  list-style: disc;
+  margin-left: 20%;
+}
+.rewardsContainer .rewardsRewards #loyaltylion .lion-icon__reward----subscription,
+.rewardsContainer .rewardsRewards #loyaltylion .lion-icon__reward--cart-discount-voucher,
+.rewardsContainer .rewardsRewards #loyaltylion .lion-icon__reward--collection-discount-voucher,
+.rewardsContainer .rewardsRewards #loyaltylion .lion-icon__reward--product-discount-voucher {
+  -webkit-mask-image: none;
+  background-size: 40px !important;
+  background: #fff url("https://cdn.shopify.com/s/files/1/0166/0254/files/credit-card.png?v=1615427836") no-repeat 50% 50%;
+}
+.rewardsContainer #loyaltylion .lion-claimed-rewards-list,
+.rewardsContainer #loyaltylion .lion-rewards-list,
+.rewardsContainer #loyaltylion .lion-rules-list {
+  background-color: unset;
+}
+.rewardsContainer #loyaltylion .lion-reward-item__content,
+.rewardsContainer #loyaltylion .lion-rule-item__content {
+  border-top: 1px solid #000;
+  border-radius: 0px;
+  padding: 5% 0% 0% 0%;
+}
+.rewardsContainer #loyaltylion .lion-reward-item__title,
+.rewardsContainer #loyaltylion .lion-rule-item__title {
+  color: #000;
+}
+.rewardsContainer #loyaltylion .lion-action-button--tile {
+  background-color: #d3d3d3;
+  border-radius: 0px;
+  border: none;
+  text-transform: uppercase;
+  color: #000;
+  text-shadow: none;
+  font-size: 80%;
+  font-weight: normal;
+}
+.rewardsContainer #loyaltylion .lion-action-button--tile:hover {
+  background-color: #a0a0a0;
+}
+.rewardsContainer #loyaltylion .lion-icon__rule--collection-purchase,
+.rewardsContainer #loyaltylion .lion-icon__rule--product-purchase,
+.rewardsContainer #loyaltylion .lion-icon__rule--purchase,
+.rewardsContainer #loyaltylion .lion-icon__rule--trustpilot-product-review,
+.rewardsContainer #loyaltylion .lion-icon__rule--signup,
+.rewardsContainer #loyaltylion .lion-icon__rule--birthday,
+.rewardsContainer #loyaltylion .lion-icon__rule--referral,
+.rewardsContainer #loyaltylion .lion-icon__rule--foursixty-ugc-post,
+.rewardsContainer #loyaltylion .lion-icon__rule--instagram-follow,
+.rewardsContainer #loyaltylion .lion-icon__rule--instagram-post-hashtag,
+.rewardsContainer #loyaltylion .lion-icon__rule--instagram-tag-image {
+  background-size: 40px !important;
+  -webkit-mask-image: none;
+}
+.rewardsContainer #loyaltylion .lion-icon__rule--collection-purchase,
+.rewardsContainer #loyaltylion .lion-icon__rule--product-purchase,
+.rewardsContainer #loyaltylion .lion-icon__rule--purchase,
+.rewardsContainer #loyaltylion .lion-icon__rule--trustpilot-product-review {
+  background: #fff url("https://cdn.shopify.com/s/files/1/0166/0254/files/diamond-gem.png?v=1615426614") no-repeat 50% 50%;
+}
+.rewardsContainer #loyaltylion .lion-icon__rule--signup {
+  background: #fff url("https://cdn.shopify.com/s/files/1/0166/0254/files/couple.png?v=1615427003") no-repeat 50% 50%;
+}
+.rewardsContainer #loyaltylion .lion-icon__rule--birthday {
+  background: #fff url("https://cdn.shopify.com/s/files/1/0166/0254/files/party-hat.png?v=1615426614") no-repeat 50% 50%;
+}
+.rewardsContainer #loyaltylion .lion-icon__rule--referral {
+  background: #fff url("https://cdn.shopify.com/s/files/1/0166/0254/files/friends.png?v=1615426614") no-repeat 50% 50%;
+}
+.rewardsContainer #loyaltylion .lion-icon__rule--foursixty-ugc-post,
+.rewardsContainer #loyaltylion .lion-icon__rule--instagram-follow,
+.rewardsContainer #loyaltylion .lion-icon__rule--instagram-post-hashtag,
+.rewardsContainer #loyaltylion .lion-icon__rule--instagram-tag-image {
+  background: #fff url("https://cdn.shopify.com/s/files/1/0166/0254/files/instagram.png?v=1615426670") no-repeat 50% 50%;
+}
+.rewardsContainer #loyaltylion .lion-icon__rule--facebook-like {
+  background-color: #000;
+}
+#customer,
+#recover-password,
+.createCustomerContainer,
+.wholesaleAccountWrapper {
+  display: flex;
+  justify-content: center;
+}
+#customer form,
+#recover-password form,
+.createCustomerContainer form,
+.wholesaleAccountWrapper form {
+  width: 80%;
+}
+#customer form #customer_email,
+#recover-password form #customer_email,
+.createCustomerContainer form #customer_email,
+.wholesaleAccountWrapper form #customer_email,
+#customer form #customer_password,
+#recover-password form #customer_password,
+.createCustomerContainer form #customer_password,
+.wholesaleAccountWrapper form #customer_password,
+#customer form #customer_fname,
+#recover-password form #customer_fname,
+.createCustomerContainer form #customer_fname,
+.wholesaleAccountWrapper form #customer_fname,
+#customer form #customer_lname,
+#recover-password form #customer_lname,
+.createCustomerContainer form #customer_lname,
+.wholesaleAccountWrapper form #customer_lname,
+#customer form #store_name,
+#recover-password form #store_name,
+.createCustomerContainer form #store_name,
+.wholesaleAccountWrapper form #store_name,
+#customer form #store_url,
+#recover-password form #store_url,
+.createCustomerContainer form #store_url,
+.wholesaleAccountWrapper form #store_url,
+#customer form #tax_id,
+#recover-password form #tax_id,
+.createCustomerContainer form #tax_id,
+.wholesaleAccountWrapper form #tax_id {
+  width: 100%;
+}
+#customer form input[type="radio"],
+#recover-password form input[type="radio"],
+.createCustomerContainer form input[type="radio"],
+.wholesaleAccountWrapper form input[type="radio"] {
+  margin-bottom: 7%;
+  display: inline-block;
+}
+#customer form label,
+#recover-password form label,
+.createCustomerContainer form label,
+.wholesaleAccountWrapper form label {
+  display: inline;
+  font-size: 14px;
+  font-weight: normal;
+}
+#customer form .btn.action_button,
+#recover-password form .btn.action_button,
+.createCustomerContainer form .btn.action_button,
+.wholesaleAccountWrapper form .btn.action_button {
+  width: 105%;
+}
+/* Tablet-portrait (and larger)
+ * Tablet-landscape (and larger) 
+ * Laptops (and larger)
+ */
+@media (min-width: 768px), (min-width: 992px), (min-width: 1200px) {
+  .accountContainer {
+    display: inline;
+    text-align: center;
+  }
+  .accountContainer .accountSidebar {
+    width: 23%;
+  }
+  .accountContainer #customer_orders.guest,
+  .accountContainer .rewardsContainer.guest,
+  .accountContainer .addressContainer.guest,
+  .accountContainer #accountDownloads.guest {
+    width: 100%;
+  }
+  #customer form,
+  #recover-password form,
+  .createCustomerContainer form {
+    width: 30%;
+  }
+  .wholesaleAccountWrapper #customer form {
+    width: 50%;
+  }
+  #accountDownloads .downloadsWrapper {
+    display: flex;
+  }
+  #accountDownloads .four.columns {
+    margin-left: 5%;
+  }
+}

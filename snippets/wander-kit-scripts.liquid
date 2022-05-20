@@ -1,0 +1,319 @@
+<script type="text/javascript">
+  var queue = [],
+      data = [],
+      shuffled = [],
+      shuffledHookVariants = [],
+      variants = [],
+      allPalettes = {},
+      cartIds = [],
+      productIds = [];
+
+  //Add all variants to array
+  {% for data_set in all_products['acrylic-crochet-yarn'].variants %}
+    variants.push({{ data_set | json }});
+  {% endfor %}
+
+  //ga('send', 'event', "Wander Palette Packs", 'Click', 'Start');
+
+  // Set each array pack so we can check stock on specific arrays
+  allPalettes['autumn'] = [39521409466435, 39521409368131, 39521409499203, 39521409302595, 39521409335363];
+  allPalettes['awaken'] = [39521409630275, 39521409663043, 39521409269827, 39521409433667, 39521409597507];
+  allPalettes['retro'] = [39521409400899, 39521409630275, 39521409466435, 39521409335363, 39521409368131];
+  allPalettes['terra'] = [39521409302595, 39521409597507, 39521409368131, 39521409663043, 39521409269827];
+  allPalettes['tidal'] = [39521409663043, 39521409531971, 39521409302595, 39521409695811, 39521409269827];
+
+
+  $.each(variants, function(index, data) {
+    var variant = variants[index],
+        skuColor = variant.sku.split('-')[3],
+        titleColor = '',
+        formToggle = '',
+        tbody = '',
+        variantToggle = [],
+        allColors = Object.keys(allPalettes);
+    
+    if (variant.sku.length > 0 ) {
+    console.log(variant);
+    console.log(skuColor);
+
+        //only execute if this variant is below 0
+        if (variant.inventory_quantity <= 0) {
+          //check each color
+          $.each(allColors,function(i,e) {
+            //set vars
+            var color = allColors[i],
+                idsArray = allPalettes[color];
+            //if this color contains this variant
+            if (idsArray.includes(variant.id)) {
+                $('.'+color+'').hide();
+            } else {
+                $('.'+color+'').css('display', 'inline-block');
+                $('.soldOut').hide();
+            };
+          });
+        };
+
+      if(skuColor == 'COBB') {
+        titleColor = 'Cobblestone';
+      } else if(skuColor == 'MIDN') {
+        titleColor = 'Midnight';
+      } else if(skuColor == 'CANA') {
+        titleColor = 'Canary';
+      } else if(skuColor == 'MEAD') {
+        titleColor = 'Meadow';
+      } else if(skuColor == 'AMTH') {
+        titleColor = 'Amethyst';
+      } else if(skuColor == 'VLVT') {
+        titleColor = 'Velvet';
+      } else if(skuColor == 'DRAG') {
+        titleColor = 'Dragonfruit';
+      } else if(skuColor == 'POME') {
+        titleColor = 'Pomegranate';
+      } else if(skuColor == 'SUNR') {
+        titleColor = 'Sunrise';
+      } else if(skuColor == 'THAT') {
+        titleColor = 'Thatch';
+      } else if(skuColor == 'AMBR') {
+        titleColor = 'Ambrosia';
+      } else {
+        titleColor = capitalizeFirstLetter(skuColor.toLowerCase());
+      }
+
+    for (let i = 1; i < 6; i++) {
+      tbody = $("."+skuColor+"-tbody-" + i);
+
+      if (variant.inventory_quantity > 0) {
+        //add tbody
+        if (tbody.length == 0){
+          tbody = [];
+          tbody.push("<div class='"+skuColor+"-tbody-" + i + "' data-num='" + i + "' data-color='" + titleColor + "'>");
+          tbody.push("<div class='"+skuColor+"-form-toggle' data-color='"+skuColor+"' data-chosen='false'>");
+          tbody.push("<span class='toggle-title'>" + titleColor + "</div>");
+          $(tbody.join("")).appendTo($(".yarn-variants-wrapper"));
+        };
+
+        //add variant toggle
+        variantToggle.push("<div class='variant-toggle' data-variantid='"+variant.id+"' data-color='" + titleColor + "' data-size='" + variant.title + "' data-sku-color = '" + skuColor + "' data-chosen='false'>");
+        variantToggle.push("<input class='product-size-variant' data-variantid='"+variant.id+"'");
+        variantToggle.push("type='number' value='0' min='0' step='1' />");
+        variantToggle.push("</div>");
+        $(variantToggle.join("")).appendTo($("."+skuColor+"-tbody-" + i));
+        variantToggle = [];
+
+      };
+    }
+    };
+  });
+
+  $(function(){
+    //Function for redirect to form on discount image click
+    $("body").on("click", " #cta1, #cta2", function(){
+      $('html, body').animate({scrollTop: ($("h1").offset().top)}, 500);
+    });
+
+    $('.oneClick').on('click', function() {
+      $('.buttonOptions .backButton').show();
+      $('.buttonOptions').css('display', 'flex');
+      $('.buttonFirst').hide();
+
+      $('.buttonOptions .backButton').on('click', function() {
+        $('.buttonOptions').hide();
+        $('.buttonFirst').show();
+
+        $('.productImageCarousel').show();
+        $('.productImageCarouselThumbnails').show();
+        $('.wanderImages').hide();
+      });
+
+    //hoverover
+    $('.wanderPackOptions').on('mouseover', function() {
+      $('.productImageCarousel').hide();
+      $('.productImageCarouselThumbnails').hide();
+      var color = $(this).data("color");
+      $('.wanderImages [data-color!="'+color+'"]').hide();
+      $('.wanderImages [data-color="'+color+'"]').show();
+    });
+      
+     
+    console.log("cart");
+    console.log("")
+    //kit click actions
+    $('.wanderPackOptions').on('click', function() {
+        //ga('send', 'event', "Wander Palette Packs", 'Click', 'Autumn');
+
+        var cartItems = {{cart | json}}["items"],
+            color = $(this).data("color"),
+            toteQuantity = 0,
+            colorArray = allPalettes[color];
+      
+        $.each(cartItems, function(index,item){
+          cartIds.push(item["id"]);
+          
+          if(item["variant_id"] == "32315749105731") {
+            toteQuantity += parseFloat(item["quantity"]);
+          }
+        });
+
+        console.log("toteQuantity - " + toteQuantity);
+
+        $('.productImageCarousel').hide();
+        $('.productImageCarouselThumbnails').hide();
+        $('.wanderImages [data-color!="'+color+'"]').hide();
+        $('.wanderImages [data-color="'+color+'"]').show();
+        
+        //add variants to queue
+        $.each(colorArray, function(index){
+          queue.push({
+            variant: colorArray[index],
+            quantity: 1
+          });
+        });
+        
+        //add palette kit pattern variant for analytics
+        queue.push({
+          variant: "39278454407235",
+          quantity: 1
+        });
+        
+
+        $('.'+color+' .title').hide();
+        $('.'+color+' .packIncludes').hide();
+        $('.'+color+' .sp-mini').show();
+
+        addFreeTotes(toteQuantity);
+        submitForm();
+      });
+      
+      
+    });
+
+    $('#customize-cart').on('click', function() {
+      $('.customOptions .backButton').show();
+      $('.customOptions').show();
+      $('.buttonFirst').hide();
+
+      $('.customOptions .backButton').on('click', function() {
+        $('.customOptions').hide();
+        $('.buttonFirst').show();
+      });
+
+      let yarnNum = $('.yarnButtons[data-chosen="chosen"]').attr('data-yarn-num');
+
+      $('div[class*="tbody"]').each(function() {
+        if($(this).attr('data-num') != yarnNum) {
+          $(this).hide();
+        }
+      });
+
+      $('.yarnButtons').on('click', function() {
+        $('.yarnButtons').attr('data-chosen', 'false');
+        $(this).attr('data-chosen', 'chosen');
+        yarnNum = $(this).attr('data-yarn-num');
+
+        $('div[class*="tbody"]').each(function() {
+          if($(this).attr('data-num') != yarnNum) {
+            $(this).hide();
+          } else {
+            $(this).show();
+          }
+        });
+      });
+
+      $("div[class*='-tbody']").on('click', function() {
+        let chosenNum = $(this).attr('data-num');
+
+        $('div[class*="-tbody-' + chosenNum + '"] .variant-toggle input').each(function() {
+          $(this).val(0);
+          $(this).attr('value', '0');
+        });
+
+        $('div[class*="-tbody-' + chosenNum + '"]').attr('data-chosen', 'false');
+        $(this).find('input').val(1);
+        $(this).find('input').attr('value', '1');
+        $(this).attr('data-chosen', 'chosen');
+
+        if(chosenNum == 5) {
+          $('.chosenSkeins span[data-num=' + chosenNum + ']').text($(this).attr('data-color'));
+        } else {
+          $('.chosenSkeins span[data-num=' + chosenNum + ']').text($(this).attr('data-color') + ', ');
+        }
+      });
+    });
+    
+  });
+    
+  $("form#checkout-table").on("submit", function(e) {
+    //prevent Default
+    e.preventDefault();
+    //get vars
+    var totalCount = 0,
+        cartItems = {{cart | json}}["items"],
+        toteQuantity = 0;
+
+    //show spinner   
+    $(".purchase .sp-mini").show();
+
+    $(".product-size-variant").each(function(index, element) {
+      var val = parseInt($(this).val());
+        if(val <= 0) { 
+          return; 
+        } else {
+          totalCount += 1;
+        }
+    });
+
+    if(totalCount < 6) {
+      alert('Must have 5 skeins chosen');
+    } else {
+      $(".product-size-variant").each(function(index, element) {
+        var val = parseInt($(this).val());
+
+        if(val <= 0) { return; } 
+
+        queue.push({
+          variant: $(this).attr("data-variantid"),
+          quantity: val
+        });
+      });
+    
+      $.each(cartItems, function(index,item){
+        cartIds.push(item["id"]);
+        
+        if(item["variant_id"] == "32315749105731") {
+          toteQuantity += parseFloat(item["quantity"]);
+        }
+      });
+
+
+      addFreeTotes(toteQuantity);
+      submitForm();
+    }
+  });
+    
+  function addFreeTotes(toteQuantity) {
+    if(toteQuantity < 3) {
+          // add free item
+          queue.push({
+            variant: "32315749105731",
+            quantity: toteQuantity + 1
+          });
+        }
+  };
+
+  function submitForm() {
+    //add items
+    console.log(queue);
+    if(queue.length) {
+      var item = queue.shift();
+      Shopify.addItem(item.variant, item.quantity, submitForm);
+    } else {
+      //send direct to checkout
+      window.location = "/cart";
+    }
+  }
+
+  function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+
+</script>

@@ -1,0 +1,227 @@
+<script type="text/javascript">
+//next steps
+  var data = [],
+      variants = {},
+      allPalettes = {};
+      hooks = [];
+
+  //Add all variants to array
+  {% for data_set in all_products['acrylic-crochet-yarn'].variants %}
+    variants["{{data_set.id}}"] = '{{data_set | json}}';
+  {% endfor %}
+
+  //Add all variants to array
+    {% for product in collections.streamline-swirls.products %}
+      hooks.push({{ product.variants | json}});
+    {% endfor %}
+    hooks = hooks.flat();
+
+  //ga('send', 'event', "Wander Palette Packs", 'Click', 'Start');
+
+  // Set each array pack so we can check stock on specific arrays
+allPalettes['flora pink'] = [39521409499203,39521409466435,39710539776067, 39710539841603, 39521409728579];
+allPalettes['flora green'] = [39521409826883, 39521409597507, 39710539874371,39521409925187,39521410023491];
+
+  $.each(allPalettes, function(palette, paletteVariants){
+        //
+    var palette = palette,
+        wrapper = $(".palettesWrapper"),
+        container = [],
+        optionsTitles = paletteVariants.map((id)=>JSON.parse(variants[id]).option2).join(", "),
+        inputs = paletteVariants.map((id)=>"<input value='0' type='hidden' min='0' max='2' class='paletteVariant' data-variantid='"+id+"'/>").join("");
+        //images = paletteVariants.map((id)=>"<img class='paletteSwatch' data-variantid='"+id+"' src='"+JSON.parse(variants[id]).featured_image.src+"'/>").join("");
+        //
+        container.push("<span class='paletteContainer' data-color='"+palette.toLowerCase()+"'>");
+        container.push("<span class='paletteTitle'>"+palette.toUpperCase()+"</span>");
+        container.push("<span class='paletteIncludes'>");
+        //container.push(optionsTitles);
+        container.push("</span>");
+        container.push(inputs);
+        container.push("<div class='sp-mini sp-circle auto-hide'></div>");
+        container.push("</span>");
+        //
+        $.each(paletteVariants,function(i,id){
+          if ($(".paletteSwatch[data-variantid='"+id+"']").length < 1){
+              var image = "<img class='paletteSwatch' data-variantid='"+id+"' src='"+JSON.parse(variants[id]).featured_image.src+"'/>";
+                $(".optionImages").append(image);
+          };
+        });
+        //
+        wrapper.append(container.join(""));
+  });
+
+  $.each(hooks, function(index, hook){
+        //
+    var hook = hook,
+        wrapper = $(".hooksWrapper"),
+        container = [],
+        size = hook.option1,
+        title = hook.option2,
+        color = hook.sku.split("-")[2],
+        qty = hook.inventory_quantity;
+        console.log(hook);
+        //only 6.0mm
+        if (size == "5.50mm (I)" && qty > 0 ) {
+            container.push("<span class='hookContainer' data-color='"+color.toUpperCase()+"'>")
+            container.push("<span class='hookTitle'>"+title.toUpperCase()+"</span>");
+            //container.push("<span class='hookSize'> - <small>"+size+"</small></span>");
+            container.push("<input value='0' type='hidden' min='0' max='1' class='hookVariant' data-variantid='"+hook.id+"'/>");
+            container.push("</span>")
+            //
+            $(".optionImages").append("<img class='hookSwatch' data-variantid='"+hook.id+"' src='"+hook.featured_image.src+"'/>");
+            //
+            wrapper.append(container.join(""));
+        };
+
+  });
+
+  //palette click actions
+  $('body').on('click', '.paletteContainer', function() {
+      choosePalette(this);
+  });
+
+  //hook click actions
+  $('body').on('click', '.hookContainer', function() {
+      chooseHook(this);
+  });
+
+  $('body').on('click', '.shuffle', function() {
+      selectRandomDefault();
+  });
+
+  $('body').on('click', '#customize-cart', function() {
+      $(".customizeWrapper").show();
+      $(".palettesWrapper").show();
+      $(".checkout_button").show();
+      $(".oneClick").hide();
+      $("#customize-cart").hide();
+  });
+
+  $('body').on('click', '.customizePalette', function() {
+      $(".customizeOptions .chosen").removeClass("chosen");
+      $(this).addClass("chosen");
+      $(".hooksWrapper").hide();
+      $(".palettesWrapper").show();
+  });
+
+  $('body').on('click', '.customizeHooks', function() {
+      $(".customizeOptions .chosen").removeClass("chosen");
+      $(this).addClass("chosen");
+      $(".hooksWrapper").show();
+      $(".palettesWrapper").hide();
+  });
+
+  $(function(){
+    var defaultPalette = $(".paletteContainer[data-color='flora pink']");
+    selectRandomDefault(defaultPalette);
+  });
+
+    //Function for redirect to form on discount image click
+    $("body").on("click", " #cta1, #cta2", function(){
+      $('html, body').animate({scrollTop: ($(".productTitle").offset().top - 200)}, 500);
+    });
+
+    $('body').on('click', ".oneClick, .checkout_button", function() {
+      if ($(this).attr("data-status") != "loading") {
+      //show spinner
+        $(this).attr("data-status","loading")
+        $(this).append("<div class='sp-mini sp-circle sp-inline'></div>");
+        //submit form
+        submitForm();
+      };
+    });
+
+    $('body').on('click', ".backButton", function() {
+      $('.customizeWrapper').hide();
+      $('.palettesWrapper').hide();
+      $('.hooksWrapper').hide();
+      $(".checkout_button").hide();
+      $(".oneClick").show();
+      $("#customize-cart").show();
+    });
+
+    //hoverover
+    $('.wanderPackOptions').on('mouseover', function() {
+      $('.productImageCarousel').hide();
+      $('.productImageCarouselThumbnails').hide();
+      var color = $(this).data("color");
+      $('.wanderImages [data-color!="'+color+'"]').hide();
+      $('.wanderImages [data-color="'+color+'"]').show();
+    });
+      
+     
+    
+
+    
+
+  function submitForm() {
+    //show spinner   
+    $(".purchase .sp-mini").show();
+    //build items
+    var itemsArray = [],
+        inputs = $("input[data-variantid]").filter((i,e)=>$(e).val()>0);
+    Array.from(inputs).forEach(e=>itemsArray.push({'id':$(e).attr("data-variantid"),'quantity':$(e).val()}));
+    var formData = {'items':itemsArray};
+    //send itemsArray
+    fetch(`${routes.cart_add_url}`, { ...fetchConfig('javascript'), body: JSON.stringify(formData) })
+      .then((response) => response.json())
+      .then((parsedState) => {
+        console.log(parsedState);
+        window.location = "/checkout";  
+      })
+      .catch((e) => {
+        console.error(e);
+        window.location.reload();
+      });
+  };
+
+
+
+  function selectRandomDefault(selection) {
+    var palettes = $(".paletteContainer"),
+        randomPalette = selection || palettes[Math.floor(Math.random() * palettes.length)],
+        hooks = $(".hookContainer"),
+        randomHook = hooks[Math.floor(Math.random() * hooks.length)];
+        choosePalette(randomPalette);
+        chooseHook(randomHook);
+  }
+
+  function choosePalette(palette) {
+    var palette = $(palette),
+        title = capitalizeFirstLetter(palette.find(".paletteTitle").text().toLowerCase()),
+        paletteIds = palette.find("input").map((i,e)=>$(e).attr("data-variantid")).toArray();
+        //
+        $(".paletteContainer").removeClass("chosen")
+        palette.addClass("chosen");
+        $("input.paletteVariant").val(0);
+        palette.find("input").val(2);
+        //show images
+        $("img.paletteSwatch").hide();
+        $.each(paletteIds, function(i,id){ $("img[data-variantid='"+id+"']").show()});
+        
+        //
+        $("#choices .palette").text(title);
+        $("#choices").show();
+  }
+  function chooseHook(hook) {
+    var hook = $(hook),
+        title = capitalizeFirstLetter(hook.find(".hookTitle").text().toLowerCase()),
+        id = hook.find("input").attr("data-variantid");
+        //
+        $(".hookContainer").removeClass("chosen")
+        hook.addClass("chosen");
+        $("input.hookVariant").val(0);
+        hook.find("input").val(1);
+        //
+        $("img.hookSwatch").hide();
+        $("img[data-variantid='"+id+"']").show()
+        //
+        $("#choices .hook").text(title);
+        $("#choices").show();
+  }
+
+  function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+
+</script>

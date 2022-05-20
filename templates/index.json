@@ -1,0 +1,49 @@
+{
+  "sections": {
+    "homepage_banner": {
+      "type": "homepage-banner",
+      "settings": {
+        "title": "Banner"
+      }
+    },
+    "featured_products": {
+      "type": "featured-collection",
+      "settings": {
+        "title": "Our Best Sellers",
+        "collection": "most-popular",
+        "products_to_show": 8,
+        "show_view_all": false,
+        "swipe_on_mobile": true,
+        "image_ratio": "square",
+        "show_secondary_image": false,
+        "add_image_padding": false,
+        "show_vendor": false
+      }
+    },
+    "page_category": {
+      "type": "homepage-category",
+      "settings": {
+        "title": "Shop By Category"
+      }
+    },
+    "163102036768efc4d3": {
+      "type": "homepage-insta",
+      "settings": {
+        "title": ""
+      }
+    },
+    "page_risk": {
+      "type": "homepage-riskreversal",
+      "settings": {
+        "title": "Risk"
+      }
+    }
+  },
+  "order": [
+    "homepage_banner",
+    "featured_products",
+    "page_category",
+    "163102036768efc4d3",
+    "page_risk"
+  ]
+}

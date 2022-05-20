@@ -1,0 +1,39 @@
+<div class='promoWrapper'>
+  <div class="section clearfix birthdayPage">
+
+    <img src="https://cdn.shopify.com/s/files/1/0166/0254/files/Furls_sale_banner_with_yarn.jpg?v=1631106397">
+
+    <div class="actualBirthday">
+      <form action="/cart" method="post" id="cart_form">
+        <div class="quickAddProds">
+          {%include 'quick-add-all-products'%}
+        </div>
+        <div class="quickAddCart">
+          {%include 'quick-add-cart'%}
+          {%include 'quick-add-cart-scripts'%}
+        </div>
+      </form>
+
+      <div id="giveaway" data-start="06/22/21">
+        <script src="https://widget-prime.rafflecopter.com/launch.js"></script>
+        <p class="quick-add-title">Giveaways</p>
+        <hr>
+        <div class="weekContent">
+          <span class="week1 active">
+            <div>
+              <a class="rcptr" href="http://www.rafflecopter.com/rafl/display/2ccf75cf145/" rel="nofollow" data-raflid="2ccf75cf145" data-theme="classic" data-template="" id="rcwidget_o59uiobn">a Rafflecopter giveaway</a>
+              <script src="https://widget-prime.rafflecopter.com/launch.js"></script>
+            </div>
+            <div>
+              <img src="https://cdn.shopify.com/s/files/1/0166/0254/files/wander_prize.jpg?v=1631812485">
+            </div>
+          </span>
+        </div>
+      </div>
+    </div>
+    <hr/> 
+  </div>
+</div>
+
+{{ 'shopAll.js' | asset_url | script_tag }}
+{{ 'shopAll.css' | asset_url | stylesheet_tag }}

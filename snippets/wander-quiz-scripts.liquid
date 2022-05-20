@@ -1,0 +1,477 @@
+<script type="text/javascript">
+let currentQuestion = 0;
+let score = [];
+let selectedAnswersData = [];
+
+var container = document.querySelector('.quiz-container');
+var questionEl = document.querySelector('.question');
+var option1 = document.querySelector('.option1');
+var option2 = document.querySelector('.option2');
+var option3 = document.querySelector('.option3');
+var option4 = document.querySelector('.option4');
+var option5 = document.querySelector('.option5');
+var image1 = document.querySelector('.image1');
+var image2 = document.querySelector('.image2');
+var image3 = document.querySelector('.image3');
+var image4 = document.querySelector('.image4');
+var image5 = document.querySelector('.image5');
+var nextButton = document.querySelector('.next');
+var previousButton = document.querySelector('.previous');
+var restartButton = document.querySelector('.restart');
+var result = document.querySelector('.result');
+
+// QUESTIONS
+const questions = [
+  {
+    "question": "What three words best describe your last real vacation?",
+    "answer1": "Sand, water, surf.",
+    "answer1Total": "1",
+    "answer1Image": "https://cdn.shopify.com/s/files/1/0166/0254/files/beach-3369140_640.jpg?v=1610558780",
+    "answer2": "Map, snacks, radio.",
+    "answer2Total": "2",
+    "answer2Image": "https://cdn.shopify.com/s/files/1/0166/0254/files/van-2786078_640.jpg?v=1610558780",
+    "answer3": "Hiking, campfires, cabin.",
+    "answer3Total": "3",
+    "answer3Image": "https://cdn.shopify.com/s/files/1/0166/0254/files/barn-2594975_640.jpg?v=1610558780",
+    "answer4": "Home, family, Netflix.",
+    "answer4Total": "4",
+    "answer4Image": "https://cdn.shopify.com/s/files/1/0166/0254/files/tv-5837826_640.jpg?v=1610558780",
+    "answer5": "Skyscrapers, shopping, sightseeing.",
+    "answer5Total": "5",
+    "answer5Image": "https://cdn.shopify.com/s/files/1/0166/0254/files/quebec-city-202152_640.jpg?v=1610558780"
+  },
+  {
+    "question": "Which one of these tv shows are you most likely to watch (or re-watch)?",
+    "answer1": "Gilmore Girls",
+    "answer1Total": "4",
+    "answer1Image": "https://cdn.shopify.com/s/files/1/0166/0254/files/4_0bb5d2ab-2fe9-4dfe-8cd4-a1918accd235.jpg?v=1610559468",
+    "answer2": "Lost",
+    "answer2Total": "1",
+    "answer2Image": "https://cdn.shopify.com/s/files/1/0166/0254/files/1_3ff69f94-a869-4a5a-9df0-0cfa0bc27c1c.jpg?v=1610559468",
+    "answer3": "Virgin River",
+    "answer3Total": "3",
+    "answer3Image": "https://cdn.shopify.com/s/files/1/0166/0254/files/3_a948c098-67d1-41be-b028-f8ace5409dcf.jpg?v=1610559468",
+    "answer4": "Supernatural",
+    "answer4Total": "2",
+    "answer4Image": "https://cdn.shopify.com/s/files/1/0166/0254/files/2_0119ba37-e885-4d23-a377-cb76c568cb08.jpg?v=1610559468",
+    "answer5": "Sex and the City",
+    "answer5Total": "5",
+    "answer5Image": "https://cdn.shopify.com/s/files/1/0166/0254/files/5_9b79a8d5-4016-4cea-b0bd-ac140c5c006c.jpg?v=1610559468"
+  },
+  {
+    "question":
+      "What is your favorite Season?",
+    "answer1": "Winter",
+    "answer1Total": "4",
+    "answer1Image": "https://cdn.shopify.com/s/files/1/0166/0254/files/tree-1959267_640.jpg?v=1610559954",
+    "answer2": "All of them!",
+    "answer2Total": "2",
+    "answer2Image": "https://cdn.shopify.com/s/files/1/0166/0254/files/all_seasons_1.jpg?v=1610559955",
+    "answer3": "Spring",
+    "answer3Total": "5",
+    "answer3Image": "https://cdn.shopify.com/s/files/1/0166/0254/files/spring-flowers-110671_1280.jpg?v=1610559954",
+    "answer4": "Summer",
+    "answer4Total": "1",
+    "answer4Image": "https://cdn.shopify.com/s/files/1/0166/0254/files/sunflower-3550693_640.jpg?v=1610559954",
+    "answer5": "Fall",
+    "answer5Total": "3",
+    "answer5Image": "https://cdn.shopify.com/s/files/1/0166/0254/files/benches-560435_640.jpg?v=1610559954"
+  },
+  {
+    "question": "What is your favorite drink?",
+    "answer1": "Water",
+    "answer1Total": "1",
+    "answer1Image": "https://cdn.shopify.com/s/files/1/0166/0254/files/water-3510210_640.jpg?v=1610564268",
+    "answer2": "A fancy cocktail or glass of wine",
+    "answer2Total": "5",
+    "answer2Image": "https://cdn.shopify.com/s/files/1/0166/0254/files/drink-3237895_640.jpg?v=1610564268",
+    "answer3": "Tea/Coffee",
+    "answer3Total": "4",
+    "answer3Image": "https://cdn.shopify.com/s/files/1/0166/0254/files/steam-2299263_640.jpg?v=1610564268",
+    "answer4": "Hot chocolate",
+    "answer4Total": "3",
+    "answer4Image": "https://cdn.shopify.com/s/files/1/0166/0254/files/coffee-2179009_640.jpg?v=1610564268",
+    "answer5": "Soda Pop",
+    "answer5Total": "2",
+    "answer5Image": "https://cdn.shopify.com/s/files/1/0166/0254/files/soft-drink-4280835_640.jpg?v=1610564268"
+  },
+  {
+    "question": "Most importantly, what is your favorite Furls hook?",
+    "answer1": "Streamline Wood",
+    "answer1Total": "4",
+    "answer1Image": "https://cdn.shopify.com/s/files/1/0166/0254/files/streamline-wood-topNav.png?v=1600288386",
+    "answer2": "Candy Shop",
+    "answer2Total": "2",
+    "answer2Image": "https://cdn.shopify.com/s/files/1/0166/0254/files/candy-shop-topNav.png?v=1600288390",
+    "answer3": "Odyssey",
+    "answer3Total": "5",
+    "answer3Image": "https://cdn.shopify.com/s/files/1/0166/0254/files/odyssey-topNav.png?v=1600288390",
+    "answer4": "Streamline Swirl",
+    "answer4Total": "1",
+    "answer4Image": "https://cdn.shopify.com/s/files/1/0166/0254/files/streamline-swirls-topNav.png?v=1600288389",
+    "answer5": "Alpha",
+    "answer5Total": "3",
+    "answer5Image": "https://cdn.shopify.com/s/files/1/0166/0254/files/alphas-topNav.png?v=1600288389"
+  }
+]
+
+const totalQuestions = questions.length;
+
+//Function to generate question 
+function generateQuestions (index) {
+    //Select each question by passing it a particular index
+    const question = questions[index];
+    const option1Total = questions[index].answer1Total;
+    const option2Total = questions[index].answer2Total;
+    const option3Total = questions[index].answer3Total;
+    const option4Total = questions[index].answer4Total;
+    const option5Total = questions[index].answer5Total;
+    //Populate html elements 
+    questionEl.innerHTML = `${index + 1}. ${question.question}`
+    option1.setAttribute('data-total', `${option1Total}`);
+    option2.setAttribute('data-total', `${option2Total}`);
+    option3.setAttribute('data-total', `${option3Total}`);
+    option4.setAttribute('data-total', `${option4Total}`);
+    option5.setAttribute('data-total', `${option5Total}`);
+    option1.innerHTML = `${question.answer1}`
+    option2.innerHTML = `${question.answer2}`
+    option3.innerHTML = `${question.answer3}`
+    option4.innerHTML = `${question.answer4}`
+    option5.innerHTML = `${question.answer5}`
+    image1.setAttribute('src', `${question.answer1Image}`)
+    image2.setAttribute('src', `${question.answer2Image}`)
+    image3.setAttribute('src', `${question.answer3Image}`)
+    image4.setAttribute('src', `${question.answer4Image}`)
+    image5.setAttribute('src', `${question.answer5Image}`)
+    
+    ga('send', 'event', "Wander Quiz", 'View', index);
+}
+
+
+function loadNextQuestion () {
+    const selectedOption = document.querySelector('input[type="radio"]:checked');
+    //Check if there is a radio input checked
+    if(!selectedOption) {
+        alert('Please select your answer!');
+        return;
+    }
+
+    // Mobile only JS
+    if($(window).width() <= 750) {
+       $('html, body').animate({
+          scrollTop: $(".logo").offset().top
+       }, 1000);
+    }
+
+    //Get value of selected radio
+    const answerScore = Number(selectedOption.nextElementSibling.getAttribute('data-total'));
+
+    ////Add the answer score to the score array
+    score.push(answerScore);
+
+    selectedAnswersData.push()
+
+    const totalScore = score.reduce((total, currentNum) => total + currentNum);
+
+    //Finally we incement the current question number ( to be used as the index for each array)
+    currentQuestion++;
+
+    if(currentQuestion == 0) {
+       $('.previous').hide();
+    }
+    else {
+       $('.previous').show();
+    }
+
+    if(currentQuestion == 5) {
+        $('input[name="$fav_hook"]').val(selectedOption.nextElementSibling.innerHTML);
+    }
+
+    //once finished clear checked
+    selectedOption.checked = false;
+
+    //If quiz is on the final question
+    if(currentQuestion == totalQuestions - 1) {
+        nextButton.textContent = 'Finish';
+    }
+    //If the quiz is finished then we hide the questions container and show the results 
+    if(currentQuestion == totalQuestions) {
+        ga('send', 'event', "Wander Quiz", 'View', "Results");
+        container.style.display = 'none';
+        $('.quick-add-product').css('display','inline-block');
+
+        if(totalScore >= 1 && totalScore <= 5) {
+            $('input[name="$wander_pack"]').val('tidal');
+            result.innerHTML =
+             `<h2 class="final-score">Tidal Daydreamer - The Ocean</h2>
+             <h3>Never stop wondering. Never stop wandering.</h3>
+             <div class="summary">
+                <span>
+                  <img src="https://cdn.shopify.com/s/files/1/0166/0254/files/wander-palette-square-crosssection-tidal.jpeg?v=1611156745">
+                  <img src="https://cdn.shopify.com/s/files/1/0166/0254/files/wander-palette-square-crosssection-daydreamer.jpeg?v=1614361455">              
+  </span>
+                <p>
+                  You thalassophile, you!<br>
+
+                  The sounds of waves crashing, the salty sea air, the relaxing breeze coming off the ocean… Does it get any better than that? Research has shown that being near, in, on or under water can provide a long list of benefits for our mind and body. How so? Think lower stress, reduced anxiety, and an overall sense of well-being and happiness!<br>
+
+                  It’s no wonder this is where your heart feels at home!<br><br>
+                </p>
+            </div>
+            <div class="afterSummary"></div>`;
+            $('.restart').insertAfter($('.afterSummary'));
+            $('.restart').show();
+            $('.afterSummary').prepend($('#email_signup_wander'));
+            $('.socialSection').insertAfter('#email_signup_wander');
+            $('.socialSection').css('display', 'flex');
+            $('#email_signup_wander').show();
+            $('.shareFacebook').on('click', function() {
+              FB.init({
+                appId      : '850549969113770',
+                xfbml      : true,
+                version    : 'v2.4'
+              });
+              FB.ui({
+                method: 'share',
+                href: 'https://furlscrochet.com/pages/wander-palette-quiz',
+              }, function(response){});
+            });
+            return;
+        } 
+        else if(totalScore >= 6 && totalScore <= 10) {
+            $('input[name="$wander_pack"]').val('retro');
+            result.innerHTML =
+             `<h2 class="final-score">Retro Hygge - Road Trip</h2>
+             <h3>Roam far & wander wide.</h3>
+             <div class="summary">
+                <span>
+                  <img src="https://cdn.shopify.com/s/files/1/0166/0254/files/wander-palette-square-crosssection-retro.jpeg?v=1611156745">
+      <img src="https://cdn.shopify.com/s/files/1/0166/0254/files/wander-palette-square-crosssection-hygge.jpeg?v=1614361455">              
+  </span>
+                <p>
+                  What’s better than you, your best friend, and the open road? Nothing! Road trips help clear your mind, embrace the unexpected, and broaden your views. If you love road trips, it can be said that you are spontaneous, positive and have an open mind! So grab your favorite snacks, fill up your tank, and hit the road, with or without a destination in mind. Because we know it’s all about the journey, not the destination.<br><br>
+                </p>
+            </div>
+            <div class="afterSummary"></div>`;
+            $('.restart').insertAfter($('.afterSummary'));
+            $('.restart').show();
+            $('.afterSummary').prepend($('#email_signup_wander'));
+            $('.socialSection').insertAfter('#email_signup_wander');
+            $('.socialSection').css('display', 'flex');
+            $('#email_signup_wander').show();
+            $('.shareFacebook').on('click', function() {
+              FB.init({
+                appId      : '850549969113770',
+                xfbml      : true,
+                version    : 'v2.4'
+              });
+              FB.ui({
+                method: 'share',
+                href: 'https://furlscrochet.com/pages/wander-palette-quiz',
+              }, function(response){});
+            });
+            return;
+        }
+        else if(totalScore >= 11 && totalScore <= 15) {
+            $('input[name="$wander_pack"]').val('terra');
+            result.innerHTML =
+             `<h2 class="final-score">Terra Sunset - Mountain Views</h2>
+             <h3>The mountains whisper for me to wander; my soul hikes to the call. - Angie Weiland-Crosby</h3>
+             <div class="summary">
+                <span>
+                  <img src="https://cdn.shopify.com/s/files/1/0166/0254/files/wander-palette-square-crosssection-terra.jpeg?v=1611156745">
+  <img src="https://cdn.shopify.com/s/files/1/0166/0254/files/wander-palette-square-crosssection-sunset.jpeg?v=1614361455">              
+  </span>
+                <p>
+                  Inhale. Hold. Exhale. Feel that? It is a unique feeling of calm and tranquility found in the mountains that you need to experience to understand. It filters through you, and stays with you for a time after you leave. Appreciate the stillness, and listen to the silence. Whether you are hiking up the steep inclines, or just casually walking through the forests below, there is a feeling of peace and serenity that is found in this type of nature.<br><br>
+                </p>
+            </div>
+            <div class="afterSummary"></div>`;
+            $('.restart').insertAfter($('.afterSummary'));
+            $('.restart').show();
+            $('.afterSummary').prepend($('#email_signup_wander'));
+            $('.socialSection').insertAfter('#email_signup_wander');
+            $('.socialSection').css('display', 'flex');
+            $('#email_signup_wander').show();
+            $('.shareFacebook').on('click', function() {
+              FB.init({
+                appId      : '850549969113770',
+                xfbml      : true,
+                version    : 'v2.4'
+              });
+              FB.ui({
+                method: 'share',
+                href: 'https://furlscrochet.com/pages/wander-palette-quiz',
+              }, function(response){});
+            });
+            return;
+        }
+        else if(totalScore >= 16 && totalScore <= 20) {
+            $('input[name="$wander_pack"]').val('autumn');
+            result.innerHTML =
+             `<h2 class="final-score">Autumn Embrace - Staycation</h2>
+             <h3>Sometimes a break from your routine is the very thing you need.</h3>
+             <div class="summary">
+                <span>
+                  <img src="https://cdn.shopify.com/s/files/1/0166/0254/files/wander-palette-square-crosssection-autumn.jpeg?v=1611156745">
+  <img src="https://cdn.shopify.com/s/files/1/0166/0254/files/wander-palette-square-crosssection-embrace.jpeg?v=1614361455">              
+  </span>
+                <p>
+                  Let’s be honest. You were a fan of the staycation before it was cool. Long airport lines? Jetlag? All that luggage? No thanks! You spend a lot of time making your home a haven and there is nothing better than being able to sit back and enjoy it! On the other hand, people who love staycations may also love the opportunity to tackle some of those DIY projects they keep putting off. If the past year has taught us anything, it’s that our home needs to provide us with a feeling of comfort and peace that we may not get anywhere else.<br><br>
+                </p>
+            </div>
+            <div class="afterSummary"></div>`;
+            $('.restart').insertAfter($('.afterSummary'));
+            $('.restart').show();
+            $('.afterSummary').prepend($('#email_signup_wander'));
+            $('.socialSection').insertAfter('#email_signup_wander');
+            $('.socialSection').css('display', 'flex');
+            $('#email_signup_wander').show();
+            $('.shareFacebook').on('click', function() {
+              FB.init({
+                appId      : '850549969113770',
+                xfbml      : true,
+                version    : 'v2.4'
+              });
+              FB.ui({
+                method: 'share',
+                href: 'https://furlscrochet.com/pages/wander-palette-quiz',
+              }, function(response){});
+            });
+            return;
+        }
+        else if(totalScore >= 21 && totalScore <= 25) {
+            $('input[name="$wander_pack"]').val('awaken');
+            result.innerHTML =
+             `<h2 class="final-score">Awaken - Big City</h2>
+             <h3>Don’t just exist, wander and explore. - Riya Khoja</h3>
+             <div class="summary">
+                <span>
+                  <img src="https://cdn.shopify.com/s/files/1/0166/0254/files/wander-palette-square-crosssection-awaken.jpeg?v=1611156745">
+                </span>
+                <p>
+                  The bustling streets, the bright lights, the culture and excitement! You crave the energy found in a big city! Why? Between the entertainment, food, museums, and shopping, you will never run out of things to try. You love to pack a lot into the time you have off, and city life definitely ticks all the boxes. Not only that, it’s easy to find ratings and reviews online, so you know where to go and what to try before you ever leave your home.<br><br>
+                </p>
+            </div>
+            <div class="afterSummary"></div>`;
+            $('.restart').insertAfter($('.afterSummary'));
+            $('.restart').show();
+            $('.afterSummary').prepend($('#email_signup_wander'));
+            $('.socialSection').insertAfter('#email_signup_wander');
+            $('.socialSection').css('display', 'flex');
+            $('#email_signup_wander').show();
+            $('.shareFacebook').on('click', function() {
+              FB.init({
+                appId      : '850549969113770',
+                xfbml      : true,
+                version    : 'v2.4'
+              });
+              FB.ui({
+                method: 'share',
+                href: 'https://furlscrochet.com/pages/wander-palette-quiz',
+              }, function(response){});
+            });
+            return;
+        }
+        else {
+            $('input[name="$wander_pack"]').val('autumn');
+            result.innerHTML =
+             `<h2 class="final-score">Autumn - Staycation</h2>
+             <h3>Sometimes a break from your routine is the very thing you need.</h3>
+             <div class="summary">
+                <span>
+                  <img src="https://cdn.shopify.com/s/files/1/0166/0254/files/wander-palette-square-crosssection-autumn.jpeg?v=1611156745">
+                </span>
+                <p>
+                  Let’s be honest. You were a fan of the staycation before it was cool. Long airport lines? Jetlag? All that luggage? No thanks! You spend a lot of time making your home a haven and there is nothing better than being able to sit back and enjoy it! On the other hand, people who love staycations may also love the opportunity to tackle some of those DIY projects they keep putting off. If the past year has taught us anything, it’s that our home needs to provide us with a feeling of comfort and peace that we may not get anywhere else.<br><br>
+                </p>
+            </div>
+            <div class="afterSummary"></div>`;
+            $('.restart').insertAfter($('.afterSummary'));
+            $('.restart').show();
+            $('.afterSummary').prepend($('#email_signup_wander'));
+            $('.socialSection').insertAfter('#email_signup_wander');
+            $('.socialSection').css('display', 'flex');
+            $('#email_signup_wander').show();
+            $('.shareFacebook').on('click', function() {
+              FB.init({
+                appId      : '850549969113770',
+                xfbml      : true,
+                version    : 'v2.4'
+              });
+              FB.ui({
+                method: 'share',
+                href: 'https://furlscrochet.com/pages/wander-palette-quiz',
+              }, function(response){});
+            });
+            return;
+        }
+    }
+    generateQuestions(currentQuestion);
+}
+
+//Function to load previous question
+function loadPreviousQuestion() {
+  console.log('click prev')
+    // Mobile only JS
+    if($(window).width() <= 750) {
+       $('html, body').animate({
+          scrollTop: $(".logo").offset().top
+       }, 1000);
+    }
+
+    //Decrement quentions index
+    currentQuestion--;
+
+    if(currentQuestion == 0) {
+       $('.previous').hide();
+    }
+    else {
+       $('.previous').show();
+    }
+
+    //remove last array value;
+    score.pop();
+    //Generate the question
+    generateQuestions(currentQuestion);
+}
+
+//Fuction to reset and restart the quiz;
+function restartQuiz(e) {
+    if(e.target.matches('button')) {
+    //reset array index and score
+    currentQuestion = 0;
+    score = [];
+    //Reload quiz to the start
+    location.reload();
+    }
+
+}
+
+if(currentQuestion == 0) {
+    $('.previous').hide();
+}
+else {
+    $('.previous').show();
+}
+
+$('.fakeButton').on('click', function() {
+    $('.coverPage').hide();
+    $('.quiz-container').show();
+    ga('send', 'event', "Wander Quiz", 'View', "Start");
+})
+
+generateQuestions(currentQuestion);
+nextButton.addEventListener('click', loadNextQuestion);
+$('.previous').on('click', function() {
+  loadPreviousQuestion();
+});
+restartButton.addEventListener('click',restartQuiz);
+
+$('.option span').on('click', function() {
+   setTimeout(function() { 
+      nextButton.dispatchEvent(new Event('click')); 
+   }, 500);
+});
+
+</script>

@@ -1,0 +1,1082 @@
+<script type="text/javascript">
+  var queue = [],
+      data = [],
+      shuffled = [],
+      shuffledHookVariants = [],
+      variants = [],
+      hooks = [],
+      pisces = [],
+      cookies = [],
+      virgo = [],
+      taurus = [],
+      supernova = [],
+      cherry = [],
+      cream = [],
+      cafe = [],
+      aries = [],
+      andromeda = [],
+      cartIds = [],
+      productIds = [],
+      unavailPisces = false,
+      unavailCookies = false,
+      unavailVirgo = false,
+      unavailTaurus = false,
+      unavailSupernova = false,
+      unavailCherry = false,
+      unavailCream = false,
+      unavailCafe = false,
+      unavailAries = false,
+      unavailAndromeda = false;
+
+  //Add all variants to array
+  {% for data_set in all_products['acrylic-crochet-yarn'].variants %}
+    variants.push({{ data_set | json }});
+  {% endfor %}
+
+  {% for product in collections.streamline-swirls.products %}
+    hooks.push({{ product | json}});
+  {% endfor %} 
+
+  ga('send', 'event', "Wander Travel Set", 'Click', 'Start');
+
+  // Set each array pack so we can check stock on specific arrays
+  pisces = [39521409269827, 39521409663043];
+  cookies = [39521409728579, 39521409761347];
+  virgo = [39521409663043, 39521409826883];
+  taurus = [39521409892419, 39521409564739];
+  supernova = [39521409663043, 39521409859651];
+  cherry = [39521409433667, 39521409761347];
+  cream = [39521409302595, 39521409761347];
+  cafe = [39521409302595, 39521410023491];
+  aries = [39521409433667, 39521409499203];
+  andromeda = [39521409400899, 39521409794115];
+
+  $.each(variants, function(index, data) {
+    var variant = variants[index],
+        now = $.now(),
+        startDate = new Date("02/05/21").getTime(),
+        display_as = getParameterByName("display_as");
+
+    //if display_as present, reset now variable for comparison
+    if (display_as) {
+      //format date
+      var mm = display_as.substring(0,2),
+          dd = display_as.substring(2,4),
+          yy = display_as.substring(4,6),
+          date = mm + "/" + dd + "/" + yy;
+      //set now
+      now = new Date(date).getTime();
+    }
+
+    if (now >= startDate)  {
+      for (let i = 0; i < pisces.length; i++) {
+        if(pisces[i] == variant.id) {
+          
+          if(variant.inventory_quantity <= 0) {
+            $('.pisces').hide();
+            unavailPisces = true;
+          }
+        }
+      }
+          
+      for (let i = 0; i < cookies.length; i++) {
+        if(cookies[i] == variant.id) {
+          if(variant.inventory_quantity <= 0) {
+            $('.cookies').hide();
+            unavailCookies = true;
+          }
+        }
+      }
+
+      for (let i = 0; i < virgo.length; i++) {
+        if(virgo[i] == variant.id) {
+          if(variant.inventory_quantity <= 0) {
+            $('.virgo').hide();
+            unavailVirgo = true;
+          }
+        }
+      }
+
+      for (let i = 0; i < taurus.length; i++) {
+        if(taurus[i] == variant.id) {
+          if(variant.inventory_quantity <= 0) {
+            $('.taurus').hide();
+            unavailTaurus = true;
+          }
+        }
+      }
+
+      for (let i = 0; i < supernova.length; i++) {
+        if(supernova[i] == variant.id) {
+          if(variant.inventory_quantity <= 0) {
+            $('.supernova').hide();
+            unavailSupernova = true;
+          }
+        }
+      }
+
+      for (let i = 0; i < cherry.length; i++) {
+        if(cherry[i] == variant.id) {
+          if(variant.inventory_quantity <= 0) {
+            $('.cherry').hide();
+            unavailCherry = true;
+          }
+        }
+      }
+
+      for (let i = 0; i < cream.length; i++) {
+        if(cream[i] == variant.id) {
+          if(variant.inventory_quantity <= 0) {
+            $('.cream').hide();
+            unavailCream = true;
+          }
+        }
+      }
+
+      for (let i = 0; i < cafe.length; i++) {
+        if(cafe[i] == variant.id) {
+          if(variant.inventory_quantity <= 0) {
+            $('.cafe').hide();
+            unavailCafe = true;
+          }
+        }
+      }
+
+      for (let i = 0; i < aries.length; i++) {
+        if(aries[i] == variant.id) {
+          if(variant.inventory_quantity <= 0) {
+            $('.aries').hide();
+            unavailAries = true;
+          }
+        }
+      }
+
+      for (let i = 0; i < andromeda.length; i++) {
+        if(andromeda[i] == variant.id) {
+          if(variant.inventory_quantity <= 0) {
+            $('.andromeda').hide();
+            unavailAndromeda = true;
+          }
+        }
+      }
+    } 
+  });
+
+  $.each(hooks, function(i,hook){
+    var variants = hook["variants"];
+    if(hook.id == 6592096239683) {
+      if(!hook.available) {
+        $('.pisces').hide();
+        unavailPisces = true;
+      }
+    }
+
+    if(hook.id == 6592098205763) {
+      if(!hook.available) {
+        $('.cookies').hide();
+        unavailCookies = true;
+      }
+    }
+
+    if(hook.id == 6592097124419) {
+      if(!hook.available) {
+        $('.virgo').hide();
+        unavailVirgo = true;
+      }
+    }
+
+    if(hook.id == 6592096567363) {
+      if(!hook.available) {
+        $('.taurus').hide();
+        unavailTaurus = true;
+      }
+    }
+
+    if(hook.id == 6592096337987) {
+      if(!hook.available) {
+        $('.supernova').hide();
+        unavailSupernova = true;
+      }
+    }
+
+    if(hook.id == 6592098009155) {
+      if(!hook.available) {
+        $('.cherry').hide();
+        unavailCherry = true;
+      }
+    }
+
+    if(hook.id == 6592098697283) {
+      if(!hook.available) {
+        $('.cream').hide();
+        unavailCream = true;
+      }
+    }
+
+    if(hook.id == 6592098500675) {
+      if(!hook.available) {
+        $('.cafe').hide();
+        unavailCafe = true;
+      }
+    }
+
+    if(hook.id == 6592096469059) {
+      if(!hook.available) {
+        $('.aries').hide();
+        unavailAries = true;
+      }
+    }
+
+    if(hook.id == 6592097353795) {
+      if(!hook.available) {
+        $('.andromeda').hide();
+        unavailAndromeda = true;
+      }
+    }
+
+    $.each(variants, function(i, variant) {
+      var variant = variant,
+          skuColor = variant.sku.split('-')[2],
+          skuSize = variant.sku.split('-')[3],
+          titleColor = variant.title.split(" / ")[1],
+          titleSize = variant.title.split(" / ")[0],
+          formToggle = $("."+skuColor+"-form-toggle"),
+          tbody = $("."+skuColor+"-tbody"),
+          variantToggle = [];
+
+      //skip
+      if (variant.inventory_quantity > 0) {
+        //add tbody
+        if (tbody.length == 0){
+          tbody = [];
+          tbody.push("<div class='"+skuColor+"-tbody'>")
+          tbody.push("<img class='title-swatch' src="+variant.featured_image.src+"/>");
+          tbody.push("<p class='variant-details'>Choose hook size</div>");
+          $(tbody.join("")).prependTo($('.' + skuColor));
+        };
+
+        //add variant toggle
+        variantToggle.push("<div class='variant-toggle' data-soldout='false' data-hook='true' data-variantid='"+variant.id+"'>"+titleSize);
+        variantToggle.push("<input class='product-size-variant' data-variantid='"+variant.id+"'");
+        variantToggle.push("type='number' value='0' min='0' step='1' />");
+        variantToggle.push("</div>");
+        $(variantToggle.join("")).appendTo($("."+skuColor+"-tbody"));
+        variantToggle = [];
+
+      };
+
+    }); 
+  });
+
+  if(!unavailPisces) {
+    $('.pisces').css('display', 'inline-block');
+    $('.soldOut').hide();
+  }
+
+  if(!unavailCookies) {
+    $('.cookies').css('display', 'inline-block');
+    $('.soldOut').hide();
+  }
+
+  if(!unavailVirgo) {
+    $('.virgo').css('display', 'inline-block');
+    $('.soldOut').hide();
+  }
+
+  if(!unavailTaurus) {
+    $('.taurus').css('display', 'inline-block');
+    $('.soldOut').hide();
+  }
+
+  if(!unavailSupernova) {
+    $('.supernova').css('display', 'inline-block');
+    $('.soldOut').hide();
+  }
+
+  if(!unavailCherry) {
+    $('.cherry').css('display', 'inline-block');
+    $('.soldOut').hide();
+  }
+
+  if(!unavailCream) {
+    $('.cream').css('display', 'inline-block');
+    $('.soldOut').hide();
+  }
+
+  if(!unavailCafe) {
+    $('.cafe').css('display', 'inline-block');
+    $('.soldOut').hide();
+  }
+
+  if(!unavailAries) {
+    $('.aries').css('display', 'inline-block');
+    $('.soldOut').hide();
+  }
+
+  if(!unavailAndromeda) {
+    $('.andromeda').css('display', 'inline-block');
+    $('.soldOut').hide();
+  }
+
+  $(function(){
+    //Function for redirect to form on discount image click
+    $("body").on("click", " #cta1, #cta2", function(){
+      $('html, body').animate({scrollTop: ($(".main-page-title").offset().top)}, 500);
+    });
+
+    //Function for variant selector
+    $("body").on("click", "div.variant-toggle", function(event, target){
+      if ($(this).data("soldout") != true) {
+           //remove selected from others, add selected to this
+        $("div.variant-toggle").removeClass("selected");
+        $(this).addClass("selected");
+           //remove values from other, add value to this
+        $("input.product-size-variant").val(0);
+        $(this).find("input.product-size-variant").val(1);
+      };
+    });
+    
+    if($('.pisces').is(':hidden') &&
+       $('.cookies').is(':hidden') &&
+       $('.virgo').is(':hidden') &&
+       $('.taurus').is(':hidden') &&
+       $('.supernova').is(':hidden') &&
+       $('.cherry').is(':hidden') &&
+       $('.cream').is(':hidden') &&
+       $('.cafe').is(':hidden') &&
+       $('.aries').is(':hidden') &&
+       $('.andromeda').is(':hidden')) {
+      $('.soldOut').show();
+    }
+    
+    $('.pisces').on('mouseover', function() {
+      $('#title-rotation').hide();
+      $('.wanderImages [data-color="pisces"]').show();
+      $('.wanderImages [data-color="cookies"]').hide();
+      $('.wanderImages [data-color="virgo"]').hide();
+      $('.wanderImages [data-color="taurus"]').hide();
+      $('.wanderImages [data-color="supernova"]').hide();
+      $('.wanderImages [data-color="cherry"]').hide();
+      $('.wanderImages [data-color="cream"]').hide();
+      $('.wanderImages [data-color="cafe"]').hide();
+      $('.wanderImages [data-color="aries"]').hide();
+      $('.wanderImages [data-color="andromeda"]').hide();
+    });
+
+    $('.cookies').on('mouseover', function() {
+      $('#title-rotation').hide();
+      $('.wanderImages [data-color="pisces"]').hide();
+      $('.wanderImages [data-color="cookies"]').show();
+      $('.wanderImages [data-color="virgo"]').hide();
+      $('.wanderImages [data-color="taurus"]').hide();
+      $('.wanderImages [data-color="supernova"]').hide();
+      $('.wanderImages [data-color="cherry"]').hide();
+      $('.wanderImages [data-color="cream"]').hide();
+      $('.wanderImages [data-color="cafe"]').hide();
+      $('.wanderImages [data-color="aries"]').hide();
+      $('.wanderImages [data-color="andromeda"]').hide();
+    });
+
+    $('.virgo').on('mouseover', function() {
+      $('#title-rotation').hide();
+      $('.wanderImages [data-color="pisces"]').hide();
+      $('.wanderImages [data-color="cookies"]').hide();
+      $('.wanderImages [data-color="virgo"]').show();
+      $('.wanderImages [data-color="taurus"]').hide();
+      $('.wanderImages [data-color="supernova"]').hide();
+      $('.wanderImages [data-color="cherry"]').hide();
+      $('.wanderImages [data-color="cream"]').hide();
+      $('.wanderImages [data-color="cafe"]').hide();
+      $('.wanderImages [data-color="aries"]').hide();
+      $('.wanderImages [data-color="andromeda"]').hide();
+    });
+
+    $('.taurus').on('mouseover', function() {
+      $('#title-rotation').hide();
+      $('.wanderImages [data-color="pisces"]').hide();
+      $('.wanderImages [data-color="cookies"]').hide();
+      $('.wanderImages [data-color="virgo"]').hide();
+      $('.wanderImages [data-color="taurus"]').show();
+      $('.wanderImages [data-color="supernova"]').hide();
+      $('.wanderImages [data-color="cherry"]').hide();
+      $('.wanderImages [data-color="cream"]').hide();
+      $('.wanderImages [data-color="cafe"]').hide();
+      $('.wanderImages [data-color="aries"]').hide();
+      $('.wanderImages [data-color="andromeda"]').hide();
+    });
+
+    $('.supernova').on('mouseover', function() {
+      $('#title-rotation').hide();
+      $('.wanderImages [data-color="pisces"]').hide();
+      $('.wanderImages [data-color="cookies"]').hide();
+      $('.wanderImages [data-color="virgo"]').hide();
+      $('.wanderImages [data-color="taurus"]').hide();
+      $('.wanderImages [data-color="supernova"]').show();
+      $('.wanderImages [data-color="cherry"]').hide();
+      $('.wanderImages [data-color="cream"]').hide();
+      $('.wanderImages [data-color="cafe"]').hide();
+      $('.wanderImages [data-color="aries"]').hide();
+      $('.wanderImages [data-color="andromeda"]').hide();
+    });
+
+    $('.cherry').on('mouseover', function() {
+      $('#title-rotation').hide();
+      $('.wanderImages [data-color="pisces"]').hide();
+      $('.wanderImages [data-color="cookies"]').hide();
+      $('.wanderImages [data-color="virgo"]').hide();
+      $('.wanderImages [data-color="taurus"]').hide();
+      $('.wanderImages [data-color="supernova"]').hide();
+      $('.wanderImages [data-color="cherry"]').show();
+      $('.wanderImages [data-color="cream"]').hide();
+      $('.wanderImages [data-color="cafe"]').hide();
+      $('.wanderImages [data-color="aries"]').hide();
+      $('.wanderImages [data-color="andromeda"]').hide();
+    });
+
+    $('.cream').on('mouseover', function() {
+      $('#title-rotation').hide();
+      $('.wanderImages [data-color="pisces"]').hide();
+      $('.wanderImages [data-color="cookies"]').hide();
+      $('.wanderImages [data-color="virgo"]').hide();
+      $('.wanderImages [data-color="taurus"]').hide();
+      $('.wanderImages [data-color="supernova"]').hide();
+      $('.wanderImages [data-color="cherry"]').hide();
+      $('.wanderImages [data-color="cream"]').show();
+      $('.wanderImages [data-color="cafe"]').hide();
+      $('.wanderImages [data-color="aries"]').hide();
+      $('.wanderImages [data-color="andromeda"]').hide();
+    });
+
+    $('.cafe').on('mouseover', function() {
+      $('#title-rotation').hide();
+      $('.wanderImages [data-color="pisces"]').hide();
+      $('.wanderImages [data-color="cookies"]').hide();
+      $('.wanderImages [data-color="virgo"]').hide();
+      $('.wanderImages [data-color="taurus"]').hide();
+      $('.wanderImages [data-color="supernova"]').hide();
+      $('.wanderImages [data-color="cherry"]').hide();
+      $('.wanderImages [data-color="cream"]').hide();
+      $('.wanderImages [data-color="cafe"]').show();
+      $('.wanderImages [data-color="aries"]').hide();
+      $('.wanderImages [data-color="andromeda"]').hide();
+    });
+
+    $('.aries').on('mouseover', function() {
+      $('#title-rotation').hide();
+      $('.wanderImages [data-color="pisces"]').hide();
+      $('.wanderImages [data-color="cookies"]').hide();
+      $('.wanderImages [data-color="virgo"]').hide();
+      $('.wanderImages [data-color="taurus"]').hide();
+      $('.wanderImages [data-color="supernova"]').hide();
+      $('.wanderImages [data-color="cherry"]').hide();
+      $('.wanderImages [data-color="cream"]').hide();
+      $('.wanderImages [data-color="cafe"]').hide();
+      $('.wanderImages [data-color="aries"]').show();
+      $('.wanderImages [data-color="andromeda"]').hide();
+    });
+
+    $('.andromeda').on('mouseover', function() {
+      $('#title-rotation').hide();
+      $('.wanderImages [data-color="pisces"]').hide();
+      $('.wanderImages [data-color="cookies"]').hide();
+      $('.wanderImages [data-color="virgo"]').hide();
+      $('.wanderImages [data-color="taurus"]').hide();
+      $('.wanderImages [data-color="supernova"]').hide();
+      $('.wanderImages [data-color="cherry"]').hide();
+      $('.wanderImages [data-color="cream"]').hide();
+      $('.wanderImages [data-color="cafe"]').hide();
+      $('.wanderImages [data-color="aries"]').hide();
+      $('.wanderImages [data-color="andromeda"]').show();
+    });
+
+    $('.pisces').on('click', function() {
+      ga('send', 'event', "Wander Palette Packs", 'Click', 'pisces');
+
+      $('.packOptions .backButton').show();
+
+      $('#title-rotation').hide();
+      $('.wanderImages [data-color="pisces"]').show();
+      $('.wanderImages [data-color="cookies"]').hide();
+      $('.wanderImages [data-color="virgo"]').hide();
+      $('.wanderImages [data-color="taurus"]').hide();
+      $('.wanderImages [data-color="supernova"]').hide();
+      $('.wanderImages [data-color="cherry"]').hide();
+      $('.wanderImages [data-color="cream"]').hide();
+      $('.wanderImages [data-color="cafe"]').hide();
+      $('.wanderImages [data-color="aries"]').hide();
+      $('.wanderImages [data-color="andromeda"]').hide();
+
+      $('.buttonOptions').hide();
+      $('.packOptions').show();
+
+      $('.packOptions .backButton').on('click', function() {
+        $('.buttonOptions').show();
+        $('.packOptions').hide();
+
+        $("div[class$='-tbody']").hide();
+      });
+
+      $("div[class$='-tbody']").hide();
+      $('.PISC-tbody').show();
+      
+      $('#piscesDetails').show();
+      $('#cookiesDetails').hide();
+      $('#virgoDetails').hide();
+      $('#taurusDetails').hide();
+      $('#supernovaDetails').hide();
+      $('#cherryDetails').hide();
+      $('#creamDetails').hide();
+      $('#cafeDetails').hide();
+      $('#ariesDetails').hide();
+      $('#andromedaDetails').hide();
+
+      $('.checkout_button').show();
+      
+      $.each(pisces, function(index){
+        queue.push({
+          variant: pisces[index],
+          quantity: 1
+        });
+      });
+      
+      queue.push({
+        variant: "39528347861059",
+        quantity: 1
+      });
+    });
+    
+    $('.cookies').on('click', function() {
+      ga('send', 'event', "Wander Palette Packs", 'Click', 'cookies');
+
+      $('.packOptions .backButton').show();
+      
+      $('#title-rotation').hide();
+      $('.wanderImages [data-color="pisces"]').hide();
+      $('.wanderImages [data-color="cookies"]').show();
+      $('.wanderImages [data-color="virgo"]').hide();
+      $('.wanderImages [data-color="taurus"]').hide();
+      $('.wanderImages [data-color="supernova"]').hide();
+      $('.wanderImages [data-color="cherry"]').hide();
+      $('.wanderImages [data-color="cream"]').hide();
+      $('.wanderImages [data-color="cafe"]').hide();
+      $('.wanderImages [data-color="aries"]').hide();
+      $('.wanderImages [data-color="andromeda"]').hide();
+
+      $('.buttonOptions').hide();
+      $('.packOptions').show();
+
+      $('.packOptions .backButton').on('click', function() {
+        $('.buttonOptions').show();
+        $('.packOptions').hide();
+
+        $("div[class$='-tbody']").hide();
+      });
+
+      $("div[class$='-tbody']").hide();
+      $('.COOK-tbody').show();
+
+      $('#piscesDetails').hide();
+      $('#cookiesDetails').show();
+      $('#virgoDetails').hide();
+      $('#taurusDetails').hide();
+      $('#supernovaDetails').hide();
+      $('#cherryDetails').hide();
+      $('#creamDetails').hide();
+      $('#cafeDetails').hide();
+      $('#ariesDetails').hide();
+      $('#andromedaDetails').hide();
+
+      $('.checkout_button').show();
+      
+      $.each(cookies, function(index){
+        queue.push({
+          variant: cookies[index],
+          quantity: 1
+        });
+      });
+      
+      queue.push({
+        variant: "39528347893827",
+        quantity: 1
+      });
+    });
+
+    $('.virgo').on('click', function() {
+      ga('send', 'event', "Wander Palette Packs", 'Click', 'virgo');
+
+      $('.packOptions .backButton').show();
+      
+      $('#title-rotation').hide();
+      $('.wanderImages [data-color="pisces"]').hide();
+      $('.wanderImages [data-color="cookies"]').hide();
+      $('.wanderImages [data-color="virgo"]').show();
+      $('.wanderImages [data-color="taurus"]').hide();
+      $('.wanderImages [data-color="supernova"]').hide();
+      $('.wanderImages [data-color="cherry"]').hide();
+      $('.wanderImages [data-color="cream"]').hide();
+      $('.wanderImages [data-color="cafe"]').hide();
+      $('.wanderImages [data-color="aries"]').hide();
+      $('.wanderImages [data-color="andromeda"]').hide();
+
+      $('.buttonOptions').hide();
+      $('.packOptions').show();
+
+      $('.packOptions .backButton').on('click', function() {
+        $('.buttonOptions').show();
+        $('.packOptions').hide();
+
+        $("div[class$='-tbody']").hide();
+      });
+
+      $("div[class$='-tbody']").hide();
+      $('.VIRG-tbody').show();
+
+      $('#piscesDetails').hide();
+      $('#cookiesDetails').hide();
+      $('#virgoDetails').show();
+      $('#taurusDetails').hide();
+      $('#supernovaDetails').hide();
+      $('#cherryDetails').hide();
+      $('#creamDetails').hide();
+      $('#cafeDetails').hide();
+      $('#ariesDetails').hide();
+      $('#andromedaDetails').hide();
+
+      $('.checkout_button').show();
+      
+      $.each(virgo, function(index){
+        queue.push({
+          variant: virgo[index],
+          quantity: 1
+        });
+      });
+      
+      queue.push({
+        variant: "39528347926595",
+        quantity: 1
+      });
+    });
+
+    $('.taurus').on('click', function() {
+      ga('send', 'event', "Wander Palette Packs", 'Click', 'taurus');
+
+      $('.packOptions .backButton').show();
+      
+      $('#title-rotation').hide();
+      $('.wanderImages [data-color="pisces"]').hide();
+      $('.wanderImages [data-color="cookies"]').hide();
+      $('.wanderImages [data-color="virgo"]').hide();
+      $('.wanderImages [data-color="taurus"]').show();
+      $('.wanderImages [data-color="supernova"]').hide();
+      $('.wanderImages [data-color="cherry"]').hide();
+      $('.wanderImages [data-color="cream"]').hide();
+      $('.wanderImages [data-color="cafe"]').hide();
+      $('.wanderImages [data-color="aries"]').hide();
+      $('.wanderImages [data-color="andromeda"]').hide();
+
+      $('.buttonOptions').hide();
+      $('.packOptions').show();
+
+      $('.packOptions .backButton').on('click', function() {
+        $('.buttonOptions').show();
+        $('.packOptions').hide();
+
+        $("div[class$='-tbody']").hide();
+      });
+
+      $("div[class$='-tbody']").hide();
+      $('.TAUR-tbody').show();
+
+      $('#piscesDetails').hide();
+      $('#cookiesDetails').hide();
+      $('#virgoDetails').hide();
+      $('#taurusDetails').show();
+      $('#supernovaDetails').hide();
+      $('#cherryDetails').hide();
+      $('#creamDetails').hide();
+      $('#cafeDetails').hide();
+      $('#ariesDetails').hide();
+      $('#andromedaDetails').hide();
+
+      $('.checkout_button').show();
+      
+      $.each(taurus, function(index){
+        queue.push({
+          variant: taurus[index],
+          quantity: 1
+        });
+      });
+      
+      queue.push({
+        variant: "39528347959363",
+        quantity: 1
+      });
+    });
+
+    $('.supernova').on('click', function() {
+      ga('send', 'event', "Wander Palette Packs", 'Click', 'supernova');
+
+      $('.packOptions .backButton').show();
+      
+      $('#title-rotation').hide();
+      $('.wanderImages [data-color="pisces"]').hide();
+      $('.wanderImages [data-color="cookies"]').hide();
+      $('.wanderImages [data-color="virgo"]').hide();
+      $('.wanderImages [data-color="taurus"]').hide();
+      $('.wanderImages [data-color="supernova"]').show();
+      $('.wanderImages [data-color="cherry"]').hide();
+      $('.wanderImages [data-color="cream"]').hide();
+      $('.wanderImages [data-color="cafe"]').hide();
+      $('.wanderImages [data-color="aries"]').hide();
+      $('.wanderImages [data-color="andromeda"]').hide();
+
+      $('.buttonOptions').hide();
+      $('.packOptions').show();
+
+      $('.packOptions .backButton').on('click', function() {
+        $('.buttonOptions').show();
+        $('.packOptions').hide();
+
+        $("div[class$='-tbody']").hide();
+      });
+
+      $("div[class$='-tbody']").hide();
+      $('.NOVA-tbody').show();
+
+      $('#piscesDetails').hide();
+      $('#cookiesDetails').hide();
+      $('#virgoDetails').hide();
+      $('#taurusDetails').hide();
+      $('#supernovaDetails').show();
+      $('#cherryDetails').hide();
+      $('#creamDetails').hide();
+      $('#cafeDetails').hide();
+      $('#ariesDetails').hide();
+      $('#andromedaDetails').hide();
+
+      $('.checkout_button').show();
+      
+      $.each(supernova, function(index){
+        queue.push({
+          variant: supernova[index],
+          quantity: 1
+        });
+      });
+      
+      queue.push({
+        variant: "39528347992131",
+        quantity: 1
+      });
+    });
+
+    $('.cherry').on('click', function() {
+      ga('send', 'event', "Wander Palette Packs", 'Click', 'cherry');
+
+      $('.packOptions .backButton').show();
+      
+      $('#title-rotation').hide();
+      $('.wanderImages [data-color="pisces"]').hide();
+      $('.wanderImages [data-color="cookies"]').hide();
+      $('.wanderImages [data-color="virgo"]').hide();
+      $('.wanderImages [data-color="taurus"]').hide();
+      $('.wanderImages [data-color="supernova"]').hide();
+      $('.wanderImages [data-color="cherry"]').show();
+      $('.wanderImages [data-color="cream"]').hide();
+      $('.wanderImages [data-color="cafe"]').hide();
+      $('.wanderImages [data-color="aries"]').hide();
+      $('.wanderImages [data-color="andromeda"]').hide();
+
+      $('.buttonOptions').hide();
+      $('.packOptions').show();
+
+      $('.packOptions .backButton').on('click', function() {
+        $('.buttonOptions').show();
+        $('.packOptions').hide();
+
+        $("div[class$='-tbody']").hide();
+      });
+
+      $("div[class$='-tbody']").hide();
+      $('.CHER-tbody').show();
+
+      $('#piscesDetails').hide();
+      $('#cookiesDetails').hide();
+      $('#virgoDetails').hide();
+      $('#taurusDetails').hide();
+      $('#supernovaDetails').hide();
+      $('#cherryDetails').show();
+      $('#creamDetails').hide();
+      $('#cafeDetails').hide();
+      $('#ariesDetails').hide();
+      $('#andromedaDetails').hide();
+
+      $('.checkout_button').show();
+      
+      $.each(cherry, function(index){
+        queue.push({
+          variant: cherry[index],
+          quantity: 1
+        });
+      });
+      
+      queue.push({
+        variant: "39528348024899",
+        quantity: 1
+      });
+    });
+
+    $('.cream').on('click', function() {
+      ga('send', 'event', "Wander Palette Packs", 'Click', 'cream');
+
+      $('.packOptions .backButton').show();
+      
+      $('#title-rotation').hide();
+      $('.wanderImages [data-color="pisces"]').hide();
+      $('.wanderImages [data-color="cookies"]').hide();
+      $('.wanderImages [data-color="virgo"]').hide();
+      $('.wanderImages [data-color="taurus"]').hide();
+      $('.wanderImages [data-color="supernova"]').hide();
+      $('.wanderImages [data-color="cherry"]').hide();
+      $('.wanderImages [data-color="cream"]').show();
+      $('.wanderImages [data-color="cafe"]').hide();
+      $('.wanderImages [data-color="aries"]').hide();
+      $('.wanderImages [data-color="andromeda"]').hide();
+
+      $('.buttonOptions').hide();
+      $('.packOptions').show();
+
+      $('.packOptions .backButton').on('click', function() {
+        $('.buttonOptions').show();
+        $('.packOptions').hide();
+
+        $("div[class$='-tbody']").hide();
+      });
+
+      $("div[class$='-tbody']").hide();
+      $('.CREM-tbody').show();
+
+      $('#piscesDetails').hide();
+      $('#cookiesDetails').hide();
+      $('#virgoDetails').hide();
+      $('#taurusDetails').hide();
+      $('#supernovaDetails').hide();
+      $('#cherryDetails').hide();
+      $('#creamDetails').show();
+      $('#cafeDetails').hide();
+      $('#ariesDetails').hide();
+      $('#andromedaDetails').hide();
+
+      $('.checkout_button').show();
+      
+      $.each(cream, function(index){
+        queue.push({
+          variant: cream[index],
+          quantity: 1
+        });
+      });
+      
+      queue.push({
+        variant: "39528348057667",
+        quantity: 1
+      });
+    });
+
+    $('.cafe').on('click', function() {
+      ga('send', 'event', "Wander Palette Packs", 'Click', 'cafe');
+
+      $('.packOptions .backButton').show();
+      
+      $('#title-rotation').hide();
+      $('.wanderImages [data-color="pisces"]').hide();
+      $('.wanderImages [data-color="cookies"]').hide();
+      $('.wanderImages [data-color="virgo"]').hide();
+      $('.wanderImages [data-color="taurus"]').hide();
+      $('.wanderImages [data-color="supernova"]').hide();
+      $('.wanderImages [data-color="cherry"]').hide();
+      $('.wanderImages [data-color="cream"]').hide();
+      $('.wanderImages [data-color="cafe"]').show();
+      $('.wanderImages [data-color="aries"]').hide();
+      $('.wanderImages [data-color="andromeda"]').hide();
+
+      $('.buttonOptions').hide();
+      $('.packOptions').show();
+
+      $('.packOptions .backButton').on('click', function() {
+        $('.buttonOptions').show();
+        $('.packOptions').hide();
+
+        $("div[class$='-tbody']").hide();
+      });
+
+      $("div[class$='-tbody']").hide();
+      $('.CAFE-tbody').show();
+
+      $('#piscesDetails').hide();
+      $('#cookiesDetails').hide();
+      $('#virgoDetails').hide();
+      $('#taurusDetails').hide();
+      $('#supernovaDetails').hide();
+      $('#cherryDetails').hide();
+      $('#creamDetails').hide();
+      $('#cafeDetails').show();
+      $('#ariesDetails').hide();
+      $('#andromedaDetails').hide();
+
+      $('.checkout_button').show();
+      
+      $.each(cafe, function(index){
+        queue.push({
+          variant: cafe[index],
+          quantity: 1
+        });
+      });
+      
+      queue.push({
+        variant: "39528348090435",
+        quantity: 1
+      });
+    });
+
+    $('.aries').on('click', function() {
+      ga('send', 'event', "Wander Palette Packs", 'Click', 'aries');
+
+      $('.packOptions .backButton').show();
+      
+      $('#title-rotation').hide();
+      $('.wanderImages [data-color="pisces"]').hide();
+      $('.wanderImages [data-color="cookies"]').hide();
+      $('.wanderImages [data-color="virgo"]').hide();
+      $('.wanderImages [data-color="taurus"]').hide();
+      $('.wanderImages [data-color="supernova"]').hide();
+      $('.wanderImages [data-color="cherry"]').hide();
+      $('.wanderImages [data-color="cream"]').hide();
+      $('.wanderImages [data-color="cafe"]').hide();
+      $('.wanderImages [data-color="aries"]').show();
+      $('.wanderImages [data-color="andromeda"]').hide();
+
+      $('.buttonOptions').hide();
+      $('.packOptions').show();
+
+      $('.packOptions .backButton').on('click', function() {
+        $('.buttonOptions').show();
+        $('.packOptions').hide();
+
+        $("div[class$='-tbody']").hide();
+      });
+
+      $("div[class$='-tbody']").hide();
+      $('.ARIE-tbody').show();
+
+      $('#piscesDetails').hide();
+      $('#cookiesDetails').hide();
+      $('#virgoDetails').hide();
+      $('#taurusDetails').hide();
+      $('#supernovaDetails').hide();
+      $('#cherryDetails').hide();
+      $('#creamDetails').hide();
+      $('#cafeDetails').hide();
+      $('#ariesDetails').show();
+      $('#andromedaDetails').hide();
+
+      $('.checkout_button').show();
+      
+      $.each(aries, function(index){
+        queue.push({
+          variant: aries[index],
+          quantity: 1
+        });
+      });
+      
+      queue.push({
+        variant: "39528348123203",
+        quantity: 1
+      });
+    });
+
+    $('.andromeda').on('click', function() {
+      ga('send', 'event', "Wander Palette Packs", 'Click', 'andromeda');
+
+      $('.packOptions .backButton').show();
+      
+      $('#title-rotation').hide();
+      $('.wanderImages [data-color="pisces"]').hide();
+      $('.wanderImages [data-color="cookies"]').hide();
+      $('.wanderImages [data-color="virgo"]').hide();
+      $('.wanderImages [data-color="taurus"]').hide();
+      $('.wanderImages [data-color="supernova"]').hide();
+      $('.wanderImages [data-color="cherry"]').hide();
+      $('.wanderImages [data-color="cream"]').hide();
+      $('.wanderImages [data-color="cafe"]').hide();
+      $('.wanderImages [data-color="aries"]').hide();
+      $('.wanderImages [data-color="andromeda"]').show();
+
+      $('.buttonOptions').hide();
+      $('.packOptions').show();
+
+      $('.packOptions .backButton').on('click', function() {
+        $('.buttonOptions').show();
+        $('.packOptions').hide();
+
+        $("div[class$='-tbody']").hide();
+      });
+
+      $("div[class$='-tbody']").hide();
+      $('.ANDR-tbody').show();
+
+      $('#piscesDetails').hide();
+      $('#cookiesDetails').hide();
+      $('#virgoDetails').hide();
+      $('#taurusDetails').hide();
+      $('#supernovaDetails').hide();
+      $('#cherryDetails').hide();
+      $('#creamDetails').hide();
+      $('#cafeDetails').hide();
+      $('#ariesDetails').hide();
+      $('#andromedaDetails').show();
+
+      $('.checkout_button').show();
+      
+      $.each(andromeda, function(index){
+        queue.push({
+          variant: andromeda[index],
+          quantity: 1
+        });
+      });
+      
+      queue.push({
+        variant: "39528348155971",
+        quantity: 1
+      });
+    });
+    
+  });
+    
+  $("form#checkout-table").on("submit", function(e) {
+    e.preventDefault();
+
+    if($('.variant-toggle.selected input').length == 0) {
+      alert('One hook size must be chosen');
+    } else {
+      $(".sp-mini").show();
+
+      queue.push({
+        variant: $('.variant-toggle.selected input').attr('data-variantid'),
+        quantity: 1
+      });
+
+      submitForm();
+    }
+  });
+    
+  function submitForm() {
+    //add items
+    if(queue.length) {
+      var item = queue.shift();
+      Shopify.addItem(item.variant, item.quantity, submitForm);
+    } else {
+      //send direct to checkout
+      window.location = "/checkout";
+    }
+  }
+
+</script>

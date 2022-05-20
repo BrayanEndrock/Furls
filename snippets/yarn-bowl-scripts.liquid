@@ -1,0 +1,452 @@
+<script type="text/javascript">
+let currentQuestion = 0;
+let score = [];
+let selectedAnswersData = [];
+
+var container = document.querySelector('.quiz-container');
+var questionEl = document.querySelector('.question');
+var option1 = document.querySelector('.option1');
+var option2 = document.querySelector('.option2');
+var option3 = document.querySelector('.option3');
+var option4 = document.querySelector('.option4');
+var option5 = document.querySelector('.option5');
+var option6 = document.querySelector('.option6');
+var image1 = document.querySelector('.image1');
+var image2 = document.querySelector('.image2');
+var image3 = document.querySelector('.image3');
+var image4 = document.querySelector('.image4');
+var image5 = document.querySelector('.image5');
+var image6 = document.querySelector('.image6');
+var nextButton = document.querySelector('.next');
+var previousButton = document.querySelector('.previous');
+var restartButton = document.querySelector('.restart');
+var result = document.querySelector('.result');
+
+// QUESTIONS
+const questions = [
+  {
+    "question": "If you could go anywhere on vacation, where would you go?",
+    "answer1": "I'm just looking for sun, sand, and no distractions.",
+    "answer1Total": "1",
+    "answer1Image": "https://cdn.shopify.com/s/files/1/0166/0254/files/caribbean-1822544_1280.jpg?v=1602163397",
+    "answer2": "I love the excitement of a big city! Paris, New York, London, I want to be dazzled!",
+    "answer2Total": "2",
+    "answer2Image": "https://cdn.shopify.com/s/files/1/0166/0254/files/paris-1836415_1280.jpg?v=1602163397",
+    "answer3": "A spa vacation sounds like the perfect way to unwind!",
+    "answer3Total": "3",
+    "answer3Image": "https://cdn.shopify.com/s/files/1/0166/0254/files/wellness-285587_1280.jpg?v=1602163396",
+    "answer4": "A working farm in Montana sounds like a dream!",
+    "answer4Total": "4",
+    "answer4Image": "https://cdn.shopify.com/s/files/1/0166/0254/files/river-1874264_1280.jpg?v=1602163398",
+    "answer5": "Stockholm, Sweden, please! I can smell the salty air!",
+    "answer5Total": "5",
+    "answer5Image": "https://cdn.shopify.com/s/files/1/0166/0254/files/stockholm-465663_1280.jpg?v=1602163397",
+    "answer6": "Anywhere the wind takes me! I love an adventure.",
+    "answer6Total": "6",
+    "answer6Image": "https://cdn.shopify.com/s/files/1/0166/0254/files/hot-air-ballons-1373167_1280.jpg?v=1602163396"
+  },
+  {
+    "question": "What are your weekend plans?",
+    "answer1": "I'm taking the weekend to go to all the local markets! Thrifting is my favorite hobby!",
+    "answer1Total": "4",
+    "answer1Image": "https://cdn.shopify.com/s/files/1/0166/0254/files/ludwigsburg-germany-2779468_1280.jpg?v=1602163763",
+    "answer2": "Plant shopping, or propagating. Always!",
+    "answer2Total": "1",
+    "answer2Image": "https://cdn.shopify.com/s/files/1/0166/0254/files/succulents-2347550_1280.jpg?v=1602163763",
+    "answer3": "I try not to make plans, letting things happen as they may.",
+    "answer3Total": "6",
+    "answer3Image": "https://cdn.shopify.com/s/files/1/0166/0254/files/girl-lying-on-the-grass-1741487_1280.jpg?v=1602163763",
+    "answer4": "Hitting up my favorite yoga class after shopping all afternoon!",
+    "answer4Total": "2",
+    "answer4Image": "https://cdn.shopify.com/s/files/1/0166/0254/files/yoga-2959213_1280.jpg?v=1602163763",
+    "answer5": "Looking for new nature trails I haven't been down yet!",
+    "answer5Total": "5",
+    "answer5Image": "https://cdn.shopify.com/s/files/1/0166/0254/files/hiking-1246836_1280.jpg?v=1602163763",
+    "answer6": "I will be checking out the newest installation at the local art gallery or museum.",
+    "answer6Total": "3",
+    "answer6Image": "https://cdn.shopify.com/s/files/1/0166/0254/files/gallery-2932005_1280.jpg?v=1602163763"
+  },
+  {
+    "question":
+      "Having company over for dinner? What are you making?",
+    "answer1": "A rustic soup made with locally sourced vegetables and fresh baked sourdough.",
+    "answer1Total": "4",
+    "answer1Image": "https://cdn.shopify.com/s/files/1/0166/0254/files/goulash-4014661_1280.jpg?v=1602164081",
+    "answer2": "Appetizers and a signature cocktail are always on the menu!",
+    "answer2Total": "2",
+    "answer2Image": "https://cdn.shopify.com/s/files/1/0166/0254/files/wine-905098_1280.jpg?v=1602164081",
+    "answer3": "It's the perfect excuse to make fresh seafood, a light cream sauce, and a side of potatoes with dill. Yum!",
+    "answer3Total": "5",
+    "answer3Image": "https://cdn.shopify.com/s/files/1/0166/0254/files/united-kingdom-2066475_1280.jpg?v=1602164081",
+    "answer4": "Definitely a charcuterie board.",
+    "answer4Total": "1",
+    "answer4Image": "https://cdn.shopify.com/s/files/1/0166/0254/files/apero-4196169_1280.jpg?v=1602164081",
+    "answer5": "Potluck! No themes needed when everything is made with a side of love!",
+    "answer5Total": "6",
+    "answer5Image": "https://cdn.shopify.com/s/files/1/0166/0254/files/buffet-974742_1280.jpg?v=1602164081",
+    "answer6": "Break out the silverware! I love spoiling my guests with a 7 course meal.",
+    "answer6Total": "3",
+    "answer6Image": "https://cdn.shopify.com/s/files/1/0166/0254/files/dinner-1433494_1280.jpg?v=1602164080"
+  },
+  {
+    "question": "How would you describe your favorite home decor style?",
+    "answer1": "Eclectic. You aren't actually trying to make me choose one style, are you?",
+    "answer1Total": "6",
+    "answer1Image": "https://cdn.shopify.com/s/files/1/0166/0254/files/colorful-1340664_1280.jpg?v=1602164424",
+    "answer2": "Scandinavian. Light, muted colors. Blonde woods. Lots of light. Clutter free. Feeling the hygge.",
+    "answer2Total": "5",
+    "answer2Image": "https://cdn.shopify.com/s/files/1/0166/0254/files/scandinavian-living-room-2132348_1280.jpg?v=1602164424",
+    "answer3":
+      "Modern Farmhouse. Comfortable, relaxed, neutral, copper farmhouse sink, no actual farm required!",
+    "answer3Total": "4",
+    "answer3Image": "https://cdn.shopify.com/s/files/1/0166/0254/files/kitchen-972934_1280.jpg?v=1602164424",
+    "answer4": "Traditional. I love my home to be calm, orderly, and timeless.",
+    "answer4Total": "3",
+    "answer4Image": "https://cdn.shopify.com/s/files/1/0166/0254/files/living-room-1476062_1280.jpg?v=1602164424",
+    "answer5": "Industrial.  Sleek metal, exposed brick, concrete, and clean lines really speaks to me!",
+    "answer5Total": "2",
+    "answer5Image": "https://cdn.shopify.com/s/files/1/0166/0254/files/living-room-2155353_1280.jpg?v=1602164424",
+    "answer6": "Boho. I like to layer lots of textiles with some living greenery, and a side of vintage.",
+    "answer6Total": "1",
+    "answer6Image": "https://cdn.shopify.com/s/files/1/0166/0254/files/bohemian-style-4519270_1280.jpg?v=1602164424"
+  },
+  {
+    "question": "Most importantly, what is your favorite Furls hook?",
+    "answer1": "Streamline Swirl",
+    "answer1Total": "4",
+    "answer1Image": "https://cdn.shopify.com/s/files/1/0166/0254/files/streamline-swirls-topNav.png?v=1600288389",
+    "answer2": "Odyssey",
+    "answer2Total": "2",
+    "answer2Image": "https://cdn.shopify.com/s/files/1/0166/0254/files/odyssey-topNav.png?v=1600288390",
+    "answer3":
+      "Jumbo",
+    "answer3Total": "6",
+    "answer3Image": "https://cdn.shopify.com/s/files/1/0166/0254/files/jumbo-hooks-topNav.png?v=1600288888",
+    "answer4": "Candy Shop",
+    "answer4Total": "1",
+    "answer4Image": "https://cdn.shopify.com/s/files/1/0166/0254/files/candy-shop-topNav.png?v=1600288390",
+    "answer5": "Alpha",
+    "answer5Total": "3",
+    "answer5Image": "https://cdn.shopify.com/s/files/1/0166/0254/files/alphas-topNav.png?v=1600288389",
+    "answer6": "Streamline Wood",
+    "answer6Total": "5",
+    "answer6Image": "https://cdn.shopify.com/s/files/1/0166/0254/files/streamline-wood-topNav.png?v=1600288386"
+  }
+]
+
+const totalQuestions = questions.length;
+
+//Function to generate question 
+function generateQuestions (index) {
+    //Select each question by passing it a particular index
+    const question = questions[index];
+    const option1Total = questions[index].answer1Total;
+    const option2Total = questions[index].answer2Total;
+    const option3Total = questions[index].answer3Total;
+    const option4Total = questions[index].answer4Total;
+    const option5Total = questions[index].answer5Total;
+    const option6Total = questions[index].answer6Total;
+    //Populate html elements 
+    questionEl.innerHTML = `${index + 1}. ${question.question}`
+    option1.setAttribute('data-total', `${option1Total}`);
+    option2.setAttribute('data-total', `${option2Total}`);
+    option3.setAttribute('data-total', `${option3Total}`);
+    option4.setAttribute('data-total', `${option4Total}`);
+    option5.setAttribute('data-total', `${option5Total}`);
+    option6.setAttribute('data-total', `${option6Total}`);
+    option1.innerHTML = `${question.answer1}`
+    option2.innerHTML = `${question.answer2}`
+    option3.innerHTML = `${question.answer3}`
+    option4.innerHTML = `${question.answer4}`
+    option5.innerHTML = `${question.answer5}`
+    option6.innerHTML = `${question.answer6}`
+    image1.setAttribute('src', `${question.answer1Image}`)
+    image2.setAttribute('src', `${question.answer2Image}`)
+    image3.setAttribute('src', `${question.answer3Image}`)
+    image4.setAttribute('src', `${question.answer4Image}`)
+    image5.setAttribute('src', `${question.answer5Image}`)
+    image6.setAttribute('src', `${question.answer6Image}`)
+    
+    ga('send', 'event', "Yarn Bowl Quiz", 'View', index);
+}
+
+
+function loadNextQuestion () {
+    const selectedOption = document.querySelector('input[type="radio"]:checked');
+    //Check if there is a radio input checked
+    if(!selectedOption) {
+        alert('Please select your answer!');
+        return;
+    }
+
+    // Mobile only JS
+    if($(window).width() <= 750) {
+       $('html, body').animate({
+          scrollTop: $(".logo").offset().top
+       }, 1000);
+    }
+
+    //Get value of selected radio
+    const answerScore = Number(selectedOption.nextElementSibling.getAttribute('data-total'));
+
+    ////Add the answer score to the score array
+    score.push(answerScore);
+
+    selectedAnswersData.push()
+
+    const totalScore = score.reduce((total, currentNum) => total + currentNum);
+
+    //Finally we incement the current question number ( to be used as the index for each array)
+    currentQuestion++;
+
+    if(currentQuestion == 0) {
+       $('.previous').hide();
+    }
+    else {
+       $('.previous').show();
+    }
+
+    if(currentQuestion == 5) {
+        $('input[name="$fav_hook"]').val(selectedOption.nextElementSibling.innerHTML);
+    }
+
+    //once finished clear checked
+    selectedOption.checked = false;
+
+    //If quiz is on the final question
+    if(currentQuestion == totalQuestions - 1) {
+        nextButton.textContent = 'Finish';
+    }
+    //If the quiz is finished then we hide the questions container and show the results 
+    if(currentQuestion == totalQuestions) {
+        ga('send', 'event', "Yarn Bowl Quiz", 'View', "Results");
+        container.style.display = 'none';
+        $('.quick-add-product').css('display','inline-block');
+
+        if(totalScore >= 1 && totalScore <= 5) {
+            $('input[name="$yarn_bowl"]').val('teak');
+            result.innerHTML =
+             `<h2 class="final-score">teak - boho</h2>
+             <div class="summary">
+                <img src="https://cdn.shopify.com/s/files/1/0166/0254/files/teak-yarn-bowl-both.jpg?v=1597695613">
+                <p>
+                   It seems you have a definite Boho vibe! 
+                   Your style mirrors that life by combining objects, 
+                   colors, and patterns from many areas of the world. 
+                   You are drawn to mixing patterns and textures, and 
+                   you aren't afraid to use styles that would not 
+                   necessarily go together in a conventional way. You are 
+                   drawn to natural materials that have a slightly worn 
+                   look—not damaged, but not shiny and new either. Fringe, 
+                   crochet, and macramé abound—pillows, curtains, and 
+                   throw-rugs combine to make a cozy, globally-inspired hangout. 
+                   Your teak yarn bowl fits right in! 
+                </p>
+            </div>`;
+            $('.restart').insertAfter($('.summary'));
+            $('.restart').show();
+            $('.summary p').append($('#email_signup_yarnbowl'));
+            $('#email_signup_yarnbowl').show();
+            return;
+        } 
+        else if(totalScore >= 6 && totalScore <= 10) {
+            $('input[name="$yarn_bowl"]').val('aluminum');
+            result.innerHTML =
+             `<h2 class="final-score">aluminum - industrial</h2>
+             <div class="summary">
+                <img src="https://cdn.shopify.com/s/files/1/0166/0254/products/FurlsCrochet-MetalYarnBowl1_grande.jpg?v=1526482395">
+                <p>
+                   Industrial style is all about fuss-free no-nonsense decor. 
+                   You often take inspiration from the lofty look of warehouses, 
+                   factories, and other industrial structures. You are drawn to 
+                   stripped back details focusing on bare bricks, metals, and wood. 
+                   It's no surprise that these metal yarn bowls fit your sleek 
+                   aesthetic! 
+                </p>
+            </div>`;
+            $('.restart').insertAfter($('.summary'));
+            $('.restart').show();
+            $('.summary p').append($('#email_signup_yarnbowl'));
+            $('#email_signup_yarnbowl').show();
+            return;
+        }
+        else if(totalScore >= 11 && totalScore <= 15) {
+            $('input[name="$yarn_bowl"]').val('rosewood');
+            result.innerHTML =
+             `<h2 class="final-score">rosewood - classic</h2>
+             <div class="summary">
+                <img src="https://cdn.shopify.com/s/files/1/0166/0254/files/rosewood-yarn-bowls-web-squares_-_1.jpeg?v=1597951767">
+                <p>
+                   You have a truly classic style! Although you are drawn to safe, 
+                   clean and traditional decor, it's only because you appreciate 
+                   a timeless style and work hard to take care of your belongings. 
+                   You value longevity over trends and are drawn to a trusted 
+                   esthetic that is both timeless and flattering. The Rosewood 
+                   yarn bowl tics all these boxes. The clean lines, curving 
+                   swirl, and distinguished wood are all rooted in classic design.
+                </p>
+            </div>`;
+            $('.restart').insertAfter($('.summary'));
+            $('.restart').show();
+            $('.summary p').append($('#email_signup_yarnbowl'));
+            $('#email_signup_yarnbowl').show();
+            return;
+        }
+        else if(totalScore >= 16 && totalScore <= 20) {
+            $('input[name="$yarn_bowl"]').val('copper');
+            result.innerHTML =
+             `<h2 class="final-score">copper - modern farmhouse</h2>
+             <div class="summary">
+                <img src="https://cdn.shopify.com/s/files/1/0166/0254/products/yarn-bowl-copper-knitters-crocheters-furls2_grande.jpg?v=1527615976">
+                <p>
+                   Is your DVR filled with every episode of Fixer Upper? 
+                   Cause you are definitely a fan of modern farmhouse design! 
+                   You enjoy combining the relaxed, comfortable feeling of 
+                   farmhouse decor, while incorporating the smooth lines, 
+                   glossy accents and neutral color schemes of a modern aesthetic. 
+                   Copper farmhouse sinks, reclaimed thrifted dining table, and 
+                   sleek stone countertops. Mixing both rustic and sophisticated 
+                   styles is why the copper yarn bowl is perfect for you!
+                </p>
+            </div>`;
+            $('.restart').insertAfter($('.summary'));
+            $('.restart').show();
+            $('.summary p').append($('#email_signup_yarnbowl'));
+            $('#email_signup_yarnbowl').show();
+            return;
+        }
+        else if(totalScore >= 21 && totalScore <= 25) {
+            $('input[name="$yarn_bowl"]').val('pine');
+            result.innerHTML =
+             `<h2 class="final-score">pine - scandinavian</h2>
+             <div class="summary">
+                <img src="https://cdn.shopify.com/s/files/1/0166/0254/products/furls_wood_bowl_print_grande.jpg?v=1564518792">
+                <p>
+                   Bright, natural light, blonde woods, clean lines, and 
+                   natural hues call your name, this is why you are drawn 
+                   to Scandinavian style! Although you may not lean as far 
+                   to the modern side of decor as Industrial does, you do 
+                   choose a minimal, uncluttered aesthetic. This is why the 
+                   beautifully modern, handmade yarn bowl in blanched pine 
+                   is for you!
+                </p>
+            </div>`;
+            $('.restart').insertAfter($('.summary'));
+            $('.restart').show();
+            $('.summary p').append($('#email_signup_yarnbowl'));
+            $('#email_signup_yarnbowl').show();
+            return;
+        }
+        else if(totalScore >= 26 && totalScore <= 30) {
+            $('input[name="$yarn_bowl"]').val('odyssey');
+            result.innerHTML =
+             `<h2 class="final-score">odyssey - eclectic</h2>
+             <div class="summary">
+                <img src="https://cdn.shopify.com/s/files/1/0166/0254/files/odyssey-bowls-topNav.png?v=1600291240">
+                <p>
+                   You rule breaker you! Eclectic style is achieved by 
+                   harmoniously mixing different, and often contrasting, 
+                   aesthetics. Old and new, modern and classic, stripes and 
+                   floral, vintage and off-the-rack. Your style knows no 
+                   bounds, but your discerning eye pulls it off seamlessly. 
+                   The odyssey yarn bowl combines your love of the unexpected!
+                </p>
+            </div>`;
+            $('.restart').insertAfter($('.summary'));
+            $('.restart').show();
+            $('.summary p').append($('#email_signup_yarnbowl'));
+            $('#email_signup_yarnbowl').show();
+            return;
+        }
+        else {
+            $('input[name="$yarn_bowl"]').val('teak');
+            result.innerHTML =
+             `<h2 class="final-score">teak - boho</h2>
+             <div class="summary">
+                <img src="https://cdn.shopify.com/s/files/1/0166/0254/files/teak-yarn-bowl-both.jpg?v=1597695613">
+                <p>
+                   It seems you have a definite Boho vibe! 
+                   Your style mirrors that life by combining objects, 
+                   colors, and patterns from many areas of the world. 
+                   You are drawn to mixing patterns and textures, and 
+                   you aren't afraid to use styles that would not 
+                   necessarily go together in a conventional way. You are 
+                   drawn to natural materials that have a slightly worn 
+                   look—not damaged, but not shiny and new either. Fringe, 
+                   crochet, and macramé abound—pillows, curtains, and 
+                   throw-rugs combine to make a cozy, globally-inspired hangout. 
+                   Your teak yarn bowl fits right in!
+                </p>
+            </div>`;
+            $('.restart').insertAfter($('.summary'));
+            $('.restart').show();
+            $('.summary p').append($('#email_signup_yarnbowl'));
+            $('#email_signup_yarnbowl').show();
+            return;
+        }
+    }
+    generateQuestions(currentQuestion);
+}
+
+//Function to load previous question
+function loadPreviousQuestion() {
+    // Mobile only JS
+    if($(window).width() <= 750) {
+       $('html, body').animate({
+          scrollTop: $(".logo").offset().top
+       }, 1000);
+    }
+
+    //Decrement quentions index
+    currentQuestion--;
+
+    if(currentQuestion == 0) {
+       $('.previous').hide();
+    }
+    else {
+       $('.previous').show();
+    }
+
+    //remove last array value;
+    score.pop();
+    //Generate the question
+    generateQuestions(currentQuestion);
+}
+
+//Fuction to reset and restart the quiz;
+function restartQuiz(e) {
+    if(e.target.matches('button')) {
+    //reset array index and score
+    currentQuestion = 0;
+    score = [];
+    //Reload quiz to the start
+    location.reload();
+    }
+
+}
+
+if(currentQuestion == 0) {
+    $('.previous').hide();
+}
+else {
+    $('.previous').show();
+}
+
+$('.fakeButton').on('click', function() {
+    $('.coverPage').hide();
+    $('.quiz-container').show();
+    ga('send', 'event', "Yarn Bowl Quiz", 'View', "Start");
+})
+
+generateQuestions(currentQuestion);
+nextButton.addEventListener('click', loadNextQuestion);
+previousButton.addEventListener('click',loadPreviousQuestion);
+restartButton.addEventListener('click',restartQuiz);
+
+$('.option span').on('click', function() {
+   setTimeout(function() { 
+      nextButton.dispatchEvent(new Event('click')); 
+   }, 500);
+});
+
+</script>

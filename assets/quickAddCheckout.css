@@ -1,0 +1,64 @@
+.quick-add-product .quickAddProductContainer {
+  display: flex;
+  align-items: center;
+  text-align: center;
+}
+.quick-add-product .right {
+  display: inline-block;
+  vertical-align: top;
+  text-align: center;
+  width:50%;
+}
+.quick-add-product .btn {
+  font-size: 100%;
+  padding-top: 1%;
+  padding-bottom: 5%;
+  padding-left: 2%;
+  padding-right: 2%;
+  display: inline-block;
+  text-transform: capitalize;
+  font-weight: bold;
+  line-height: 30px;
+  height:40px;
+  margin: 1px 0.5%;
+  width: 32%;
+  max-width: 32%;
+  text-align: center;
+  margin-bottom: 5px;
+  text-shadow: none;
+  color: #373639;
+  background-color: #C5AFA2;
+  background: #C5AFA2;
+  border-radius: 4px;
+}
+.quick-add-product .btn:hover{
+  background-color:#ad938d;
+  background: #ad938d;
+}
+.quick-add-product{
+  border-bottom:1px solid #d3d3d3;
+  padding-top: 3%;
+  padding-bottom: 3%;
+}
+.quick-add-header {
+ letter-spacing:1px;
+ text-transform:capitalize;
+ font-weight:bold;
+ border-bottom:1px solid #d3d3d3;
+ margin:10px auto;
+}
+.quick-add-product .product-title{
+ font-weight:bold;
+ text-transform:capitalize;
+}
+.quick-add-product .variant-title{
+ text-transform:lowercase;
+}
+.quick-add-product img {
+  width:50%;
+  max-width:50px;
+  border-radius:50%;
+  border:1px solid #d3d3d3;
+  padding:2px;
+  margin:auto;
+}

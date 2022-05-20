@@ -1,0 +1,24 @@
+{% schema %}
+  {
+    "name": "Section name",
+    "settings": [
+		{
+          	"id": "social_widget_id",
+            "type": "text",
+            "label": "Make section margins the same as theme",
+            "default": "1"
+        }
+	],
+	"blocks": [
+      {
+        "type": "@app"
+      }
+    ]
+  }
+{% endschema %}
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}
+<div class="social-widget-wrapper" data-widget-id="{{ section.settings.social_widget_id }}"></div>

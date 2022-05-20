@@ -1,0 +1,102 @@
+/* Tablet-portrait (and larger)
+ * Tablet-landscape (and larger) 
+ * Laptops (and larger)
+ */
+@media (min-width: 768px), (min-width: 992px), (min-width: 1200px) {
+  ul .firstColumn,
+  ul .secondColumn,
+  ul .thirdColumn {
+    margin: 1% 2% 0;
+  }
+  ul .secondColumn {
+    position: absolute;
+    top: 8%;
+    left: 25%;
+  }
+  ul .thirdColumn {
+    position: absolute;
+    top: 8%;
+    left: 55%;
+  }
+  .header__submenu.list-menu.list-menu--disclosure.caption-large.motion-reduce {
+    width: 1130px;
+    height: 31rem;
+  }
+  .header__submenu.list-menu.list-menu--disclosure.caption-large.motion-reduce li {
+    width: 95%;
+  }
+  .header__submenu.list-menu.list-menu--disclosure.caption-large.motion-reduce .calloutBanner {
+    position: absolute;
+    top: 5%;
+    height: 90%;
+    border-radius: 3px;
+    z-index: 999999;
+    height: 280px;
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+  .header__submenu.list-menu.list-menu--disclosure.caption-large.motion-reduce.NewNow .calloutBanner {
+    background-image: url(https://cdn.shopify.com/s/files/1/0166/0254/files/newandnow.jpg?v=1650400870);
+  }
+  .header__submenu.list-menu.list-menu--disclosure.caption-large.motion-reduce.CrochetHooks {
+    left: -126px;
+  }
+  .header__submenu.list-menu.list-menu--disclosure.caption-large.motion-reduce.CrochetHooks .calloutBanner {
+    background-image: url(https://cdn.shopify.com/s/files/1/0166/0254/files/streamline-wood-topNav.png?v=1600288386);
+  }
+  .header__submenu.list-menu.list-menu--disclosure.caption-large.motion-reduce.Accessories {
+    left: -364px;
+  }
+  .header__submenu.list-menu.list-menu--disclosure.caption-large.motion-reduce.Accessories .calloutBanner {
+    background-image: url(https://cdn.shopify.com/s/files/1/0166/0254/files/wood-bowls-topNav.png?v=1600290328);
+  }
+  .header__submenu.list-menu.list-menu--disclosure.caption-large.motion-reduce.Yarn {
+    left: -291px;
+  }
+  .header__submenu.list-menu.list-menu--disclosure.caption-large.motion-reduce.Yarn .calloutBanner {
+    background-image: url(https://cdn.shopify.com/s/files/1/0166/0254/files/wander-top-nav.jpeg?v=1612469164);
+  }
+  .header__submenu.list-menu.list-menu--disclosure.caption-large.motion-reduce.KitsSets .calloutBanner {
+    background-image: url(https://cdn.shopify.com/s/files/1/0166/0254/files/8-hook-swirl-cropped.jpg?v=1620323109);
+  }
+  .header__submenu.list-menu.list-menu--disclosure.caption-large.motion-reduce.KitsSets {
+    left: -490px;
+  }
+  .header__submenu.list-menu.list-menu--disclosure.caption-large.motion-reduce.Patterns {
+    left: -835px;
+  }
+  .header__submenu.list-menu.list-menu--disclosure.caption-large.motion-reduce.AboutFurls {
+    left: -710px;
+  }
+  .header__submenu.list-menu.list-menu--disclosure.caption-large.motion-reduce.AboutFurls .calloutBanner {
+    background-image: url(https://cdn.shopify.com/s/files/1/0166/0254/files/crochethook-homepage-squares-07.jpg?v=1541619065);
+  }
+  .header__submenu.list-menu.list-menu--disclosure.caption-large.motion-reduce.Tutorials {
+    left: -938px;
+  }
+  .header__submenu.list-menu.list-menu--disclosure.caption-large.motion-reduce.Tutorials .calloutBanner {
+    background-image: url(https://cdn.shopify.com/s/files/1/0166/0254/files/odyssey-web-square-sets-8.jpeg?v=1608060466);
+  }
+  .header__submenu.list-menu.list-menu--disclosure.caption-large.motion-reduce.Blog {
+    left: -1042px;
+  }
+  .header__submenu.list-menu.list-menu--disclosure.caption-large.motion-reduce.Blog .calloutBanner {
+    background-image: url(https://cdn.shopify.com/s/files/1/0166/0254/files/knitting-needle-wood-single-point14.jpg?5371);
+  }
+  .header__submenu.list-menu.list-menu--disclosure.caption-large.motion-reduce.CrochetHooks .calloutBanner,
+  .header__submenu.list-menu.list-menu--disclosure.caption-large.motion-reduce.Accessories .calloutBanner,
+  .header__submenu.list-menu.list-menu--disclosure.caption-large.motion-reduce.AboutFurls .calloutBanner,
+  .header__submenu.list-menu.list-menu--disclosure.caption-large.motion-reduce.NewNow .calloutBanner,
+  .header__submenu.list-menu.list-menu--disclosure.caption-large.motion-reduce.Patterns .calloutBanner {
+    left: 58%;
+    width: 450px;
+  }
+  .header__submenu.list-menu.list-menu--disclosure.caption-large.motion-reduce.Yarn .calloutBanner,
+  .header__submenu.list-menu.list-menu--disclosure.caption-large.motion-reduce.Blog .calloutBanner,
+  .header__submenu.list-menu.list-menu--disclosure.caption-large.motion-reduce.Tutorials .calloutBanner,
+  .header__submenu.list-menu.list-menu--disclosure.caption-large.motion-reduce.KitsSets .calloutBanner {
+    left: 34%;
+    width: 685px;
+  }
+}

@@ -1,0 +1,177 @@
+<script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'cart-notifcation.js' | asset_url }}" defer="defer"></script>
+
+<div id="shuffleWrapper" class="grid grid--2-col-desktop grid--1-col ">
+  <div class="grid__item">
+    <div id='shuffle'>
+      <h1>Product Shuffler</h1>
+      <p>Not sure what you want, or buying a gift for someone else? Choose from the preset amounts listed below and hit shuffle!</p>
+      <p>Furls will randomly select an assortment of products for you based on the dollar amount you choose. Reshuffle as many times as you like! </p>
+      <div class="button valueButton">$25</div>
+      <div class="button valueButton selected">$50</div>
+      <div class="button valueButton">$100</div>
+      <div class="button valueButton">$250</div>
+      <span class='fake-link customizeCartMax'><small>customize amount<small></span>
+      <div class='cartMaxInput'>$<input id='cartMax' type='number' class='money__input' value='50'/>
+      </div>
+      <input id='refresh' type='submit' class='button' value='Shuffle'/>
+      <hr/>
+    </div>
+        <div id='cartWrapper'>
+                  <table id='cartContainer'>
+                      <div class='sp-circle sp-mini'></div>
+                      <tr><td class='variantImg'></td><td class='variantDetails' style='text-align: right;'>Total: </td><td class='variantPrice'><span id='cartTotal'></span></td></tr>
+                  </table>
+                <product-form class="product-form">
+                  <form method='post' action='/cart/add' class='form' id='randomForm'> 
+                    <input type="hidden" name="form_type" value="product">
+                    <input type="hidden" name="utf8" value="✓">
+                    <input id='addToCart' type='submit' class='button product-form__submit button--full-width button--secondary' value='Add To Cart'/>
+                  </form>
+                </product-form>
+        </div>
+    </div>
+  </div>
+</div>
+<style type="text/css">
+
+  #shuffleWrapper .grid__item{
+    margin:auto;
+  }
+  #shuffle, product-form {
+    text-align: center
+  }
+  .valueButton:not(.selected) {
+    background-color:#fff;
+    border:1px solid rgba(196,175,162);
+    color: #777;
+  }
+
+  .customizeCartMax{
+    display:block;
+    margin:10px auto;
+  }
+  .cartMaxInput {
+    display:none;
+    margin:10px auto;
+  }
+  #cartWrapper img{
+    max-width:75px;
+  }
+  #cartContainer, #cartContainer tr {
+    width:100%;
+    border:none;
+    box-shadow: none;
+  }
+  #cartContainer td{
+    border:none;
+  }
+  #cartContainer .variantImg, #cartContainer .variantPrice{
+    max-width: 125px;
+    width:125px;
+  }
+  #cartContainer .variantDetails{
+  }
+  #addToCart{
+    color: #373639;
+    box-shadow: 0 0 0 0.1rem #373639;
+  }
+  }
+  .money__input {
+    color: currentColor;
+    font-size: 1.4rem;
+    font-weight: 500;
+    opacity: 0.85;
+    text-align: center;
+    background-color: transparent;
+    border: 1px solid #d3d3d3;
+    padding: 0 0.5rem;
+    height: 4.5rem;
+    display: inline-block;
+    width: 50%;
+    max-width: 100px;
+    flex-grow: 1;
+  }
+</style>
+<script type="text/javascript">
+  var queue = [],
+  	  products = [],
+      cartMax = parseInt($("#cartMax").val()),
+      cartTotal = 0,
+      attempts = 0;
+  
+  //Add all variants to array
+  {% for hooks in collections.all-products.products %}
+        products.push({{ hooks.variants | json }});
+  {% endfor %}
+  
+
+  //on page load  
+  $(function(){
+  		setTimeout(randomizeCart(),500);
+  });
+
+   $("body").on("click",".customizeCartMax",function(){
+    $(".cartMaxInput").toggle();
+  });
+  
+   $("body").on("click",".valueButton",function(){
+        var value = parseInt($(this).text().replace("$",""));
+        $(".valueButton.selected").removeClass("selected");
+        $(this).addClass("selected");
+        //
+        $("#cartMax").val(value);
+        cartMax = value;
+        //
+        clearCart();
+        setTimeout(randomizeCart(),500);
+  });
+
+  $("body").on("click","#refresh",function(){
+        cartMax = parseInt($("#cartMax").val());
+        //
+        clearCart();
+  		  setTimeout(randomizeCart(),500);
+  });
+
+  function clearCart() {
+        cartTotal = 0,
+        attempts = 0;
+      $("#randomForm").find(".variant").remove();
+      $("#cartContainer").html("<tr><td class='variantImg'></td><td class='variantDetails' style='text-align:right;'>Total: </td><td class='variantPrice'><span id='cartTotal'></span></td></tr>");
+  }
+  		
+  function randomizeCart() {
+    var product = products[Math.floor(Math.random()*products.length)],
+        variant = product[Math.floor(Math.random()*product.length)],
+        price = variant.price/100,
+        img = variant.featured_image,
+        qty = variant.inventory_quantity,
+        distance = cartMax - cartTotal,
+        formattedName = variant.name.split("-")[0];
+    //
+    attempts += 1;
+    //
+    if (attempts < 20) { 
+      if (qty > 0 && price > 0 && price < distance && img) {
+        //add to randomForm
+        $("#randomForm").prepend("<input type='hidden' class='variant' name='id' value='"+variant.id+"'/>")
+        //add to cartContainer
+        $("#cartContainer").find(".sp-circle").remove();
+        $("#cartContainer").prepend("<tr data-variantid='"+variant.id+"' data-price='"+price+"'><td class='variantImg'><img src='"+img.src+"'/></td><td class='variantDetails'> "+formattedName+"<br><strong>"+variant.title+"</strong></td><td class='variantPrice'>$"+price.toFixed(2)+"</td></tr>");
+        cartTotal += price;
+        $("#cartTotal").html("$"+cartTotal.toFixed(2)+" USD");
+
+        if (distance > 10) {
+          randomizeCart();
+        };
+      } else {
+        randomizeCart();
+      };
+    };
+    
+  };
+  
+  
+  
+</script>

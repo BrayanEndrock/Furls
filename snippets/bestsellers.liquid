@@ -1,0 +1,49 @@
+<div class="homepageBestSellers sixteen columns">
+  <h2>Our Most Popular</h2>
+  <div class="bestsellerCarousel">
+    {% assign count = 0 %}
+    {% for product in collections.most-popular.products %}
+      {% if product.price > 0 and count <= 8 %}
+         {% assign count = count | plus: 1 %}
+         <div>
+           <a href="{{product.url}}?utm_campaign={{product.title}}&utm_source=Furls&utm_medium=cartBestSellers">
+             <img src="/{{product.featured_image | product_img_url: 'medium'}}"><br>
+             <span class="productTitle">{{product.title}}</span><br>
+             <span>from ${{product.price | money_without_currency}}</span>
+           </a>
+         </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+  
+  <div class="bestsellerCarouselControls">
+     <a class="carousel-control-prev prev" href="#' role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" ia-hidden="true"><i class="fas fa-angle-left"></i></span>
+        <span class="sr-only">Previous</span>
+     </a>
+     <a class="carousel-control-next next" href="#' role="button" data-slide="next">
+        <span class="carousel-control-next-icon" ia-hidden="true"><i class="fas fa-angle-right"></i></span>
+        <span class="sr-only">Next</span>
+     </a>
+  </div>
+</div>
+
+<script type="text/javascript">
+  var bestsellerSlider = tns({
+      "container": ".bestsellerCarousel",
+      "controlsContainer": ".bestsellerCarouselControls", 
+      "gutter":"25",
+      "items": 3,
+      "responsive": {
+        "300": {
+          "items": 1
+        },
+        "500": {
+          "items": 3
+        },
+        "900": {
+          "items": 3
+        },
+      }
+    });
+</script>

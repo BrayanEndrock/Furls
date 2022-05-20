@@ -1,0 +1,77 @@
+{{ 'mainPage.js' | asset_url | script_tag }}
+<div class="page-width">
+  <div class="rte">
+   <div class="section clearfix">
+      <div id='blanketKit'>
+        {% include 'wander-sonder-cowl-kit-2022' %}
+      </div>
+   </div>
+   <div class="section clearfix">
+      <ul class="multicolumn-list grid grid--1-col grid--3-col-tablet slider slider--mobile grid--peek" id="Slider-template--14139365097539__1628783711e60e3269" role="list">
+          <li class="multicolumn-list__item grid__item slider__slide center">
+            <div class="multicolumn-card">
+               <div class="multicolumn-card__info">
+                  <div class="rte">
+                  {{ product.metafields.my_fields.multicolumn1 }}
+                  </div>
+               </div>
+            </div>
+          </li>
+            <li class="multicolumn-list__item grid__item slider__slide center">
+            <div class="multicolumn-card">
+               <div class="multicolumn-card__info">
+                  <div class="rte">
+                  {{ product.metafields.my_fields.multicolumn2 }}
+                  </div>
+               </div>
+            </div>
+          </li>  
+          <li class="multicolumn-list__item grid__item slider__slide center">
+            <div class="multicolumn-card">
+               <div class="multicolumn-card__info">
+                  <div class="rte">
+                  {{ product.metafields.my_fields.multicolumn3 }}
+                  </div>
+               </div>
+            </div>
+          </li>
+      </ul>
+
+
+      <p style="text-align:center;padding-top:10px;"><input type="submit" value="Get Your Cowl" id="cta1" class="action_button" /></p>
+
+
+  </div>
+   <div class="section clearfix">
+      {{ 'component-image-with-text.css' | asset_url | stylesheet_tag }}
+       <div class="image-with-text page-width color-scheme-background-1">
+           <div class="image-with-text__grid color-background-1 image-with-text__grid--reverse grid grid--gapless grid--1-col grid--2-col-tablet">
+             <div class="grid__item">
+               <div class="image-with-text__media image-with-text__media--adapt image-with-text__media--placeholder placeholder">
+                 <img srcset="{%- if product.featured_image.width >= 165 -%}{{ product.featured_image | img_url: '165x' }} 165w,{%- endif -%}
+          {%- if product.featured_image.width >= 360 -%}{{ product.featured_image | img_url: '360x' }} 360w,{%- endif -%}
+          {%- if product.featured_image.width >= 535 -%}{{ product.featured_image | img_url: '535x' }} 535w,{%- endif -%}
+          {%- if product.featured_image.width >= 720 -%}{{ product.featured_image | img_url: '720x' }} 720w,{%- endif -%}
+          {%- if product.featured_image.width >= 940 -%}{{ product.featured_image | img_url: '940x' }} 940w,{%- endif -%}
+          {%- if product.featured_image.width >= 1070 -%}{{ product.featured_image | img_url: '1070x' }} 1070w{%- endif -%}"
+          src="{{ product.featured_image | img_url: '533x' }}"
+          sizes="(min-width: 1100px) 535px, (min-width: 750px) calc((100vw - 130px) / 2), calc((100vw - 50px) / 2)"
+          alt="{{ product.title | escape }}"
+          loading="lazy"
+          width="{{ product.featured_image.width }}"
+          height="{{ product.featured_image.height }}">
+               </div>
+             </div>
+             <div class="grid__item">
+               <div class="image-with-text__content image-with-text__content--adapt"><h2 class="image-with-text__heading h1">
+                         Sonder Cowl Kit
+                       </h2>{{ product.metafields.my_fields.imagewithtextcontent }}</div></div>
+             </div>
+           </div>
+         </div>
+
+      <p style="text-align:center;padding-top:10px;"><input type="submit" value="Customize Your Kit" id="cta2" class="action_button" /></p>
+
+   </div>
+  </div>
+</div>

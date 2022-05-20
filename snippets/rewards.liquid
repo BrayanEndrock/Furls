@@ -1,0 +1,129 @@
+<a href="/account">
+  Return to Account details
+</a>
+<div class="sixteen columns accountContainer">
+  {% if customer.tags contains 'retailer' %}
+    <h2>At this time, our rewards program is only available for non-wholesale accounts. Please login with a non-wholesale account to check on your rewards.</h2>
+  {% else %}
+    <div class="rewardsContainer">
+    {% if customer %} 
+      <div class="rewardsHeader">
+        <h2>Welcome back, {{ customer.first_name }}</h2>
+        <p>You have [<span data-lion-points="approved"></span>] rewards points</p>
+        <p>Earn points below and redeem for discounts, free products, and more!</p>
+      </div>
+    {% else %}
+      <div class="rewardsHeader">
+        <p>Join Loyalty Points and get rewarded while you shop. </p>
+        <p>You'll get 500 points for signing up. What are you waiting for?</p>
+        <a href="/account" class="joinNow">Join now</a>
+        <a href="/account/login" class="loginButton">Log in</a>
+      </div>
+
+      <script type="text/javascript">
+        $('.rewardsContainer').addClass('guest');
+      </script>
+    {% endif %}
+      <div class="rewardsEarn">
+        <h2>Ways to Earn</h2>
+        <div data-lion-rules-list></div>
+      </div>
+      <div class="rewardsTiers">
+        <h2>The Next Level</h2>
+        <div data-lion-tier-overview></div>
+        <div class="tier0Rewards">
+          <ul>
+            <li>Redeem Points for $ Off Vouchers</li>
+          </ul>
+        </div>
+        <div class="tier1Rewards">
+          <ul>
+            <li>Redeem Points for $ Off Vouchers</li>
+            <li>Early Access To Certain Sales</li>
+            <li>Double Point Events</li>
+            <li>25% Off Your Next Order (Discount Code Will Be Sent to Your Inbox)</li> 
+          </ul>
+        </div>
+        <div class="tier2Rewards">
+          <ul>
+            <li>Redeem Points for $ Off Vouchers</li>
+            <li>Early Access To Certain Sales</li>
+            <li>Double Point Events</li>
+            <li>30% Off Your Next Order (Discount Code Will Be Sent to Your Inbox)</li> 
+            <li>Product Launch Sneak Peeks</li>
+          </ul>
+        </div>
+      </div>
+      <div class="rewardsRewards">
+        <h2>Get The Goods</h2>
+        <div data-lion-rewards-list></div>
+      </div>
+      {% if customer %} 
+        <div class="rewardsHistory">
+          <h2>Account Activity</h2>
+          <div data-lion-history-table></div>
+        </div>
+      {% endif %}
+      <div class="rewardsFAQs">
+        <h2>Frequently Asked Questions</h2>
+        <p class="question">DOES IT COST MONEY TO JOIN? <i class="fas fa-plus"></i><br><br>
+          <span class="answer">
+            The Furls Rewards Program will cost you a grand total of absolutely nothing! You will start accruing points just for signing up and then can continue earning more points for things like referring a friend, liking us on social media, and for all future purchases!<p></p>
+          </span>
+        </p>
+
+        <p class="question">HOW DO I REDEEM MY POINTS? <i class="fas fa-plus"></i><br><br>
+          <span class="answer">
+            Simply go to your Furls Rewards Account and browse through the rewards available for your redemption. When you choose to redeem your reward a one time use code will be generated for you to use on your next purchase.<p></p>
+          </span>
+        </p>
+
+        <p class="question">CAN I USE MULTIPLE REWARDS AT CHECKOUT? <i class="fas fa-plus"></i><br><br>
+          <span class="answer">
+            No, our policies only allow one discount to be applied per checkout. <p></p>
+          </span>
+        </p>
+
+        <p class="question">HOW DO THE TIERS WORK? <i class="fas fa-plus"></i><br><br>
+          <span class="answer">
+            The Furls Rewards Program has 3 Tiers! Enthusiast, Collector, and Connoisseur. You move closer to the next tier for every purchase you make. <i>For more details on the perks and thresholds for each tier please reference the Tiers Breakdown section. </i><p></p>
+          </span>
+        </p>
+
+        <p class="question">CAN I COMBINE SPEND FROM MULTIPLE ACCOUNTS INTO A SINGLE ACCOUNT? <i class="fas fa-plus"></i><br><br>
+          <span class="answer">
+            No, points are only allocated to the specific account the purchase/activity was made from. We understand that sometimes you forget your email or password and have multiple accounts by accident, so be sure to always be signed into the same account each time you are trying to earn points!<p></p>
+          </span>
+        </p>
+
+        <p class="question">WILL MY PREVIOUS PURCHASES BE ALLOCATED TO MY ACCOUNT? <i class="fas fa-plus"></i><br><br>
+          <span class="answer">
+           No, only purchases made starting from March 10th, 2021 and forward will be eligible to redeem points.<p></p>
+          </span>
+        </p>
+
+        <p class="question">HOW DOES REFER A FRIEND WORK? <i class="fas fa-plus"></i><br><br>
+          <span class="answer">
+            We hope you love Furls enough to spread the word to your friends and family! Simply go to your rewards program profile and click on the “Refer Friends” reward activity. Send a link to whoever you think would love Furls! If they sign up for reward and make a purchase within 7 days of your referral they will receive free shipping on their order and you will get 1,000 points! <p></p>
+          </span>
+        </p>
+
+        <p class="question">WHY DO SOME OF MY POINT SAY “PENDING”? <i class="fas fa-plus"></i><br><br>
+          <span class="answer">
+            Points are not approved until 14 days after the purchase has been processed.<p></p>
+          </span>
+        </p>
+      </div>
+    </div>
+  {% endif %}
+</div>
+
+<script type="text/javascript">
+  $(function(){
+    $('.accountSidebar .rewards').addClass('active');
+  });
+</script>
+
+{% include "loyaltylion" %}
+{{ 'account.css' | asset_url | stylesheet_tag }}
+{{ 'account.js' | asset_url | script_tag }}
