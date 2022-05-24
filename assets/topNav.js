@@ -89,11 +89,6 @@ $(function() {
    $('[link-name=StreamlineResinHooks]').on('mouseenter', function(){ 
       $('.CrochetHooks .calloutBanner').css('background-image','url(https://cdn.shopify.com/s/files/1/0166/0254/files/streamline-resin.jpg?v=1631551327)')
    })
-   
-    // Metal hover
-   $('[link-name=StreamlineMetal]').on('mouseenter', function(){ 
-      $('.CrochetHooks .calloutBanner').css('background-image','url(https://cdn.shopify.com/s/files/1/0166/0254/files/silver_metal.jpg?v=1652387650)')
-   })
 
    // Odyssey hover
    $('[link-name=OdysseyHooks]').on('mouseenter', function(){ 
@@ -162,7 +157,7 @@ $(function() {
 
    // Wander tote hover
    $('[link-name=WanderTote]').on('mouseenter', function(){ 
-      $('.Yarn .calloutBanner').css('background-image','url(https://cdn.shopify.com/s/files/1/0166/0254/files/wander-tote-may-22-2.jpg?v=1652807082)')
+      $('.Yarn .calloutBanner').css('background-image','url(https://cdn.shopify.com/s/files/1/0166/0254/files/wander-tote-palette-muskett2.jpeg?v=1614203421)')
    })
 
    // Wander tote hover

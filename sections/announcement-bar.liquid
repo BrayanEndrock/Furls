@@ -1,28 +1,31 @@
-{%- for block in section.blocks -%}
-  {%- case block.type -%}
-    {%- when 'announcement' -%}
-      <div class="announcement-bar color-{{ block.settings.color_scheme }}" role="region" aria-label="{{ 'sections.header.announcement' | t }}" {{ block.shopify_attributes }}>
+<div class="marquee--wrapper">
+  <div class="announcement-bar announcement-bar--slider" role="region" aria-label="{{ 'sections.header.announcement' | t }}" {{ block.shopify_attributes }}>
+    {%- for block in section.blocks -%}
+      {%- case block.type -%}
+        {%- when 'announcement' -%}    
         {%- if block.settings.text != blank -%}
           {%- if block.settings.link != blank -%}
             <a href="{{ block.settings.link }}" class="announcement-bar__link link link--text focus-inset animate-arrow">
           {%- endif -%}
-              <p class="announcement-bar__message h5">
-                {{ block.settings.text | escape }}
-                {%- if block.settings.link != blank -%}
-                  {% render 'icon-arrow' %}
-                {%- endif -%}
-              </p>
+          <p class="announcement-bar__message h5" data-text="{{ block.settings.text | escape }}" data-country-code="{{ block.settings.country_code }}">
+            {{ block.settings.text | escape }}
+            {%- if block.settings.link != blank -%}
+              {% render 'icon-arrow' %}
+            {%- endif -%}
+          </p>
           {%- if block.settings.link != blank -%}
             </a>
           {%- endif -%}
         {%- endif -%}
-      </div>
-  {%- endcase -%}
-{%- endfor -%}
+      {%- endcase -%}
+    {%- endfor -%}
+  </div>  
+</div>  
 
 {% schema %}
 {
   "name": "t:sections.announcement-bar.name",
+  "class": "marquee",
   "max_blocks": 12,
   "blocks": [
     {
@@ -58,6 +61,10 @@
             {
               "value": "accent-2",
               "label": "t:sections.announcement-bar.blocks.announcement.settings.color_scheme.options__5.label"
+            },
+            {
+              "value": "grey",
+              "label": "t:sections.announcement-bar.blocks.announcement.settings.color_scheme.options__6.label"
             }
           ],
           "default": "accent-1",
@@ -67,6 +74,12 @@
           "type": "url",
           "id": "link",
           "label": "t:sections.announcement-bar.blocks.announcement.settings.link.label"
+        },
+        {
+          "type": "text",
+          "id": "country_code",
+          "label": "Country Code",
+          "info": "GB, IT, FR, DE; Empty for all countries."
         }
       ]
     }
@@ -80,3 +93,24 @@
   }
 }
 {% endschema %}
+
+{% javascript %}
+  let slider = tns({
+    container: '.announcement-bar--slider',
+    items: 1,
+    autoplay: true,
+    speed: 200,
+    nav: false,
+    responsive: {
+      640: {
+        items: 1
+      },
+      1000: {
+        items: 1
+      },
+      1400: {
+        items: 1
+      }
+    }
+  });
+{% endjavascript %}

@@ -1636,7 +1636,8 @@ input[type='checkbox'] {
 }
 
 .announcement-bar {
-  border-bottom: 0.1rem solid rgba(var(--color-foreground), 0.2);
+  background-color: #69686B;
+  border-bottom: 0.1rem solid #69686B;
   color: rgb(var(--color-foreground));
 }
 
@@ -1669,6 +1670,26 @@ input[type='checkbox'] {
   padding: 1rem 2rem;
   margin: 0;
   letter-spacing: 0.1rem;
+  text-transform: uppercase;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 20px;
+  color: #FFFFFF;
+}
+@media screen and (max-width: 768px) {
+  #shopify-section-announcement-bar {
+    background-color: #69686B;
+  }
+  .shopify-section-header-sticky {
+    top: 52.5px;
+  }
+  .announcement-bar__message {
+    text-transform: inherit;
+    font-size: 13px;
+    line-height: 16px;
+    text-align: center;
+  }
 }
 
 /* section-header */
@@ -1678,6 +1699,11 @@ input[type='checkbox'] {
 }
 
 .shopify-section-header-sticky {
+  position: sticky;
+  top: 40.5px;
+}
+
+.announcement-bar-sticky {
   position: sticky;
   top: 0;
 }
@@ -1998,7 +2024,14 @@ details[open] > .header__icon--menu .icon-hamburger {
   }
 
   .header--top-center .header__inline-menu > .list-menu--inline {
-    justify-content: center;
+    width: 950px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .header--top-center .header__inline-menu > .list-menu--inline li:not(:last-of-type) {
+    /*margin-right: 38px;*/
   }
 
   .header--middle-left .header__inline-menu {
@@ -2128,17 +2161,24 @@ details-disclosure > details {
 .homepageCalCharity div img {
   width: 100%;
 }
+/* Category Section on Home Page */
 .homepageCategory {
   margin-top: 3%;
   margin-bottom: 3%;
 }
-.homepageCategory div img {
+.homepageCategory .category--box > a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.homepageCategory .category--box > a > img {
   width: 75%;
   border-radius: 100%;
   margin-bottom: 1%;
 }
-.homepageCategory .firstSection span,
-.homepageCategory .secondSection span {
+.homepageCategory .firstSection .category--box ,
+.homepageCategory .secondSection .category--box {
   width: 75%;
   color: #373639;
 }
@@ -2159,6 +2199,16 @@ details-disclosure > details {
   font-size: 22px;
   text-transform: uppercase;
   text-align: center;
+}
+@media screen and (max-width: 768px) {
+  .homepageCategory {
+    margin-top: 15%;
+    margin-bottom: 10%;
+  }
+  .homepageCategory .firstSection .category--box ,
+  .homepageCategory .secondSection .category--box {
+    margin: 0 auto 30px;
+  }
 }
 .homepageShippingCTA {
   text-transform: uppercase;
