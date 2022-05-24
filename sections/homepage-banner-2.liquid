@@ -10,7 +10,7 @@
     {% else %}
 <div> 
     <a href='{{section.settings.banner_url}}'>
-      <img src='{{section.settings.banner_img | img_url: 'master' }}'/>
+      <img loading="lazy" src='{{section.settings.banner_img | img_url: 'master' }}'/>
     </a>
     </div>
   {% endif %}

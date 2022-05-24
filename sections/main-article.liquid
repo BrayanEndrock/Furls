@@ -3,7 +3,11 @@
 <article class="article-template" itemscope itemtype="http://schema.org/BlogPosting">
   {% if article.title contains 'Blog Hop' %} 
     <header class="article-card__header">
-      <img style="width:100%" src="https://cdn.shopify.com/s/files/1/0166/0254/files/blog-hop-2021-banner.png?v=1611603742">
+      <img 
+        loading="lazy"  
+        style="width:100%"
+        src="https://cdn.shopify.com/s/files/1/0166/0254/files/blog-hop-2021-banner.png?v=1611603742"
+      >
       {%- if show_date -%}
         <span class="circle-divider caption-with-letter-spacing">
           {{- article.published_at | time_tag: format: 'month_year' -}}
