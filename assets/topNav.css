@@ -36,23 +36,26 @@
     background-repeat: no-repeat;
     background-position: center;
   }
+  .header__submenu.list-menu.list-menu--disclosure.caption-large.motion-reduce.NewNow {
+    left: -225px;
+  }
   .header__submenu.list-menu.list-menu--disclosure.caption-large.motion-reduce.NewNow .calloutBanner {
     background-image: url(https://cdn.shopify.com/s/files/1/0166/0254/files/newandnow.jpg?v=1650400870);
   }
   .header__submenu.list-menu.list-menu--disclosure.caption-large.motion-reduce.CrochetHooks {
-    left: -126px;
+    left: -385px;
   }
   .header__submenu.list-menu.list-menu--disclosure.caption-large.motion-reduce.CrochetHooks .calloutBanner {
     background-image: url(https://cdn.shopify.com/s/files/1/0166/0254/files/streamline-wood-topNav.png?v=1600288386);
   }
   .header__submenu.list-menu.list-menu--disclosure.caption-large.motion-reduce.Accessories {
-    left: -364px;
+    left: -665px;
   }
   .header__submenu.list-menu.list-menu--disclosure.caption-large.motion-reduce.Accessories .calloutBanner {
     background-image: url(https://cdn.shopify.com/s/files/1/0166/0254/files/wood-bowls-topNav.png?v=1600290328);
   }
   .header__submenu.list-menu.list-menu--disclosure.caption-large.motion-reduce.Yarn {
-    left: -291px;
+    left: -550px;
   }
   .header__submenu.list-menu.list-menu--disclosure.caption-large.motion-reduce.Yarn .calloutBanner {
     background-image: url(https://cdn.shopify.com/s/files/1/0166/0254/files/wander-top-nav.jpeg?v=1612469164);
@@ -61,7 +64,7 @@
     background-image: url(https://cdn.shopify.com/s/files/1/0166/0254/files/8-hook-swirl-cropped.jpg?v=1620323109);
   }
   .header__submenu.list-menu.list-menu--disclosure.caption-large.motion-reduce.KitsSets {
-    left: -490px;
+    left: -790px;
   }
   .header__submenu.list-menu.list-menu--disclosure.caption-large.motion-reduce.Patterns {
     left: -835px;

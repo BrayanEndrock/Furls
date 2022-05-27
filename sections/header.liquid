@@ -73,6 +73,7 @@
     <path d="M.865 15.978a.5.5 0 00.707.707l7.433-7.431 7.579 7.282a.501.501 0 00.846-.37.5.5 0 00-.153-.351L9.712 8.546l7.417-7.416a.5.5 0 10-.707-.708L8.991 7.853 1.413.573a.5.5 0 10-.693.72l7.563 7.268-7.418 7.417z" fill="currentColor">
   </symbol>
 </svg>
+
 <{% if section.settings.enable_sticky_header %}sticky-header{% else %}div{% endif %} class="header-wrapper{% if section.settings.show_line_separator %} header-wrapper--border-bottom{% endif %}">
   <header class="header header--{{ section.settings.logo_position }} page-width{% if section.settings.menu != blank %} header--has-menu{% endif %}">
     {%- if section.settings.menu != blank -%}
@@ -435,7 +436,8 @@
     }
 
     connectedCallback() {
-      this.header = document.getElementById('shopify-section-header');
+      this.header = document.getElementById('shopify-section-header'); 
+      this.announcementBar = document.getElementById('shopify-section-announcement-bar');
       this.headerBounds = {};
       this.currentScrollTop = 0;
 
@@ -474,18 +476,22 @@
     }
 
     hide() {
-      this.header.classList.add('shopify-section-header-hidden', 'shopify-section-header-sticky');
+      this.header.classList.add('shopify-section-header-sticky');
+      this.announcementBar.classList.add('announcement-bar-sticky');
+      /*this.header.classList.add('shopify-section-header-hidden', 'shopify-section-header-sticky');*/
       this.closeMenuDisclosure();
       this.closeSearchModal();
     }
 
     reveal() {
       this.header.classList.add('shopify-section-header-sticky', 'animate');
+      this.announcementBar.classList.add('announcement-bar-sticky', 'animate');
       this.header.classList.remove('shopify-section-header-hidden');
     }
 
     reset() {
       this.header.classList.remove('shopify-section-header-hidden', 'shopify-section-header-sticky', 'animate');
+      this.announcementBar.classList.remove('announcement-bar-sticky', 'animate');
     }
 
     closeMenuDisclosure() {
@@ -637,6 +643,38 @@
       "label": "t:sections.header.settings.enable_sticky_header.label",
       "info": "t:sections.header.settings.enable_sticky_header.info"
     }
+  ],
+  "blocks": [
+  {
+    "type": "announcement",
+    "name": "Announcement Center",
+    "settings": [
+      {
+        "type": "text",
+        "id": "text",
+        "label": "Text",
+        "default": "Announce something here"
+      },
+      {
+        "type": "url",
+        "id": "link",
+        "label": "Link"
+      },
+      {
+        "type": "text",
+        "id": "country_code",
+        "label": "Country Code",
+        "info": "GB, IT, FR, DE; Empty for all countries."
+      },
+     {
+       "type": "checkbox",
+       "id": "excluded",
+       "label": "All countries except this one?",
+       "default": false,
+       "info": "if you have checked this, the announcement appears in all countries except in this one"
+     } 
+    ]
+  }
   ]
 }
 {% endschema %}
