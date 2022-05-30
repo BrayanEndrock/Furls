@@ -11,7 +11,7 @@
       "settings": {
         "title": "Our Best Sellers",
         "collection": "most-popular",
-        "products_to_show": 8,
+        "products_to_show": 4,
         "show_view_all": false,
         "swipe_on_mobile": true,
         "image_ratio": "square",
