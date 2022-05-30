@@ -1,9 +1,7 @@
 <!doctype html>
 <html class="no-js" lang="{{ request.locale.iso_code }}">
-  <head>
-                
-{% render 'orbislabs_sitemap_noindex' %}
-
+  <head>          
+    {% render 'orbislabs_sitemap_noindex' %}
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -166,7 +164,8 @@
                             sgGlobalVars.currentProduct = {{ product | json }};
                             sgGlobalVars.isAdmin = {% if content_for_header contains 'adminBarInjector' or content_for_header contains 'previewBarInjector' %}true{% else %}false{% endif %};
                         }
-                    </script></head>
+                    </script>
+  </head>
 
   <body>
     <a class="skip-to-content-link button visually-hidden" href="#MainContent">
