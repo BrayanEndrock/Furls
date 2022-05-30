@@ -31,8 +31,7 @@
                   <div class="media{% if section.blocks.size > 1 %} media--{{ section.settings.image_ratio }}{% endif %} media--hover-effect overflow-hidden"
                     {% if section.settings.image_ratio == 'adapt' and section.blocks.size > 1 %}style="padding-bottom: {{ 1 | divided_by: block.settings.collection.featured_image.aspect_ratio | times: 100 }}%;"{% endif %}>
 
-                    <img
-                      srcset="{%- if block.settings.collection.featured_image.width >= 165 -%}{{ block.settings.collection.featured_image | img_url: '165x' }} 165w,{%- endif -%}
+                    <img srcset="{%- if block.settings.collection.featured_image.width >= 165 -%}{{ block.settings.collection.featured_image | img_url: '165x' }} 165w,{%- endif -%}
                       {%- if block.settings.collection.featured_image.width >= 330 -%}{{ block.settings.collection.featured_image | img_url: '330x' }} 330w,{%- endif -%}
                       {%- if block.settings.collection.featured_image.width >= 535 -%}{{ block.settings.collection.featured_image | img_url: '535x' }} 535w,{%- endif -%}
                       {%- if block.settings.collection.featured_image.width >= 720 -%}{{ block.settings.collection.featured_image | img_url: '720x' }} 720w,{%- endif -%}
