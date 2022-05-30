@@ -18,6 +18,30 @@
     "sections": {
       "announcement-bar": {
         "type": "announcement-bar",
+        "blocks": {
+          "555b7d5e-2db2-4d24-903f-7df771535d19": {
+            "type": "announcement",
+            "settings": {
+              "text": "Free Shipping with minimum order purchase",
+              "color_scheme": "inverse",
+              "link": "",
+              "country_code": ""
+            }
+          },
+          "d34dd5d2-2184-4c59-a1b2-e2bc4b939819": {
+            "type": "announcement",
+            "settings": {
+              "text": "Subscribe to our newsletter and get 15% off",
+              "color_scheme": "accent-1",
+              "link": "",
+              "country_code": ""
+            }
+          }
+        },
+        "block_order": [
+          "555b7d5e-2db2-4d24-903f-7df771535d19",
+          "d34dd5d2-2184-4c59-a1b2-e2bc4b939819"
+        ],
         "settings": {}
       },
       "header": {
@@ -26,7 +50,7 @@
           "logo": "shopify:\/\/shop_images\/furlsfiberarts-logo_1_73eef061-d9c3-4860-aace-71c03ff9b8a0.png",
           "logo_width": 250,
           "logo_position": "top-center",
-          "menu": "main-menu-flyout",
+          "menu": "optimized-main-menu",
           "show_line_separator": false,
           "enable_sticky_header": true
         }
@@ -38,7 +62,7 @@
             "type": "link_list",
             "settings": {
               "heading": "Quick links",
-              "menu": "footer"
+              "menu": "optimized-footer-menu"
             }
           }
         },
