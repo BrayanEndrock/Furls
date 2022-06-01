@@ -1,0 +1,176 @@
+
+
+<h2 class="p-small-title">Read more about Pride at Furls</h2>
+<div class="accordions">
+  {%- for block in section.blocks -%} 
+          <button class="p-accordion{%comment%}{% if forloop.first == true %} active{% endif %}{%endcomment%}">
+              <h3>{{ block.settings.accordion_title }}</h3>             
+          </button>
+          <div class="panel{%comment%}{% if forloop.first == true %} active{% endif %}{%endcomment%}">
+              {{ block.settings.accordion_body }}
+          </div>
+  {%- endfor -%}
+</div>
+
+<script>
+  var acc = document.getElementsByClassName("p-accordion");         
+  var i;
+  
+  for (i = 0; i < acc.length; i++) {
+    acc[i].addEventListener("click", function() {
+      this.classList.toggle("active");
+      var panel = this.nextElementSibling;
+      panel.classList.toggle("active");
+    });
+  }
+</script>
+
+
+{% schema %}
+{
+  "name": "FAQ Accordion",
+  "class": "p-faq-accordion",
+  "settings": [],
+  "blocks": [
+    {
+      "type": "accordion",
+      "name": "accordion",
+      "settings": [
+        {
+          "type": "text",
+          "id": "accordion_title",
+          "label":"Accordion Title"
+        },
+        {
+          "type": "html",
+          "id": "accordion_body",
+          "label":"Accordion Body"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+{% stylesheet 'scss' %}
+.p-faq-accordion {
+  padding-bottom: 81px;
+  .accordions {            
+    max-width: 800px;
+    margin: 46px auto 0;
+    padding: 0;     
+    @media screen and (max-width: 790px) {
+        max-width: 990px;  
+        padding: 0; 
+        margin-top: 20px;                   
+    }           
+    .p-accordion {    
+      border-left: unset;
+      border-right:unset; 
+      border-bottom: unset;                     
+        padding: 25px 60px 30px 0;    
+        background: #fff;              
+        width: 100%;
+        text-align: left;
+        border-top: solid 1px #C4C4C4;      
+        position: relative; 
+        @media screen and (max-width: 768px) {
+            padding: 20px 40px 25px 0;             
+        }
+        h3 { /* font styling */                                                  
+          font-weight: 700;
+          font-size: 18px;
+          line-height: 32px;
+          margin: 0;
+          color: #373639;
+            @media screen and (max-width: 768px) {
+              font-size: 16px;
+            }     
+        }
+        &:focus {
+            outline: none;
+        }
+        &:first-of-type {
+            border: none;               
+        }
+        &:last-of-type {
+            border-bottom: none;       
+            &.active {                     
+                border-bottom: none;         
+            }
+        }
+        &:after,
+        &:before {
+            content: " ";
+            position: absolute;
+            transition: all 300ms;
+            border-radius: 1px;
+        }
+        &:after {
+            width: 2px;
+            height: 14px;
+            border-right: 3px solid #373639;
+            right: 6px;
+            top: calc(50% - 7px);
+        }
+        &:before {
+            width: 14px;
+            height: 2px;
+            border-bottom: 3px solid #373639;                       
+            right: 0;
+            top: calc(50% - 1px);
+        }
+        &.active {
+          padding-bottom: 8px;
+            &:after {
+                display: none;                      
+            }             
+        }
+    }
+    .panel {               
+        display: none;
+        width: 100%;            
+        font-weight: normal;
+        font-style: normal;         
+        letter-spacing: normal;   
+        color: #0e366f;                         
+        padding: 0 10px 20px 10px;
+        &.active {
+            display: block; 
+            padding: 0 75px 45px 0;          
+            p {
+              font-weight: 400;
+              font-size: 16px;
+              line-height: 32px; 
+              color: #373639; 
+                @media screen and (max-width: 768px) { 
+                  font-size: 14px;
+                  line-height: 24px;           
+                }    
+            }   
+            @media screen and (max-width: 768px) {
+              padding: 0 40px 24px 0; 
+            
+            } 
+        }
+        &:last-child {
+            border-bottom: none;                          
+        }
+        p:last-child {
+            margin-bottom: 0;
+        }
+        strong, a {
+            color: #db1387;
+        }       
+        @media screen and (max-width: 768px) {        
+               
+        }
+    }
+} 
+
+}
+
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

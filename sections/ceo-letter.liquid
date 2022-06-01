@@ -1,0 +1,70 @@
+<img src="{{section.settings.ceo_headshot | image_url: width: 102}}">
+<h2 class="p-large-title">A Letter from our CEO</h2>
+<p class="p-body">
+  Lorene Eppolite (she / her), Furls CEO, wrote a bit about the history of Pride, the impact of change, and what Furls is doing to continuously give back to the LGBTQ community.
+
+</p>
+
+<a href="/pages/pride-statement-from-the-ceo?_pos=4&_sid=c013ec33e&_ss=r" class="p-button">Read More</a>
+<style>
+.p-letter{
+  display:flex;
+  align-items: center;
+  flex-direction:column;
+  background: #F3F3F3;
+}
+.p-letter a.p-button{
+  margin-bottom: 88px;
+}
+
+.p-letter .p-body{
+  line-height:32px;
+}
+
+
+
+@media screen and (max-width: 768px) {
+  .p-letter h2.p-large-title{
+  font-size: 20px;
+line-height: 32px;
+  }
+
+  .p-letter a.p-button{
+  margin-bottom: 40px;
+}
+}
+
+h2.p-large-title{
+  font-weight: 700;
+font-size: 32px;
+line-height: 32px;
+text-transform: uppercase;
+color: #373639;
+margin-bottom: 4px;
+text-align: center;
+}
+
+</style>
+
+
+{% schema %}
+
+
+  {
+    "name": "CEO Letter",
+    "class":"p-letter",
+    "settings": [{"type":"image_picker",
+  "id":"ceo_headshot", "label":"CEO Photo"}],
+  "presets": [
+	{
+	  "name":"CEO Letter"
+	}
+  ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

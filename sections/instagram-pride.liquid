@@ -1,0 +1,198 @@
+{% comment %}
+
+<div class="homepageSocial sixteen columns">
+  <h2 class="p-small-title">Join our community</h2>
+  <p class="p-body">Find your people on social. All are welcome on our social media platforms. There you can find tips,
+    tricks, and fellow crochet aficionados who love what you love!</p>
+  <a href="https://www.instagram.com/furlscrochet/" class="p-button"> Follow Furls </a>
+  <div class="social-widget-wrapper" data-widget-id="29384"></div>
+</div>
+
+<input type="hidden" id="social-widget-shop-domain" value="{{ shop.permanent_domain  }}">
+
+<!-- <script src=https://static-socialhead.cdnhub.co/social-widget/social-widget.min.js?v=2.1 defer></script>
+<link rel="stylesheet" href=https://static-socialhead.cdnhub.co/social-widget/social-widget.min.css?v=2.1 />
+ -->
+
+ 
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    setTimeout(() => { jQuery('#shopify-section-{{ section.id }} .sw-instagram-header, #shopify-section-{{ section.id }} .sw-instagram-col:nth-child(n+5)').addClass('hidden'); }, 1000
+
+    )
+    //console.log('insta hiding block executed');
+  });
+
+
+
+</script>
+{% endcomment %}
+
+<style class="instagram-styles template-styles">
+  #shopify-section-{{ section.id }}
+
+    {
+    .sw-instagram-col:nth-child(n+5) {
+      // display: none;
+    }
+
+
+
+
+  }
+  
+  p.p-body {
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    /* or 150% */
+
+    text-align: center;
+    letter-spacing: 0.04em;
+    max-width: 55vw;
+    /*margin: auto;*/
+
+    /* Black */
+
+    color: #373639;
+    margin-bottom: 24px;
+  }
+
+  @media screen and (max-width:768px) {
+    p.p-body{max-width: unset;}
+  }
+
+  h2.p-small-title {
+    text-align: center;
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 29px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    margin: 80px 0 24px;
+
+    /* Black */
+
+
+
+    color: #373639;
+  }
+
+  @media screen and (max-width: 768px) {
+    h2.p-small-title {
+      margin: 45px 0 10px;
+      font-size: 20px;
+line-height: 24px;
+    }
+
+    p.p-body {
+      margin-bottom: 16px;
+      font-size: 14px;
+line-height: 24px !important;
+color: #373639;
+text-align: center;
+    }
+
+    a.p-button {
+      margin-bottom:40px;
+    }
+
+    
+
+    #MainContent .shopify-section:not(.pride-top-banner) {
+      padding-left: 28px !important;
+      padding-right: 28px !important;
+    }
+  } 
+
+  #MainContent > section:nth-child(1) {
+      display: none;
+    } 
+
+  a.p-button {
+
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 20px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    
+    text-decoration: none;
+    color: #FFFFFF !important;
+    background: #373639;
+    padding: 18px 30px;
+    margin-bottom: 48px;
+    
+
+  }
+
+  .footer__content-top p.newsletterImage {
+    display: none;
+  }
+
+  .footer__content-top #email_signup_footer {
+    display:none;
+  }
+
+  a.p-button:hover {background: linear-gradient(89.36deg, #FF0000 6.33%, #FF8A00 22.29%, #FFC700 41.35%, #05B517 58.34%, #0094FF 75.34%, #4301B0 93.88%);
+    transition-duration: .5s;}
+
+
+
+  #shopify-section-{{   section.id }}
+
+  .homepageSocial {
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex-wrap:wrap; 
+    flex-direction: column;
+  }
+
+  #shopify-section-{{     section.id }} .sw-instagram-row {
+    display: flex;
+    position: relative;
+    justify-content: space-around;
+    gap: 20px;
+}
+
+  #MainContent .shopify-section:not(.pride-top-banner) {
+    padding-left: 112px;
+    padding-right: 112px;
+  }
+
+
+
+  
+</style>
+
+
+{% schema %}
+{
+"name": "Instagram Pride",
+"settings": [
+{
+"type": "text",
+"id": "title",
+"label": "Title"
+}
+],
+"presets": [
+{
+"name":"Instagram Pride"
+}
+]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

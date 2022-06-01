@@ -1,0 +1,168 @@
+<section class="pride-feature-video-template--container">
+    <div class="pride-feature-video--wrapper">
+        <h2>{{ section.settings.title }}</h2>
+        <div class="copy">{{ section.settings.copy }}</div>
+        <div class="video--wrapper">
+            <iframe width="800" height="442" src="https://www.youtube.com/embed/{{ section.settings.video_url.id }}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <h6>{{ section.settings.video-title }}</h6>
+        </div>
+        <div class="cta--wrapper">
+            <a href="{{ section.settings.link }}" class="pride--cta" target="_blank">{{ section.settings.label }}</a>
+        </div>
+    </div>
+</section>
+{% schema %}
+{
+    "name": "Video Feature - Pride",
+    "class": "pride-feature-video-template",
+    "settings": [
+        {
+            "type": "video_url",
+            "id": "video_url",
+            "accept": [
+                "youtube",
+                "vimeo"
+            ],
+            "label": "Video Url"
+        },
+        {
+            "type": "text",
+            "id": "video-title",
+            "label": "Video Title",
+            "default": "Furls Pride 2022"
+        },
+        {
+            "type": "text",
+            "id": "title",
+            "label": "Title",
+            "default": "Hear From the Furls Community"
+        },
+        {
+            "type": "richtext",
+            "id": "copy",
+            "label": "Copy"
+        },
+        {
+            "type": "url",
+            "id": "link",
+            "label": "Link"
+        },
+        {
+            "type": "text",
+            "id": "label",
+            "label": "CTA Label",
+            "default": "Watch Now"
+        }
+    ]
+}
+{% endschema %}
+<style>
+    .red {
+        color: #DA0000;
+    }
+    .orange {
+        color: #FF7A00;
+    }
+    .yellow {
+        color: #F1C521;
+    }
+    .green {
+        color: #5FB819;
+    }
+    .blue {
+        color: #0085FF;
+    }
+    .purple {
+        color: #5C239E;
+    }
+    .pride-feature-video-template {
+        background-color: #F3F3F3;
+    }
+    .pride-feature-video-template--container {
+        padding: 94px 0 55px;
+    }
+    .pride-feature-video-template--container .pride-feature-video--wrapper h2 {
+        color: #373639;
+        font-style: normal;
+        font-weight: 700;
+        font-size: 32px;
+        line-height: 32px;
+        margin: 0 auto;
+        padding: 0;
+        text-align: center;
+        text-transform: uppercase;
+    }
+    .pride-feature-video-template--container .pride-feature-video--wrapper .copy {
+        max-width: 800px;
+        margin: 20px auto 56px;
+        text-align: center;
+    }
+    .pride-feature-video-template--container .pride-feature-video--wrapper .video--wrapper {
+        width: fit-content;
+        margin: 0 auto 50px;
+    }
+    .pride-feature-video-template--container .pride-feature-video--wrapper .video--wrapper h6 {
+        color: #373639;
+        margin: 0;
+        padding: 0;
+        font-style: normal;
+        font-weight: 700;
+        font-size: 16px;
+        line-height: 20px;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+    }
+    .pride-feature-video-template--container .pride-feature-video--wrapper .cta--wrapper {
+        text-align: center;
+    }
+    .pride--cta:visited {
+        color:#fff;
+    }
+
+    .pride--cta {
+        display:none;
+        background: #373639;
+        color: #FFFFFF;
+        font-family: 'Montserrat';
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 600;
+        letter-spacing: 0.1em;
+        line-height: 20px;
+        padding: 18px 30px;
+        text-transform: uppercase;
+        text-decoration: none;
+    }
+    .pride--cta:hover {
+        color: #FFFFFF;
+        background: linear-gradient(89.36deg, #FF0000 6.33%, #FF8A00 22.29%, #FFC700 41.35%, #05B517 58.34%, #0094FF 75.34%, #4301B0 93.88%);
+        transition-duration: .5s;
+    }
+    @media screen and (max-width: 768px) {
+        .pride-feature-video-template {
+            padding: 0 !important;
+        }
+        .pride-feature-video-template--container {
+            padding: 47px 0 40px;
+        }
+        .pride-feature-video-template--container .pride-feature-video--wrapper h2 {
+            max-width: 225px;
+            font-size: 20px;
+            line-height: 32px;
+        }
+        .pride-feature-video-template--container .pride-feature-video--wrapper .copy {
+            max-width: 304px;
+            font-size: 14px;
+            line-height: 24px;
+            margin-top: 6px;
+            margin-bottom: 25px;
+        }
+        .pride-feature-video-template--container .pride-feature-video--wrapper .video--wrapper {
+            margin-bottom: 30px;
+        }
+        .pride-feature-video-template--container .pride-feature-video--wrapper .video--wrapper iframe {
+            width: 100%;
+            height: 200px;
+        }   
+    }
+</style>
