@@ -1,0 +1,134 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "settings": {}
+    },
+    "16323198159e61d076": {
+      "type": "pride-top-banner",
+      "settings": {
+        "banner_copy": "Celebrate Pride Out Loud",
+        "desktop-hero": "shopify:\/\/shop_images\/Celebrate-pride-out-loud-desktop-2x_79e8725f-f213-4454-aa68-1f744d13f5b4.png",
+        "mobile-hero": "shopify:\/\/shop_images\/celebrate-pride-out-loud-mobile_6a4cce50-ac29-4a68-9e48-265fc6228f08.png"
+      }
+    },
+    "shop": {
+      "type": "pride-feature-shop",
+      "blocks": {
+        "c70faf6a-df9d-4e9f-846c-cab0d10169e5": {
+          "type": "Product",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/pride_glitter__1__720.jpg",
+            "title": "Glitter Pride Crochet hooks",
+            "price": "$ 27.00 USD",
+            "link": "https:\/\/furlscrochet.com\/products\/streamline-pride"
+          }
+        },
+        "be17f4bb-49d5-4f48-95bc-27d46ad550d3": {
+          "type": "Product",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/pride-hook-five-distance-square_65646a04-51a1-4de1-9bab-54c357d4981f.jpg",
+            "title": "Streamline Pride Crochet Hooks",
+            "price": "$ 29.00 USD",
+            "link": "https:\/\/furlscrochet.com\/products\/streamline-pride"
+          }
+        }
+      },
+      "block_order": [
+        "c70faf6a-df9d-4e9f-846c-cab0d10169e5",
+        "be17f4bb-49d5-4f48-95bc-27d46ad550d3"
+      ],
+      "settings": {
+        "collection-featured-copy": "Showing 2 of 2 products",
+        "featured-image": "shopify:\/\/shop_images\/pride-featured-image.png"
+      }
+    },
+    "1653969187bceaf78f": {
+      "type": "two-products-plus-description",
+      "settings": {}
+    },
+    "165396923375ce881b": {
+      "type": "switching-image-banner-link",
+      "settings": {
+        "image": "shopify:\/\/shop_images\/support-lgbtq_7245729b-9174-4418-8898-e4820a0d92d8.png",
+        "mobile_image": "shopify:\/\/shop_images\/support-lgbtq-mobile_ccd3c367-5f11-4890-915c-c741ae45d65b.png",
+        "link_url": "https:\/\/give.thetrevorproject.org\/team\/427658",
+        "extra_padding": false
+      }
+    },
+    "video": {
+      "type": "pride-feature-video",
+      "settings": {
+        "video_url": "https:\/\/youtu.be\/olYjT3jbyug",
+        "video-title": "Furls Pride 2022",
+        "title": "Hear From the Furls <span class=\"red\">C<\/span><span class=\"orange\">o<\/span><span class=\"yellow\">m<\/span><span class=\"green\">m<\/span><span class=\"blue\">u<\/span><span class=\"purple\">n<\/span><span class=\"red\">i<\/span><span class=\"orange\">t<\/span><span class=\"yellow\">y<\/span>",
+        "copy": "<p>Our incredible community volunteered their time to speak on what Pride means to them and inclusivity in the crochet community. Watch what they had to say here.<\/p>",
+        "link": "https:\/\/youtu.be\/olYjT3jbyug",
+        "label": "Watch Now"
+      }
+    },
+    "1653969257d3c4c055": {
+      "type": "ceo-letter",
+      "settings": {
+        "ceo_headshot": "shopify:\/\/shop_images\/ceo-photo-ellipse.png"
+      }
+    },
+    "16539692645ecb00f9": {
+      "type": "instagram-pride",
+      "settings": {
+        "title": ""
+      }
+    },
+    "16539691530f4efe91": {
+      "type": "faq-accordion",
+      "blocks": {
+        "c973b9a9-c9e0-4acf-a529-e5fc93a09d93": {
+          "type": "accordion",
+          "settings": {
+            "accordion_title": "Why did Furls choose to create a Pride hook?",
+            "accordion_body": "<p>Because most of all, we care. Furls’ owner and C-Suite members have either marched for, protested against discrimination, or donated personally to LGBTQ positive organizations. Supporting the community has been a mission of the heart. And with internal discussions, including talks about wanting to be true and authentic, we decided to release a Pride hook.<\/p>\n<p>The pride hook is about celebrating wins, giving visibility and recognition. It’s about showing everyone in the crochet community that queer folx are here, proud, and an integral part of this space.\n<\/p>\n<p>We put in the work at Furls to create a space where queer people can be their authentic selves. We have a zero discrimination policy. We have equal pay and opportunity for all. We are proud of our LGBTQ individuals in our company and in our community. And we want you to wear that Pride out loud.\n<\/p>"
+          }
+        },
+        "fd5bc745-cb4e-4500-8cf7-b818345cf840": {
+          "type": "accordion",
+          "settings": {
+            "accordion_title": "Why did you choose to donate to The Trevor Project?",
+            "accordion_body": "<p>The Trevor Project is about being a real changemaker. They have been active for 2 decades, are transparent with their ongoings, and have been in good standing with the LGBTQ community. Their mission and goals resonated with us at Furls and we are proud to support them. <a href=\"https:\/\/www.thetrevorproject.org\/\">Read more about them here.<\/a>\n<\/p>"
+          }
+        },
+        "9c54e1cc-a318-475b-9b7c-298c3bfd3dcf": {
+          "type": "accordion",
+          "settings": {
+            "accordion_title": "Why are the original Pride and Pride Glitter different prices?",
+            "accordion_body": "<p>Our difference in prices comes down to fairly paying our people for their labor. Our original Pride hooks require colors to be poured carefully and separately. Our Pride Glitter melds the colors together, therefore it doesn’t need the time and focus Pride does. Any time we can save money, we pass those savings onto you!\n<\/p>"
+          }
+        },
+        "e5b113b8-f637-46b3-85d2-de912e4282fa": {
+          "type": "accordion",
+          "settings": {
+            "accordion_title": "How much money has Furls donated to The Trevor Project already?",
+            "accordion_body": "<p>With your support over the last twelve months, Furls has made a <a href=\"https:\/\/cdn.shopify.com\/s\/files\/1\/0166\/0254\/files\/Furls_Fiberarts_Acknowledgement_of_Donation_to_The_Trevor_Project_May_2022.pdf?v=1653505867\">donation of over $16K<\/a> to The Trevor Project, the world’s largest suicide prevention and mental health organization for LGBTQ young people. This year, we are matching donations up to $20K. You can donate <a href=\"https:\/\/give.thetrevorproject.org\/team\/427658\">here.<\/a>\n<\/p>"
+          }
+        }
+      },
+      "block_order": [
+        "c973b9a9-c9e0-4acf-a529-e5fc93a09d93",
+        "fd5bc745-cb4e-4500-8cf7-b818345cf840",
+        "9c54e1cc-a318-475b-9b7c-298c3bfd3dcf",
+        "e5b113b8-f637-46b3-85d2-de912e4282fa"
+      ],
+      "settings": {}
+    }
+  },
+  "order": [
+    "main",
+    "16323198159e61d076",
+    "shop",
+    "1653969187bceaf78f",
+    "165396923375ce881b",
+    "video",
+    "1653969257d3c4c055",
+    "16539692645ecb00f9",
+    "16539691530f4efe91"
+  ]
+}

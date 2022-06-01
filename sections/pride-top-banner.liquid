@@ -1,0 +1,84 @@
+<div class="pride-top-banner--template">
+    <div class="pride-top-banner--container">
+      <h1>{{ section.settings.banner_copy }}</h1>
+    </div>
+  </div>
+  
+  <style>  
+    .pride-top-banner--template {
+      background-image: url({{ section.settings.desktop-hero | img_url: 'master' }});     
+      background-size: cover;                         
+      background-repeat: no-repeat;            
+      height: 224px;              
+    } 
+    @media screen and (max-width: 768px) {
+      .pride-top-banner--template {
+        background-image: url({{ section.settings.mobile-hero | img_url: 'master' }});     
+        background-size: cover;
+        background-position: center; 
+        height: 192px;              
+      }
+    }
+  </style>
+
+
+{% schema %}
+{
+  "class": "pride-top-banner",
+  "name": "Top Banner",
+  "settings": [
+    {
+      "type": "text",
+      "id": "banner_copy",
+      "placeholder": "...",
+      "label": "Hero Copy"
+    },
+    {
+      "type": "image_picker",
+      "id": "desktop-hero",
+      "label": "Desktop Hero"
+    },
+    {
+      "type": "image_picker",
+      "id": "mobile-hero",
+      "label": "Mobile Hero"
+    }
+  ],
+  "presets": [
+	{
+	  "name":"Top Banner"
+	}
+  ]
+}
+{% endschema %}
+
+{% stylesheet 'scss' %}
+  .pride-top-banner {
+    .pride-top-banner--template {
+      align-items: center;
+      display: flex;
+      justify-content: center;
+      .pride-top-banner--container {
+        h1 {
+          color: #FFFFFF;
+          margin: 0 auto;
+          text-align: center;
+          
+            font-weight: 600;
+            font-size: 48px;
+            line-height: 59px;
+            /* identical to box height */
+
+            letter-spacing: 0.04em;
+
+            
+          @media screen and (max-width: 768px) {
+            font-size: 32px;
+            line-height: 39px;
+            max-width: 307px;
+          }
+        }
+      }
+    }
+  }
+{% endstylesheet %}
