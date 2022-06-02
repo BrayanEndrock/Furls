@@ -7,7 +7,7 @@
          {% assign count = count | plus: 1 %}
          <div>
            <a href="{{product.url}}?utm_campaign={{product.title}}&utm_source=Furls&utm_medium=cartBestSellers">
-             <img src="/{{product.featured_image | product_img_url: 'medium'}}"><br>
+             <img loading="lazy" src="/{{product.featured_image | product_img_url: 'medium'}}"><br>
              <span class="productTitle">{{product.title}}</span><br>
              <span>from ${{product.price | money_without_currency}}</span>
            </a>

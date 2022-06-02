@@ -20,12 +20,13 @@
       data-widths="[180, 220, 300, 360, 460, 540, 720, 900, 1080, 1296, 1512, 1728, 2048]"
       data-aspectratio="{{ image.aspect_ratio }}"
       data-sizes="auto"
+      loading="lazy"
       alt="{{ image.alt | escape }}"
       {% if cover %}data-parent-fit="cover"{% endif %}>
 
     <noscript>
       {% assign img_url = image | img_url: '1024x1024' %}
-      <img class="rimage__image" src="{{ img_url }}" alt="{{ image.alt | escape }}">
+      <img loading="lazy" class="rimage__image" src="{{ img_url }}" alt="{{ image.alt | escape }}">
     </noscript>
   </div>
 </div>
