@@ -9,7 +9,7 @@
                             class="variant-featured-image"
                             loading="lazy"
                             src="{{ block.settings.image | img_url: '280x280' }}"
-                            srcset="{{ block.settings.image | img_url: '280x280' }} 1x, {{ block.settings.image | img_url: '560x560', scale: 2 }} 2x"
+                            srcset="{{ block.settings.image | img_url: '280x280' }} 1x"
                             alt="{{ block.settings.title }}"
                         >
                         <h6>{{ block.settings.title }}</h6>
@@ -37,7 +37,7 @@
             <img
                 loading="lazy"
                 src="{{ section.settings.featured-image | img_url: '480x200' }}"
-                srcset="{{ section.settings.featured-image | img_url: '480x200' }} 1x, {{ section.settings.featured-image | img_url: '960x400', scale: 2 }} 2x" 
+                srcset="{{ section.settings.featured-image | img_url: '480x200' }} 1x" 
                 alt="Shop hooks, yarn, and more, or check out our free patterns to make something fabulous for Pride!"
             >
         </div>
@@ -92,13 +92,19 @@
 {% endschema %}
 <style>
     .pride-feature-shop-template--container {
-        padding: 69px 0 92px;
+        padding: 19px 0 92px;
     }
     .pride-feature-shop--wrapper {
         align-items: center;
         display: flex;
         justify-content: space-between;
     }
+  
+  .product-box img {
+  	
+  
+  
+  }
     .pride-feature-shop--wrapper > span {
         color: #8B8B8B;
         font-size: 14px;

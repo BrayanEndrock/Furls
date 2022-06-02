@@ -20,6 +20,15 @@
         "show_vendor": false
       }
     },
+    "16541205853f92c0da": {
+      "type": "homepage-switching-banner",
+      "settings": {
+        "image": "shopify:\/\/shop_images\/take-action-this-pride-desktop_e4e09983-e9e7-41c3-9039-00fc349c0012.png",
+        "mobile_image": "shopify:\/\/shop_images\/take-action-this-pride-mobile_e8ead064-4f11-4787-be67-96c794796f33.png",
+        "link_url": "shopify:\/\/pages\/celebrate-pride",
+        "extra_padding": false
+      }
+    },
     "page_category": {
       "type": "homepage-category",
       "settings": {
@@ -42,6 +51,7 @@
   "order": [
     "homepage_banner",
     "featured_products",
+    "16541205853f92c0da",
     "page_category",
     "163102036768efc4d3",
     "page_risk"
